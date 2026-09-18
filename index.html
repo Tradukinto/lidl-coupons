@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Lidl Пафос — Скидки и Купоны семьи</title>
+  <!-- Telegram Web App SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="brand">
+          <span class="lidl-logo">LIDL</span>
+          <span class="badge-plus">+ Семья</span>
+        </div>
+        <div class="store-tag" id="store-title">Пафос • Tombs of the Kings</div>
+      </div>
+      
+      <div class="update-bar">
+        <span class="status-dot"></span>
+        <span id="update-time">Загрузка данных...</span>
+        <button id="refresh-btn" class="icon-btn" title="Обновить">↻</button>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Поиск товара, категории или кода SKU..." autocomplete="off">
+        <button id="clear-search" class="clear-btn hidden">✕</button>
+      </div>
+
+      <!-- Family Filter Chips -->
+      <div class="family-chips-scroll">
+        <div class="family-chips" id="family-chips">
+          <button class="chip active" data-member="all">
+            <span class="chip-avatar">👥</span>
+            <span class="chip-name">Все</span>
+          </button>
+          <button class="chip chip-vova" data-member="Вова">
+            <span class="chip-avatar">👨</span>
+            <span class="chip-name">Вова</span>
+          </button>
+          <button class="chip chip-sveta" data-member="Света">
+            <span class="chip-avatar">👩</span>
+            <span class="chip-name">Света</span>
+          </button>
+          <button class="chip chip-vlada" data-member="Влада">
+            <span class="chip-avatar">👧</span>
+            <span class="chip-name">Влада</span>
+          </button>
+          <button class="chip chip-seva" data-member="Сева">
+            <span class="chip-avatar">👦</span>
+            <span class="chip-name">Сева</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs">
+        <button class="tab-btn active" data-tab="double">
+          <span class="tab-icon">🔥</span>
+          <span class="tab-label">Двойная выгода</span>
+          <span class="tab-badge" id="badge-double">0</span>
+        </button>
+        <button class="tab-btn" data-tab="coupons">
+          <span class="tab-icon">🎟</span>
+          <span class="tab-label">Купоны семьи</span>
+          <span class="tab-badge" id="badge-coupons">0</span>
+        </button>
+        <button class="tab-btn" data-tab="store">
+          <span class="tab-icon">🛒</span>
+          <span class="tab-label">Акции магазина</span>
+          <span class="tab-badge" id="badge-store">0</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Main Content List -->
+    <main class="content-container">
+      <div id="loading-spinner" class="spinner-container">
+        <div class="spinner"></div>
+        <p>Загрузка каталога и скидок...</p>
+      </div>
+
+      <div id="cards-container" class="cards-list"></div>
+
+      <div id="empty-state" class="empty-state hidden">
+        <div class="empty-icon">🔍</div>
+        <h3>Ничего не найдено</h3>
+        <p>Попробуйте изменить запрос или выбрать фильтр «Все»</p>
+      </div>
+    </main>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-top-btn" class="scroll-top-btn hidden" title="Наверх">↑</button>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

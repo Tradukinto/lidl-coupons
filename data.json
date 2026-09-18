@@ -1,0 +1,1417 @@
+{
+  "generated_at": "2026-09-18T15:45:24.389476",
+  "generated_at_str": "18.09.2026 15:45",
+  "store": {
+    "id": "CY0119",
+    "name": "Pafos / Touristika (Tombs of the Kings 104)",
+    "country": "CY"
+  },
+  "family_members": [
+    "Вова",
+    "Света",
+    "Влада",
+    "Сева"
+  ],
+  "stats": {
+    "double_deals_count": 12,
+    "family_coupons_count": 48,
+    "store_offers_count": 74
+  },
+  "double_deals": [
+    {
+      "sku": "0080615",
+      "title": "Avocado",
+      "store_discount": "-20%",
+      "coupon_discount": "-20%",
+      "final_unit_price": "-",
+      "final_pack_price": "3.96 €",
+      "store_pack_price": "4.95 €",
+      "store_unit_price": "-",
+      "packaging": "Up to 2 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/c4ddca25-d7ac-48d1-98f1-66a17f964eb2.jpeg?t=1789127294",
+      "owners": [
+        "Влада",
+        "Света"
+      ]
+    },
+    {
+      "sku": "6304126",
+      "title": "Beef burger",
+      "store_discount": "-30%",
+      "coupon_discount": "-15%",
+      "final_unit_price": "12.44 €/кг",
+      "final_pack_price": "4.97 €",
+      "store_pack_price": "5.85 €",
+      "store_unit_price": "14.63 €/кг",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/8aa0c2e6-ce81-440e-a3b0-88528ee96666.jpeg?t=1788516813",
+      "owners": [
+        "Вова"
+      ]
+    },
+    {
+      "sku": "6300131",
+      "title": "Chef Select Mixed salad",
+      "store_discount": "-22%",
+      "coupon_discount": "-20%",
+      "final_unit_price": "5.56 €/кг",
+      "final_pack_price": "1.11 €",
+      "store_pack_price": "1.39 €",
+      "store_unit_price": "6.95 €/кг",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/060ac598-e44e-47dc-b5e0-adbb367ce827.jpeg?t=1789127283",
+      "owners": [
+        "Влада",
+        "Света"
+      ]
+    },
+    {
+      "sku": "6203668",
+      "title": "Eviva Natural apple juice",
+      "store_discount": "-20%",
+      "coupon_discount": "-15%",
+      "final_unit_price": "1.02 €/л",
+      "final_pack_price": "2.29 €",
+      "store_pack_price": "2.69 €",
+      "store_unit_price": "1.20 €/л",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/4d80f5a7-8f28-49c3-af87-a3036130f49a.jpeg?t=1789127280",
+      "owners": [
+        "Света"
+      ]
+    },
+    {
+      "sku": "0028377",
+      "title": "Freshona Pickled cucumbers",
+      "store_discount": "-20%",
+      "coupon_discount": "-20%",
+      "final_unit_price": "3.54 €/л",
+      "final_pack_price": "1.27 €",
+      "store_pack_price": "1.59 €",
+      "store_unit_price": "4.42 €/л",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/b55a96a8-10e8-4f90-8db0-df0088f171cf.jpeg?t=1789127255",
+      "owners": [
+        "Влада",
+        "Света"
+      ]
+    },
+    {
+      "sku": "0038893",
+      "title": "Milbona Sliced Edam cheese",
+      "store_discount": "-25%",
+      "coupon_discount": "-15%",
+      "final_unit_price": "5.21 €/кг",
+      "final_pack_price": "2.08 €",
+      "store_pack_price": "2.45 €",
+      "store_unit_price": "6.13 €/кг",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/89e47a36-27dc-4564-88cc-2ae9013c9ed3.jpeg?t=1789127260",
+      "owners": [
+        "Влада"
+      ]
+    },
+    {
+      "sku": "0000001",
+      "title": "Mineral water carbonated",
+      "store_discount": "-16%",
+      "coupon_discount": "-15%",
+      "final_unit_price": "0.31 €/л",
+      "final_pack_price": "0.47 €",
+      "store_pack_price": "0.55 €",
+      "store_unit_price": "0.37 €/л",
+      "packaging": "Up to 12 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/f5d953d9-0827-44fd-849a-19b3338d7a11.jpeg?t=1789124753",
+      "owners": [
+        "Вова",
+        "Сева"
+      ]
+    },
+    {
+      "sku": "0082586",
+      "title": "Peppers mixed",
+      "store_discount": "-31%",
+      "coupon_discount": "-30%",
+      "final_unit_price": "3.01 €/кг",
+      "final_pack_price": "1.50 €",
+      "store_pack_price": "2.15 €",
+      "store_unit_price": "4.30 €/кг",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/f47f8f5f-4fee-4753-98c7-63c6fb6cb28c.jpeg?t=1789127288",
+      "owners": [
+        "Вова"
+      ]
+    },
+    {
+      "sku": "0082586",
+      "title": "Peppers mixed",
+      "store_discount": "-31%",
+      "coupon_discount": "-20%",
+      "final_unit_price": "3.44 €/кг",
+      "final_pack_price": "1.72 €",
+      "store_pack_price": "2.15 €",
+      "store_unit_price": "4.30 €/кг",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/f47f8f5f-4fee-4753-98c7-63c6fb6cb28c.jpeg?t=1789127288",
+      "owners": [
+        "Влада",
+        "Света"
+      ]
+    },
+    {
+      "sku": "0082586",
+      "title": "Peppers mixed",
+      "store_discount": "-31%",
+      "coupon_discount": "-15%",
+      "final_unit_price": "3.65 €/кг",
+      "final_pack_price": "1.83 €",
+      "store_pack_price": "2.15 €",
+      "store_unit_price": "4.30 €/кг",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/f47f8f5f-4fee-4753-98c7-63c6fb6cb28c.jpeg?t=1789127288",
+      "owners": [
+        "Света"
+      ]
+    },
+    {
+      "sku": "0080475",
+      "title": "Seedless Mix Grapes",
+      "store_discount": "-20%",
+      "coupon_discount": "-30%",
+      "final_unit_price": "2.23 €/кг",
+      "final_pack_price": "1.11 €",
+      "store_pack_price": "1.59 €",
+      "store_unit_price": "3.18 €/кг",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/20becb2e-29bd-48d9-83fa-b30c0f246b33.jpeg?t=1789127292",
+      "owners": [
+        "Влада",
+        "Вова"
+      ]
+    },
+    {
+      "sku": "0080475",
+      "title": "Seedless Mix Grapes",
+      "store_discount": "-20%",
+      "coupon_discount": "-15%",
+      "final_unit_price": "2.70 €/кг",
+      "final_pack_price": "1.35 €",
+      "store_pack_price": "1.59 €",
+      "store_unit_price": "3.18 €/кг",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/20becb2e-29bd-48d9-83fa-b30c0f246b33.jpeg?t=1789127292",
+      "owners": [
+        "Влада"
+      ]
+    }
+  ],
+  "family_coupons": [
+    {
+      "title": "Al Bronzo Linguine Pasta",
+      "discount": "-15%",
+      "sku": "0137928",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/7598e487-725e-47a8-8289-c6630201245b.png?t=1750941602",
+      "owners": [
+        "Вова"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Almond Bar",
+      "discount": "-45%",
+      "sku": "0008222",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/b6e8cc88-3679-4618-9942-31386eb99036.png?t=1787551733",
+      "owners": [
+        "Влада",
+        "Вова",
+        "Сева"
+      ],
+      "is_shared": true
+    },
+    {
+      "title": "Bananas",
+      "discount": "-15%",
+      "sku": "0080000",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/86027f2e-b563-43d5-943d-225144605a2a.png?t=1750941945",
+      "owners": [
+        "Вова"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Cabanossi Air Dried Salami",
+      "discount": "-30%",
+      "sku": "0011947",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/96ddc4f9-4527-43ea-80bc-9448df36829f.png?t=1770648914",
+      "owners": [
+        "Света"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Carbonated Mineral Water",
+      "discount": "-15%",
+      "sku": "0031501",
+      "unit_price": "0.31 €/л",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/b4796d34-b058-4be0-85dd-fe1795b56aeb.png?t=1750941613",
+      "owners": [
+        "Вова"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Carrots",
+      "discount": "-20%",
+      "sku": "0082755",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/ea58d5ed-f972-4a64-9bd0-189367129c63.png?t=1769087700",
+      "owners": [
+        "Света"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Cheese Slices",
+      "discount": "-15%",
+      "sku": "0022664",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/0c7d354f-a496-42da-9473-56fa475565e6.png?t=1750941205",
+      "owners": [
+        "Влада"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Creamy Fruit Dessert",
+      "discount": "-30%",
+      "sku": "0094282",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/2d3cf474-4908-40b2-886a-992dc037bf52.png?t=1770649500",
+      "owners": [
+        "Влада"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Discount!",
+      "discount": "1€",
+      "sku": "",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/55d34732-c9b9-45dd-a28f-0c4b654b51b6.png?t=1787059437",
+      "owners": [
+        "Сева"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Edam Slices",
+      "discount": "-15%",
+      "sku": "0022750",
+      "unit_price": "5.21 €/кг",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/e028d09c-596f-4832-b42d-a331f6442561.png?t=1750941961",
+      "owners": [
+        "Влада"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Emmental Slices",
+      "discount": "-15%",
+      "sku": "0038293",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/2f60cec8-6dd8-421d-a453-2eb85aafdd1a.png?t=1750941216",
+      "owners": [
+        "Влада"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Free Range Medium Eggs",
+      "discount": "-15%",
+      "sku": "6304185",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/55cc70bd-823b-4eef-a006-fdc5f7089dee.png?t=1750941925",
+      "owners": [
+        "Света"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Fresh Anari",
+      "discount": "-15%",
+      "sku": "6304074",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/3d80a6f3-05f9-48cb-8500-4a51f86ad91e.png?t=1750942222",
+      "owners": [
+        "Сева"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Fried Peppers",
+      "discount": "-30%",
+      "sku": "0082541",
+      "unit_price": "3.01 €/кг",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/46ab797e-f9bd-4e20-9238-eeb1eb9e39d9.jpeg?t=1781078781",
+      "owners": [
+        "Вова"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Fruit Yoghurt 3,8% fat",
+      "discount": "-30%",
+      "sku": "0031960",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/f416f8a0-821c-4c4d-98b2-3f244295af40.png?t=1770648831",
+      "owners": [
+        "Света"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Gouda Slices",
+      "discount": "-15%",
+      "sku": "0038892",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/cbf564f1-58a6-4b4e-8d00-98668507d12f.png?t=1750941584",
+      "owners": [
+        "Влада"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Granny Smith Green apples",
+      "discount": "-15%",
+      "sku": "0080190",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/14ca41cf-8b68-455e-a599-c1ad7ae172f8.png?t=1750942215",
+      "owners": [
+        "Влада",
+        "Сева"
+      ],
+      "is_shared": true
+    },
+    {
+      "title": "Greek bread ring",
+      "discount": "-15%",
+      "sku": "0006273",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/1a857ea5-e8b6-40f8-8d4e-35f0a724dabe.png?t=1750941569",
+      "owners": [
+        "Света"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Green peppers",
+      "discount": "-15%",
+      "sku": "0082550",
+      "unit_price": "3.65 €/кг",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/53c03d0d-f908-4b44-b370-ca22d285e396.jpeg?t=1781074201",
+      "owners": [
+        "Света"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Kinder Bueno Chocolate",
+      "discount": "-15%",
+      "sku": "0008980",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/fb5d3af3-96ce-4418-86fd-f1ba41bb661f.png?t=1750941580",
+      "owners": [
+        "Света"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Kiwis",
+      "discount": "-30%",
+      "sku": "0080675",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/5d54801b-a824-490d-bd54-9f0cd288c525.png?t=1770649275",
+      "owners": [
+        "Сева"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Laser Distance Meter 50m",
+      "discount": "-20%",
+      "sku": "0495140",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/5e9a2a4c-a62f-4df5-9277-3a71990ec6fa.jpg?t=1788877729",
+      "owners": [
+        "Влада",
+        "Сева"
+      ],
+      "is_shared": true
+    },
+    {
+      "title": "Lemon Ice Tea",
+      "discount": "-15%",
+      "sku": "0000069",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/01f0587f-2528-4bc4-8378-b20d3c1230dd.png?t=1750942212",
+      "owners": [
+        "Вова"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Limes",
+      "discount": "-15%",
+      "sku": "0080066",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/0dd78b47-ccbf-4f5a-a5a4-b54a20918718.jpeg?t=1781074188",
+      "owners": [
+        "Сева"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "MSC Fish Fingers",
+      "discount": "-15%",
+      "sku": "0112834",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/66634e18-5a2e-4719-86d7-7d2eb293c5ac.png?t=1750942235",
+      "owners": [
+        "Вова"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Mild Cheddar Cheese",
+      "discount": "-15%",
+      "sku": "0005186",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/38f5c961-a347-49b4-847c-de9908fb0966.png?t=1750941196",
+      "owners": [
+        "Влада"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Mini Brezels",
+      "discount": "-15%",
+      "sku": "6303822",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/ef7fddde-7d85-460f-ac49-4aee87b0c21f.png?t=1750941188",
+      "owners": [
+        "Сева"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Mixed Burgers Pork & Beef",
+      "discount": "-15%",
+      "sku": "6301573",
+      "unit_price": "12.44 €/кг",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/009c8c69-e106-4737-adda-76d2f9c32735.png?t=1750941601",
+      "owners": [
+        "Вова"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Multiseed Bread Sticks",
+      "discount": "-30%",
+      "sku": "6204485",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/74ab89a1-8f9d-42ec-b234-7f181e92b397.png?t=1770649234",
+      "owners": [
+        "Сева"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Natural Apple Juice",
+      "discount": "-15%",
+      "sku": "0009057",
+      "unit_price": "1.02 €/л",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/d2242020-fe96-4252-aa6d-bf10b0d4a55b.png?t=1750941959",
+      "owners": [
+        "Света"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Natural Mineral Water",
+      "discount": "-15%",
+      "sku": "0004697",
+      "unit_price": "0.31 €/л",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/ff1cfc04-2879-4f04-aff4-a6e1e42ad5d8.png?t=1750941615",
+      "owners": [
+        "Вова",
+        "Сева"
+      ],
+      "is_shared": true
+    },
+    {
+      "title": "Nectarines",
+      "discount": "-15%",
+      "sku": "0080388",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/8dad8c7d-aadb-4d1a-a357-6d53dda61700.png?t=1750941931",
+      "owners": [
+        "Вова"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "On household paper",
+      "discount": "-20%",
+      "sku": "Категория (71 тов.)",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/9c82bfa8-01f1-4450-b786-c6f3da8c57be.png?t=1789042620",
+      "owners": [
+        "Сева"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "On vegetables",
+      "discount": "-20%",
+      "sku": "Категория (97 тов.)",
+      "unit_price": "3.54 €/л",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/507b5aa6-25fa-4934-bef9-9199a2380302.png?t=1789042395",
+      "owners": [
+        "Влада",
+        "Света"
+      ],
+      "is_shared": true
+    },
+    {
+      "title": "Peaches",
+      "discount": "-15%",
+      "sku": "0080403",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/18b10622-89d6-4ee8-bb8c-ab43168aa188.png?t=1750941930",
+      "owners": [
+        "Влада",
+        "Света",
+        "Сева"
+      ],
+      "is_shared": true
+    },
+    {
+      "title": "Peaches",
+      "discount": "-15%",
+      "sku": "0080395",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/e258c6e8-9483-4b5f-b963-0e7e8b918641.png?t=1750941942",
+      "owners": [
+        "Света"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Roasted & Salted Peanuts",
+      "discount": "-15%",
+      "sku": "6204687",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/c00e8cd3-a0f8-4bc5-96ce-a2308eb975d8.png?t=1750941209",
+      "owners": [
+        "Света"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Roasted hazelnuts",
+      "discount": "-15%",
+      "sku": "0134909",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/69d92443-76b8-4340-9f98-603ae89e8873.jpeg?t=1781074143",
+      "owners": [
+        "Вова"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Russian Salad",
+      "discount": "-15%",
+      "sku": "0001811",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/9fcdfe20-02b8-4a65-ab77-f0810cedc898.png?t=1750941589",
+      "owners": [
+        "Света"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Rustik Baquette",
+      "discount": "-15%",
+      "sku": "0130092",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/069fabff-e684-4885-b96f-2bd46db60807.png?t=1750941216",
+      "owners": [
+        "Сева"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Sliced Edam Cheese",
+      "discount": "-15%",
+      "sku": "6211720",
+      "unit_price": "5.21 €/кг",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/9f06b145-2546-4967-998b-a1af020737dc.jpeg?t=1781074171",
+      "owners": [
+        "Влада"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Strained Yoghurt 10%",
+      "discount": "-15%",
+      "sku": "6300504",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/06c846c6-5c41-4e88-bf2b-945c0de5b6f7.png?t=1750941175",
+      "owners": [
+        "Вова",
+        "Сева"
+      ],
+      "is_shared": true
+    },
+    {
+      "title": "Sugar Free Chewing Gums",
+      "discount": "-15%",
+      "sku": "0142812",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/27186f99-f186-4c3f-8be7-82fe1ceb8057.png?t=1750942219",
+      "owners": [
+        "Влада"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Tomatoes on a twig",
+      "discount": "-15%",
+      "sku": "0082465",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/61a563ed-8dc3-4361-a8e6-78bb78d590c1.jpeg?t=1737122450",
+      "owners": [
+        "Вова",
+        "Света",
+        "Сева"
+      ],
+      "is_shared": true
+    },
+    {
+      "title": "White grapes seedless",
+      "discount": "-30%",
+      "sku": "0080505",
+      "unit_price": "2.23 €/кг",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/c3548ae9-633b-44f2-8828-ded69306f8be.png?t=1770648890",
+      "owners": [
+        "Вова"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "White grapes seedless",
+      "discount": "-15%",
+      "sku": "0080505",
+      "unit_price": "2.70 €/кг",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/a0b07a7a-08af-4367-974b-c8e54de23efb.jpeg?t=1737539900",
+      "owners": [
+        "Влада"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "White grapes seedless",
+      "discount": "-30%",
+      "sku": "0080500",
+      "unit_price": "2.23 €/кг",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/8ee2578e-aa9b-472d-aa6c-34ef01da51d9.png?t=1770648894",
+      "owners": [
+        "Влада"
+      ],
+      "is_shared": false
+    },
+    {
+      "title": "Whole Wheat Baquette",
+      "discount": "-15%",
+      "sku": "6205866",
+      "unit_price": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/f5218219-0f14-4e9e-9521-3c78908ca18e.png?t=1750941219",
+      "owners": [
+        "Сева"
+      ],
+      "is_shared": false
+    }
+  ],
+  "store_offers": [
+    {
+      "title": "Agrikia Roasted turkey breast, sliced",
+      "sku": "6207777",
+      "discount": "-21%",
+      "unit_price": "12.44 €/кг",
+      "pack_price": "1.99 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/e4c91c6d-7720-4410-9fb4-e87c952ab5c5.jpeg?t=1789127281"
+    },
+    {
+      "title": "Alambra Sheep yogurt traditional \"grandma\"",
+      "sku": "0005490",
+      "discount": "-15%",
+      "unit_price": "4.23 €/кг",
+      "pack_price": "1.69 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/c1887840-0194-447e-b2d0-40cc51be7018.jpeg?t=1789127238"
+    },
+    {
+      "title": "Allini Semi-sparkling wine",
+      "sku": "0052578",
+      "discount": "-30%",
+      "unit_price": "5.59 €/л",
+      "pack_price": "4.19 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/438a3213-5cfd-450b-aa2c-a0658810dc67.jpeg?t=1789127262"
+    },
+    {
+      "title": "Avocado",
+      "sku": "0080615",
+      "discount": "-20%",
+      "unit_price": "-",
+      "pack_price": "4.95 €",
+      "packaging": "Up to 2 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/c4ddca25-d7ac-48d1-98f1-66a17f964eb2.jpeg?t=1789127294"
+    },
+    {
+      "title": "BBQ Pork Ribs",
+      "sku": "6304886",
+      "discount": "-20%",
+      "unit_price": "-",
+      "pack_price": "5.25 €",
+      "packaging": "Up to 5 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/68a8ce6e-93d9-4854-bd56-580630845b17.jpeg?t=1788516504"
+    },
+    {
+      "title": "Beef burger",
+      "sku": "6304126",
+      "discount": "-30%",
+      "unit_price": "14.63 €/кг",
+      "pack_price": "5.85 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/8aa0c2e6-ce81-440e-a3b0-88528ee96666.jpeg?t=1788516813"
+    },
+    {
+      "title": "Beef round",
+      "sku": "6207568",
+      "discount": "-20%",
+      "unit_price": "14.38 €/кг",
+      "pack_price": "7.19 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/34c0df34-56e9-41ae-a584-6eeb42cdf922.jpeg?t=1789127237"
+    },
+    {
+      "title": "Bellarom Capsules Espresso Intenso",
+      "sku": "0177842",
+      "discount": "-20%",
+      "unit_price": "28.13 €/кг",
+      "pack_price": "3.15 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/f12ab14a-8c6c-471a-8d40-35366d2de132.jpeg?t=1789127272"
+    },
+    {
+      "title": "Bellosan Dry dog food",
+      "sku": "0008100",
+      "discount": "-16%",
+      "unit_price": "0.84 €/кг",
+      "pack_price": "8.39 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/f884079f-c3a8-455e-848b-95e89e22e1f4.jpeg?t=1789127249"
+    },
+    {
+      "title": "Bougatsa with cream",
+      "sku": "6200542",
+      "discount": "-16%",
+      "unit_price": "4.39 €/кг",
+      "pack_price": "0.79 €",
+      "packaging": "Up to 3 pieces",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/adf55fb5-17ea-446a-b7ac-c3016a762c60.jpeg?t=1789123440"
+    },
+    {
+      "title": "Cadbury Cookies",
+      "sku": "6302977",
+      "discount": "-28%",
+      "unit_price": "13.26 €/кг",
+      "pack_price": "1.79 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/7839b11d-01cb-4d9c-bd02-7a46f2ec30e0.jpeg?t=1789127244"
+    },
+    {
+      "title": "Castello Popcorn",
+      "sku": "6300337",
+      "discount": "-21%",
+      "unit_price": "13.11 €/кг",
+      "pack_price": "0.59 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/4d582415-e48c-4979-939d-8d19683bbaf3.jpeg?t=1789127241"
+    },
+    {
+      "title": "Chef Select Giant beans in sauce",
+      "sku": "0003029",
+      "discount": "-23%",
+      "unit_price": "4.25 €/кг",
+      "pack_price": "1.19 €",
+      "packaging": "Up to 5 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/81791c2b-45ac-4206-b82d-12bc9998c479.jpeg?t=1789127414"
+    },
+    {
+      "title": "Chef Select Mixed salad",
+      "sku": "6300131",
+      "discount": "-22%",
+      "unit_price": "6.95 €/кг",
+      "pack_price": "1.39 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/060ac598-e44e-47dc-b5e0-adbb367ce827.jpeg?t=1789127283"
+    },
+    {
+      "title": "Chrisos Milos Bran toast bread",
+      "sku": "6300706",
+      "discount": "-20%",
+      "unit_price": "2.10 €/кг",
+      "pack_price": "0.84 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/2f0457f6-f6ae-43bb-afc2-6bae177f56fb.jpeg?t=1789127284"
+    },
+    {
+      "title": "Cien Cream soap replacement",
+      "sku": "0203771",
+      "discount": "-22%",
+      "unit_price": "1.55 €/л",
+      "pack_price": "3.09 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/6a532016-7459-441b-a7ca-d813afa32ca2.jpeg?t=1789127275"
+    },
+    {
+      "title": "Crivit Hiking Backpack",
+      "sku": "0519262",
+      "discount": "ㅤ\n",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/4370d738-d948-4a68-b508-ac38fed4b215.jpeg?t=1788516535"
+    },
+    {
+      "title": "Crivit Hiking Backpack",
+      "sku": "0519262",
+      "discount": "ㅤ\n",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/4fc449bf-90be-43a3-9dfc-3529ab9163c3.jpeg?t=1788516536"
+    },
+    {
+      "title": "Crivit Hiking Boots",
+      "sku": "0540521",
+      "discount": "ㅤ\n",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/eaec3276-e0a0-41f9-a26e-c72b9ee12d80.jpeg?t=1788516528"
+    },
+    {
+      "title": "Crivit Hiking Boots",
+      "sku": "0540522",
+      "discount": "ㅤ\n",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/594f5acd-2c44-4011-92fe-22778fbbb0a6.jpeg?t=1788516529"
+    },
+    {
+      "title": "Crivit Softshell Jacket",
+      "sku": "0479950",
+      "discount": "ㅤ\n",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/61f62d8d-1eff-4d4d-9e19-2f0af32c7715.jpeg?t=1788516530"
+    },
+    {
+      "title": "Crivit Softshell Jacket",
+      "sku": "0514804",
+      "discount": "ㅤ\n",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/29a5c163-72b7-4145-9ab0-4e5cb4715497.jpeg?t=1788516531"
+    },
+    {
+      "title": "Crivit Softshell Jacket",
+      "sku": "0514810",
+      "discount": "ㅤ\n",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/6b66fca7-0da2-4d74-b14a-ec82744a1e5b.jpeg?t=1788516532"
+    },
+    {
+      "title": "Crivit Sports Leggings",
+      "sku": "0518945",
+      "discount": "ㅤ\n",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/9a6300ec-be9f-4dee-b4af-db1e21791a1c.jpeg?t=1788516534"
+    },
+    {
+      "title": "Crownfield Oatmeal Bites",
+      "sku": "6209258",
+      "discount": "-30%",
+      "unit_price": "4.42 €/кг",
+      "pack_price": "2.65 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/67da9e75-093a-4321-a719-a1bf65c917aa.jpeg?t=1789127282"
+    },
+    {
+      "title": "Dettol Multi-purpose cleaning spray",
+      "sku": "0009534",
+      "discount": "-20%",
+      "unit_price": "4.24 €/л",
+      "pack_price": "2.12 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/33a8ec19-65e4-433e-829b-0063501321f2.jpg?t=1789570177"
+    },
+    {
+      "title": "Dulano Roasted turkey breast",
+      "sku": "0011417",
+      "discount": "-22%",
+      "unit_price": "9.98 €/кг",
+      "pack_price": "3.99 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/30d03d06-78e8-421f-927c-10dc40a153af.jpeg?t=1789127252"
+    },
+    {
+      "title": "Epilogis Lentils",
+      "sku": "0002535",
+      "discount": "-21%",
+      "unit_price": "-",
+      "pack_price": "1.65 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/f657bfe0-3f9a-4ee4-bc0c-e3185634d9e1.jpeg?t=1789127247"
+    },
+    {
+      "title": "Esmara Pyjama Set",
+      "sku": "0393352",
+      "discount": "ㅤ\n ",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/c15c0c05-289c-40fe-a649-a696ec22fc26.jpeg?t=1789127299"
+    },
+    {
+      "title": "Eviva Natural apple juice",
+      "sku": "6203668",
+      "discount": "-20%",
+      "unit_price": "1.20 €/л",
+      "pack_price": "2.69 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/4d80f5a7-8f28-49c3-af87-a3036130f49a.jpeg?t=1789127280"
+    },
+    {
+      "title": "Freeway Soft drink",
+      "sku": "0079606",
+      "discount": "-30%",
+      "unit_price": "0.83 €/л",
+      "pack_price": "2.49 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/b977918a-1a47-422f-a01e-a1970dc37c3e.jpeg?t=1789127266"
+    },
+    {
+      "title": "Freshona Pickled cucumbers",
+      "sku": "0028377",
+      "discount": "-20%",
+      "unit_price": "4.42 €/л",
+      "pack_price": "1.59 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/b55a96a8-10e8-4f90-8db0-df0088f171cf.jpeg?t=1789127255"
+    },
+    {
+      "title": "Grapefruit",
+      "sku": "0080040",
+      "discount": "-21%",
+      "unit_price": "1.45 €/кг",
+      "pack_price": "1.45 €",
+      "packaging": "Up to 3 kg",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/f56c742b-6777-4f62-a5f6-e6e6b7745cbe.jpeg?t=1789127289"
+    },
+    {
+      "title": "Kania Mayonnaise",
+      "sku": "0011319",
+      "discount": "-20%",
+      "unit_price": "3.18 €/л",
+      "pack_price": "1.59 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/b314c73b-4a41-4a03-af4d-cf38998fd609.jpeg?t=1789127251"
+    },
+    {
+      "title": "Lemons",
+      "sku": "0080160",
+      "discount": "-20%",
+      "unit_price": "1.59 €/кг",
+      "pack_price": "1.59 €",
+      "packaging": "Up to 3 kg",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/098af2c1-c7b1-403e-98a4-7eb15785afc3.jpeg?t=1789127290"
+    },
+    {
+      "title": "Lupilu Kids' Pyjamas",
+      "sku": "0515383",
+      "discount": "ㅤ\n",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/23504bad-8e6b-4d3c-af22-c7316b3398e0.jpeg?t=1788516533"
+    },
+    {
+      "title": "Maitre Jean-Pierre Brioche with milk and butter",
+      "sku": "0145619",
+      "discount": "-26%",
+      "unit_price": "6.26 €/кг",
+      "pack_price": "2.19 €",
+      "packaging": "Up to 3 packages Due to unforeseen circumstances, this product will be available on Friday, 18.09.2026",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/cd6fc59f-adfe-4ecf-9d8e-82753098f17b.jpeg?t=1789127270"
+    },
+    {
+      "title": "Maribel Blueberry jam",
+      "sku": "0031630",
+      "discount": "-30%",
+      "unit_price": "4.64 €/кг",
+      "pack_price": "2.09 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/7efaa076-b88e-4c24-854d-5d3f3cb8e26c.jpeg?t=1789127258"
+    },
+    {
+      "title": "Milbona Butter unsalted",
+      "sku": "5201104",
+      "discount": "-30%",
+      "unit_price": "7.52 €/кг",
+      "pack_price": "1.88 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/2a80f9e8-3e92-4549-a5ee-c45a472b88dd.jpeg?t=1789127277"
+    },
+    {
+      "title": "Milbona Cheese spread",
+      "sku": "0074722",
+      "discount": "-25%",
+      "unit_price": "4.97 €/кг",
+      "pack_price": "1.49 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/dfc73d9c-fd31-47bd-ae8e-3aee5e1e3c86.jpeg?t=1789127265"
+    },
+    {
+      "title": "Milbona Condensed milk light",
+      "sku": "0029587",
+      "discount": "-20%",
+      "unit_price": "1.93 €/кг",
+      "pack_price": "0.79 €",
+      "packaging": "Up to 6 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/3532090f-06b1-43bb-864c-09b338cd022f.jpeg?t=1789127257"
+    },
+    {
+      "title": "Milbona Grated cheese",
+      "sku": "0039786",
+      "discount": "-30%",
+      "unit_price": "8.70 €/кг",
+      "pack_price": "1.74 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/d4e9a1ef-23e1-40f6-a30a-e63c103500cd.jpeg?t=1789127261"
+    },
+    {
+      "title": "Milbona Milk cream",
+      "sku": "0130422",
+      "discount": "-26%",
+      "unit_price": "3.65 €/л",
+      "pack_price": "2.19 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/d54f0c5b-e5c7-4bd6-a0ca-d24215375dac.jpeg?t=1789127268"
+    },
+    {
+      "title": "Milbona Protein mousse",
+      "sku": "1010112",
+      "discount": "-30%",
+      "unit_price": "6.25 €/кг",
+      "pack_price": "1.25 €",
+      "packaging": "Up to 5 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/84d800ef-b8dd-4e98-a7fd-f984e3e15982.jpeg?t=1789127276"
+    },
+    {
+      "title": "Milbona Sliced Edam cheese",
+      "sku": "0038893",
+      "discount": "-25%",
+      "unit_price": "6.13 €/кг",
+      "pack_price": "2.45 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/89e47a36-27dc-4564-88cc-2ae9013c9ed3.jpeg?t=1789127260"
+    },
+    {
+      "title": "Mineral water carbonated",
+      "sku": "0000001",
+      "discount": "-16%",
+      "unit_price": "0.37 €/л",
+      "pack_price": "0.55 €",
+      "packaging": "Up to 12 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/f5d953d9-0827-44fd-849a-19b3338d7a11.jpeg?t=1789124753"
+    },
+    {
+      "title": "Nescafe Instant coffee Gold",
+      "sku": "6304178",
+      "discount": "-8%",
+      "unit_price": "33.84 €/кг",
+      "pack_price": "6.43 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/63841808-104e-4579-88b7-e285a902f27e.jpeg?t=1789127245"
+    },
+    {
+      "title": "Nixe MSC Tuna in brine",
+      "sku": "0152887",
+      "discount": "-20%",
+      "unit_price": "9.27 €/кг",
+      "pack_price": "1.39 €",
+      "packaging": "Up to 5 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/01ae38f7-31bb-4b20-a130-73ef5c105946.jpeg?t=1789127271"
+    },
+    {
+      "title": "Nixe MSC Wild Salmon Fillet",
+      "sku": "0066047",
+      "discount": "-30%",
+      "unit_price": "17.71 €/кг",
+      "pack_price": "2.09 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/047662e8-200f-4b61-8e4e-f100c4873680.jpeg?t=1789127264"
+    },
+    {
+      "title": "Nutella Cookies",
+      "sku": "6305341",
+      "discount": "-22%",
+      "unit_price": "9.84 €/кг",
+      "pack_price": "2.99 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/58f4624a-f2ed-462b-a357-df235f9965eb.jpeg?t=1789127286"
+    },
+    {
+      "title": "Parkside 20V Cordless Angle Grinder PWSA 20-Li G4",
+      "sku": "0496273",
+      "discount": "ㅤ\n ",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/16653107-f273-4db6-901e-44ca81affd19.jpeg?t=1789127295"
+    },
+    {
+      "title": "Parkside 20V Cordless Compressor and Air Pump PKA 20-Li C3",
+      "sku": "0525408",
+      "discount": "ㅤ\n ",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/fa3cedfd-9947-4558-98f3-77f48177c4c2.jpeg?t=1789127297"
+    },
+    {
+      "title": "Parkside Inspection Camera PKIK 4.3 A2",
+      "sku": "0514980",
+      "discount": "ㅤ\n ",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/2bd84dcd-00de-4f87-9ff3-52ef74397314.jpeg?t=1789127296"
+    },
+    {
+      "title": "Parkside Performance Stretch Work Trousers",
+      "sku": "0509727",
+      "discount": "ㅤ\n ",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/fc3b2a88-68e4-470d-b7f9-2880fd98e40f.jpeg?t=1789127301"
+    },
+    {
+      "title": "Parkside Wall Organiser & Storage Set",
+      "sku": "0509748",
+      "discount": "ㅤ\n ",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/04e61f0a-8704-43fa-9558-8359689ab6c2.jpeg?t=1789127298"
+    },
+    {
+      "title": "Pears",
+      "sku": "0080275",
+      "discount": "-31%",
+      "unit_price": "2.69 €/кг",
+      "pack_price": "2.69 €",
+      "packaging": "Up to 3 kg",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/ebf57133-4296-44dd-b380-a00cc4162548.jpeg?t=1789127287"
+    },
+    {
+      "title": "Peppers mixed",
+      "sku": "0082586",
+      "discount": "-31%",
+      "unit_price": "4.30 €/кг",
+      "pack_price": "2.15 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/f47f8f5f-4fee-4753-98c7-63c6fb6cb28c.jpeg?t=1789127288"
+    },
+    {
+      "title": "Pizza Special",
+      "sku": "6213155",
+      "discount": "-16%",
+      "unit_price": "7.84 €/кг",
+      "pack_price": "1.49 €",
+      "packaging": "Up to 3 pieces",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/ba4ce7d8-8e94-4f21-8406-a1586bce46f8.jpeg?t=1789123441"
+    },
+    {
+      "title": "Plums",
+      "sku": "0080410",
+      "discount": "-20%",
+      "unit_price": "2.39 €/кг",
+      "pack_price": "2.39 €",
+      "packaging": "Up to 3 kg",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/6da2c332-0d61-4369-a34e-07db5bf2f871.jpeg?t=1789127291"
+    },
+    {
+      "title": "Pyjamas",
+      "sku": "0468647",
+      "discount": "ㅤ\n ",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/7db22ebe-4bc6-42f3-b7da-8391655cacef.jpeg?t=1789127300"
+    },
+    {
+      "title": "Sea King Skinless salmon fillet",
+      "sku": "6304417",
+      "discount": "-15%",
+      "unit_price": "19.04 €/кг",
+      "pack_price": "9.52 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/8febedbf-a31d-4e8b-bbe0-f81beab73906.jpeg?t=1789127246"
+    },
+    {
+      "title": "Seedless Mix Grapes",
+      "sku": "0080475",
+      "discount": "-20%",
+      "unit_price": "3.18 €/кг",
+      "pack_price": "1.59 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/20becb2e-29bd-48d9-83fa-b30c0f246b33.jpeg?t=1789127292"
+    },
+    {
+      "title": "Snack Day Tortilla Wraps",
+      "sku": "0022934",
+      "discount": "-25%",
+      "unit_price": "3.92 €/кг",
+      "pack_price": "1.45 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/420c036a-429b-4342-a50e-0e1aa7faa611.jpeg?t=1789127254"
+    },
+    {
+      "title": "Sondey Cereal filled biscuits",
+      "sku": "6600940",
+      "discount": "-26%",
+      "unit_price": "6.68 €/кг",
+      "pack_price": "1.69 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/fb60a918-af2f-4c3f-9b40-ccd035dd23c9.jpeg?t=1789127285"
+    },
+    {
+      "title": "Sondey Chocolate-coated cookies",
+      "sku": "0013346",
+      "discount": "-19%",
+      "unit_price": "10.00 €/кг",
+      "pack_price": "1.25 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/369129de-1dd5-482b-9604-778d90589eee.jpeg?t=1789127253"
+    },
+    {
+      "title": "Tronic Alkaline batteries",
+      "sku": "0199972",
+      "discount": "-31%",
+      "unit_price": "0.20 €/кг",
+      "pack_price": "2.39 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/7d0fb141-204e-4d70-999e-e30b60662bc2.jpeg?t=1789127274"
+    },
+    {
+      "title": "W5 Chlorine-based cleaner",
+      "sku": "0034781",
+      "discount": "-26%",
+      "unit_price": "-",
+      "pack_price": "1.69 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/98488508-fec4-4355-82fa-178a42037546.jpeg?t=1789127259"
+    },
+    {
+      "title": "W5 Dishwashing liquid",
+      "sku": "0118179",
+      "discount": "-25%",
+      "unit_price": "0.97 €/л",
+      "pack_price": "1.45 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/a8455a26-de32-4a74-8c9f-c845a25a7c0e.jpeg?t=1789127267"
+    },
+    {
+      "title": "Weetabix Whole grains",
+      "sku": "6301107",
+      "discount": "-15%",
+      "unit_price": "8.70 €/кг",
+      "pack_price": "5.61 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/ac60e3de-9d00-41a7-9ffe-7ac9f196dfd9.jpeg?t=1789127243"
+    },
+    {
+      "title": "Whiskas Cat snacks",
+      "sku": "0192889",
+      "discount": "-20%",
+      "unit_price": "19.94 €/кг",
+      "pack_price": "3.59 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/6d5e6158-3dc8-4f5a-926c-7a9b1f418805.jpeg?t=1789127240"
+    },
+    {
+      "title": "esmara Men Jacket",
+      "sku": "0544859",
+      "discount": "ㅤ",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/75e62257-04e7-4e47-bba1-e881371ded48.jpg?t=1789366764"
+    },
+    {
+      "title": "esmara Men Leather Sneakers",
+      "sku": "0516858",
+      "discount": "ㅤ",
+      "unit_price": "-",
+      "pack_price": "-",
+      "packaging": "",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/6a0bf516-13c8-4e33-a68b-c09000ee96cb.jpeg?t=1789127302"
+    },
+    {
+      "title": "noma Kefir",
+      "sku": "6203615",
+      "discount": "-22%",
+      "unit_price": "1.38 €/л",
+      "pack_price": "0.69 €",
+      "packaging": "Up to 5 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/720338b6-575b-40ae-b185-38c44f6af007.jpeg?t=1789127279"
+    },
+    {
+      "title": "noma Nut",
+      "sku": "6200211",
+      "discount": "-24%",
+      "unit_price": "3.13 €/кг",
+      "pack_price": "1.25 €",
+      "packaging": "Up to 3 packages",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/0a59a117-11df-46bd-b636-bb442d396c0e.jpeg?t=1789127278"
+    }
+  ]
+}
