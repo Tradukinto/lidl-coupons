@@ -1,0 +1,12 @@
+{
+  "country": "CY",
+  "language": "EN",
+  "store_id": "CY0119",
+  "store_name": "Pafos / Touristika (Tombs of the Kings 104)",
+  "family_accounts": {
+    "Вова": "YOUR_REFRESH_TOKEN_HERE",
+    "Света": "YOUR_REFRESH_TOKEN_HERE",
+    "Влада": "YOUR_REFRESH_TOKEN_HERE",
+    "Сева": "YOUR_REFRESH_TOKEN_HERE"
+  }
+}
