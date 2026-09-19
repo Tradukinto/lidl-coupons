@@ -37,3 +37,7 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+*.log
+auto_update.bat
+auto_update.ps1
+deploy_key*
