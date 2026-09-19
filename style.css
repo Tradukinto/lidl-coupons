@@ -386,17 +386,26 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  padding: 8px 4px;
+  gap: 3px;
+  padding: 8px 2px;
   border: none;
   background: none;
   border-radius: 8px;
   color: var(--hint-color);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
   cursor: pointer;
   position: relative;
   transition: all 0.2s;
+  white-space: nowrap;
+}
+
+@media (max-width: 390px) {
+  .tab-btn {
+    font-size: 10.5px;
+    gap: 2px;
+    padding: 7px 1px;
+  }
 }
 
 .tab-btn.active {
