@@ -289,22 +289,107 @@ body {
 }
 
 /* Family Chips */
-.family-chips-scroll {
-  overflow-x: auto;
-  white-space: nowrap;
-  scrollbar-width: none;
-  margin: 0 -14px 8px -14px;
-  padding: 6px 14px 4px 14px;
+.family-chips-wrapper {
+  position: relative;
+  margin: 0 -14px 6px -14px;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 4px;
 }
 
 @media (prefers-color-scheme: dark) {
-  .family-chips-scroll {
+  .family-chips-wrapper {
     border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 }
+
+.chips-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: var(--secondary-bg-color);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+  transition: opacity 0.2s, transform 0.1s, background-color 0.15s;
+}
+
+.chips-arrow:hover {
+  background-color: var(--button-color);
+  color: #fff;
+}
+
+.chips-arrow:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+.chips-arrow-left {
+  left: 6px;
+}
+
+.chips-arrow-right {
+  right: 6px;
+}
+
+.family-chips-scroll {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 4px 14px 6px 14px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(128, 128, 128, 0.35) transparent;
+  scroll-behavior: smooth;
+  cursor: grab;
+  -webkit-overflow-scrolling: touch;
+}
+
+.family-chips-scroll.grabbing {
+  cursor: grabbing;
+  user-select: none;
+}
+
 .family-chips-scroll::-webkit-scrollbar {
-  display: none;
+  height: 5px;
+  display: block;
+}
+
+.family-chips-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.family-chips-scroll::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.35);
+  border-radius: 4px;
+}
+
+.family-chips-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 128, 128, 0.6);
+}
+
+@media (prefers-color-scheme: dark) {
+  .chips-arrow {
+    background-color: #2a2a2a;
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+  .family-chips-scroll {
+    scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+  }
+  .family-chips-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+  }
+  .family-chips-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.45);
+  }
 }
 
 .family-chips {

@@ -45,12 +45,37 @@
   const clearCheckedBtn = document.getElementById('clear-checked-btn');
   const clearAllFavsBtn = document.getElementById('clear-all-favs-btn');
   const familyChipsContainer = document.getElementById('family-chips-container');
+  const familyChipsScroll = document.getElementById('family-chips-scroll');
+  const chipsArrowLeft = document.getElementById('chips-arrow-left');
+  const chipsArrowRight = document.getElementById('chips-arrow-right');
+
+  // Update navigation arrows visibility based on scroll position
+  function updateScrollArrows() {
+    if (!familyChipsScroll) return;
+    const maxScroll = familyChipsScroll.scrollWidth - familyChipsScroll.clientWidth;
+    if (maxScroll <= 2) {
+      chipsArrowLeft?.classList.add('hidden');
+      chipsArrowRight?.classList.add('hidden');
+      return;
+    }
+    if (familyChipsScroll.scrollLeft > 6) {
+      chipsArrowLeft?.classList.remove('hidden');
+    } else {
+      chipsArrowLeft?.classList.add('hidden');
+    }
+    if (familyChipsScroll.scrollLeft < maxScroll - 6) {
+      chipsArrowRight?.classList.remove('hidden');
+    } else {
+      chipsArrowRight?.classList.add('hidden');
+    }
+  }
 
   // Toggle family chips visibility (shown only when 'coupons' tab is active)
   function updateFamilyChipsVisibility() {
     if (!familyChipsContainer) return;
     if (currentTab === 'coupons') {
       familyChipsContainer.classList.remove('hidden');
+      setTimeout(updateScrollArrows, 60);
     } else {
       familyChipsContainer.classList.add('hidden');
     }
@@ -607,6 +632,79 @@
       renderCurrentList();
     });
   });
+
+  // Family Chips Horizontal Scroll: Wheel, Drag, and Arrows
+  if (familyChipsScroll) {
+    familyChipsScroll.addEventListener('scroll', updateScrollArrows, { passive: true });
+
+    // Mouse wheel: scroll horizontally on desktop
+    familyChipsScroll.addEventListener('wheel', (e) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        familyChipsScroll.scrollLeft += e.deltaY;
+        updateScrollArrows();
+      }
+    }, { passive: false });
+
+    // Mouse drag-to-scroll on desktop
+    let isDown = false;
+    let startX = 0;
+    let scrollStart = 0;
+    let hasMoved = false;
+
+    familyChipsScroll.addEventListener('mousedown', (e) => {
+      isDown = true;
+      hasMoved = false;
+      familyChipsScroll.classList.add('grabbing');
+      startX = e.pageX - familyChipsScroll.offsetLeft;
+      scrollStart = familyChipsScroll.scrollLeft;
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (isDown) {
+        isDown = false;
+        familyChipsScroll.classList.remove('grabbing');
+      }
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      const x = e.pageX - familyChipsScroll.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      if (Math.abs(walk) > 4) hasMoved = true;
+      familyChipsScroll.scrollLeft = scrollStart - walk;
+      updateScrollArrows();
+    });
+
+    // Prevent chip selection if the user was dragging
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        if (hasMoved) {
+          e.stopImmediatePropagation();
+          hasMoved = false;
+        }
+      }, true);
+    });
+  }
+
+  // Arrow buttons
+  if (chipsArrowLeft && familyChipsScroll) {
+    chipsArrowLeft.addEventListener('click', () => {
+      haptic('light');
+      familyChipsScroll.scrollBy({ left: -140, behavior: 'smooth' });
+      setTimeout(updateScrollArrows, 200);
+    });
+  }
+
+  if (chipsArrowRight && familyChipsScroll) {
+    chipsArrowRight.addEventListener('click', () => {
+      haptic('light');
+      familyChipsScroll.scrollBy({ left: 140, behavior: 'smooth' });
+      setTimeout(updateScrollArrows, 200);
+    });
+  }
+
+  window.addEventListener('resize', updateScrollArrows);
 
   // Event Listeners: Search Input
   searchInput.addEventListener('input', (e) => {
