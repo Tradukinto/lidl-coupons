@@ -9,7 +9,7 @@
   <title>Lidl Пафос — Скидки и Купоны семьи</title>
   <!-- Telegram Web App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css?v=2.5">
+  <link rel="stylesheet" href="style.css?v=2.6">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
         <div class="brand">
           <span class="lidl-logo">LIDL</span>
           <span class="badge-plus">+ Семья</span>
-          <span class="version-tag">v2.5</span>
+          <span class="version-tag">v2.6</span>
         </div>
         <div class="store-tag" id="store-title">Пафос • Tombs of the Kings</div>
       </div>
@@ -67,6 +67,11 @@
           <span class="tab-label">Daily Savers</span>
           <span class="tab-badge" id="badge-store">0</span>
         </button>
+        <button class="tab-btn" data-tab="categories">
+          <span class="tab-icon">🏷</span>
+          <span class="tab-label">Категории</span>
+          <span class="tab-badge" id="badge-categories">0</span>
+        </button>
         <button class="tab-btn" data-tab="favs">
           <span class="tab-icon">⭐</span>
           <span class="tab-label">Список</span>
@@ -108,6 +113,56 @@
         </div>
         <button class="chips-arrow chips-arrow-right" id="chips-arrow-right" title="Вперед" aria-label="Вперед">›</button>
       </div>
+
+      <!-- Category Filter Chips (Secondary Sub-Row - Shown only when 'Категории' is active) -->
+      <div class="family-chips-wrapper hidden" id="category-chips-container">
+        <button class="chips-arrow chips-arrow-left hidden" id="cat-arrow-left" title="Назад" aria-label="Назад">‹</button>
+        <div class="family-chips-scroll" id="category-chips-scroll">
+          <div class="family-chips" id="category-chips">
+            <button class="chip chip-cat active" data-cat="all">
+              <span class="chip-avatar">🧺</span>
+              <span class="chip-name">Все</span>
+              <span class="chip-count" id="cat-count-all">0</span>
+            </button>
+            <button class="chip chip-cat" data-cat="veg_fruit">
+              <span class="chip-avatar">🥦</span>
+              <span class="chip-name">Овощи и фрукты</span>
+              <span class="chip-count" id="cat-count-veg_fruit">0</span>
+            </button>
+            <button class="chip chip-cat" data-cat="sweets_snacks">
+              <span class="chip-avatar">🍫</span>
+              <span class="chip-name">Сладости и снеки</span>
+              <span class="chip-count" id="cat-count-sweets_snacks">0</span>
+            </button>
+            <button class="chip chip-cat" data-cat="meat_fish">
+              <span class="chip-avatar">🥩</span>
+              <span class="chip-name">Мясо и рыба</span>
+              <span class="chip-count" id="cat-count-meat_fish">0</span>
+            </button>
+            <button class="chip chip-cat" data-cat="dairy_cheese">
+              <span class="chip-avatar">🧀</span>
+              <span class="chip-name">Сыр и молочка</span>
+              <span class="chip-count" id="cat-count-dairy_cheese">0</span>
+            </button>
+            <button class="chip chip-cat" data-cat="bakery_grocery">
+              <span class="chip-avatar">🍞</span>
+              <span class="chip-name">Выпечка и бакалея</span>
+              <span class="chip-count" id="cat-count-bakery_grocery">0</span>
+            </button>
+            <button class="chip chip-cat" data-cat="beverages">
+              <span class="chip-avatar">🥤</span>
+              <span class="chip-name">Напитки</span>
+              <span class="chip-count" id="cat-count-beverages">0</span>
+            </button>
+            <button class="chip chip-cat" data-cat="non_food">
+              <span class="chip-avatar">🏠</span>
+              <span class="chip-name">Дом и непрод</span>
+              <span class="chip-count" id="cat-count-non_food">0</span>
+            </button>
+          </div>
+        </div>
+        <button class="chips-arrow chips-arrow-right" id="cat-arrow-right" title="Вперед" aria-label="Вперед">›</button>
+      </div>
     </header>
 
     <!-- Main Content List -->
@@ -141,6 +196,6 @@
     <div id="toast" class="toast hidden"></div>
   </div>
 
-  <script src="app.js?v=2.5"></script>
+  <script src="app.js?v=2.6"></script>
 </body>
 </html>
