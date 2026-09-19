@@ -545,7 +545,7 @@
       ? `<span class="tag tag-store">🔥 Комбо</span>`
       : item.type === 'coupons'
       ? `<span class="tag tag-coupon">🎟 Купон</span>`
-      : `<span class="tag tag-store">🛒 Магазин</span>`;
+      : `<span class="tag tag-store">🛒 Daily Savers</span>`;
 
     return `
       <div class="fav-card-row">
