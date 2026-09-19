@@ -9,7 +9,7 @@
   <title>Lidl Пафос — Скидки и Купоны семьи</title>
   <!-- Telegram Web App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css?v=2.4">
+  <link rel="stylesheet" href="style.css?v=2.5">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
         <div class="brand">
           <span class="lidl-logo">LIDL</span>
           <span class="badge-plus">+ Семья</span>
-          <span class="version-tag">v2.4</span>
+          <span class="version-tag">v2.5</span>
         </div>
         <div class="store-tag" id="store-title">Пафос • Tombs of the Kings</div>
       </div>
@@ -75,34 +75,38 @@
       </nav>
 
       <!-- Family Filter Chips (Secondary Sub-Row - Shown only when 'Купоны' is active) -->
-      <div class="family-chips-scroll hidden" id="family-chips-container">
-        <div class="family-chips" id="family-chips">
-          <button class="chip active" data-member="all">
-            <span class="chip-avatar">👥</span>
-            <span class="chip-name">Все</span>
-          </button>
-          <button class="chip chip-shared" data-member="shared" id="chip-shared">
-            <span class="chip-avatar">✨</span>
-            <span class="chip-name">Пересечения</span>
-            <span class="chip-count" id="chip-shared-count">0</span>
-          </button>
-          <button class="chip chip-vova" data-member="Вова">
-            <span class="chip-avatar">👨</span>
-            <span class="chip-name">Вова</span>
-          </button>
-          <button class="chip chip-sveta" data-member="Света">
-            <span class="chip-avatar">👩</span>
-            <span class="chip-name">Света</span>
-          </button>
-          <button class="chip chip-vlada" data-member="Влада">
-            <span class="chip-avatar">👧</span>
-            <span class="chip-name">Влада</span>
-          </button>
-          <button class="chip chip-seva" data-member="Сева">
-            <span class="chip-avatar">👦</span>
-            <span class="chip-name">Сева</span>
-          </button>
+      <div class="family-chips-wrapper hidden" id="family-chips-container">
+        <button class="chips-arrow chips-arrow-left hidden" id="chips-arrow-left" title="Назад" aria-label="Назад">‹</button>
+        <div class="family-chips-scroll" id="family-chips-scroll">
+          <div class="family-chips" id="family-chips">
+            <button class="chip active" data-member="all">
+              <span class="chip-avatar">👥</span>
+              <span class="chip-name">Все</span>
+            </button>
+            <button class="chip chip-shared" data-member="shared" id="chip-shared">
+              <span class="chip-avatar">✨</span>
+              <span class="chip-name">Пересечения</span>
+              <span class="chip-count" id="chip-shared-count">0</span>
+            </button>
+            <button class="chip chip-vova" data-member="Вова">
+              <span class="chip-avatar">👨</span>
+              <span class="chip-name">Вова</span>
+            </button>
+            <button class="chip chip-sveta" data-member="Света">
+              <span class="chip-avatar">👩</span>
+              <span class="chip-name">Света</span>
+            </button>
+            <button class="chip chip-vlada" data-member="Влада">
+              <span class="chip-avatar">👧</span>
+              <span class="chip-name">Влада</span>
+            </button>
+            <button class="chip chip-seva" data-member="Сева">
+              <span class="chip-avatar">👦</span>
+              <span class="chip-name">Сева</span>
+            </button>
+          </div>
         </div>
+        <button class="chips-arrow chips-arrow-right" id="chips-arrow-right" title="Вперед" aria-label="Вперед">›</button>
       </div>
     </header>
 
@@ -137,6 +141,6 @@
     <div id="toast" class="toast hidden"></div>
   </div>
 
-  <script src="app.js?v=2.4"></script>
+  <script src="app.js?v=2.5"></script>
 </body>
 </html>
