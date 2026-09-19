@@ -1,0 +1,59 @@
+name: Update Lidl Coupons & Deploy Mini App
+
+on:
+  schedule:
+    # 06:00 UTC (09:00 Кипр/Пафос) — утреннее обновление перед покупками
+    - cron: '0 6 * * *'
+    # 13:00 UTC (16:00 Кипр/Пафос) — дневное обновление
+    - cron: '0 13 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Lidl Parser & Activate Coupons
+        env:
+          LIDL_CONFIG_JSON: ${{ secrets.LIDL_CONFIG_JSON }}
+        run: |
+          python lidl_parser.py
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './web'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
