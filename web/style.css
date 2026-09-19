@@ -151,9 +151,80 @@ body {
   background: none;
   border: none;
   color: var(--link-color);
-  font-size: 14px;
+  font-size: 15px;
   cursor: pointer;
   padding: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.rotating {
+  animation: spin 0.8s linear infinite !important;
+  pointer-events: none;
+}
+
+/* Monetary Banner (Euro cash coupons) */
+.monetary-banner {
+  background: linear-gradient(135deg, #e6f4ea, #d2e3fc);
+  border: 1px solid #bce1ff;
+  border-radius: 12px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  .monetary-banner {
+    background: linear-gradient(135deg, #1b3820, #172b4d);
+    border-color: #2b5278;
+  }
+}
+
+.monetary-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.monetary-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.monetary-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #137333;
+  line-height: 1.2;
+}
+
+@media (prefers-color-scheme: dark) {
+  .monetary-title {
+    color: #81c995;
+  }
+}
+
+.monetary-sub {
+  font-size: 11px;
+  color: var(--hint-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+.monetary-action {
+  background-color: #fbbc04;
+  color: #202124;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
 }
 
 /* Search Box */
@@ -255,10 +326,49 @@ body {
 .chip.chip-vlada.active { background-color: var(--color-vlada); border-color: var(--color-vlada); color: #fff; }
 .chip.chip-seva.active { background-color: var(--color-seva); border-color: var(--color-seva); color: #fff; }
 
+.chip.chip-shared {
+  border-color: #f59e0b;
+  background-color: #fef3c7;
+  color: #92400e;
+  font-weight: 600;
+}
+
+.chip.chip-shared.active {
+  background-color: #d97706;
+  border-color: #d97706;
+  color: #ffffff;
+}
+
+.chip-count {
+  font-size: 10px;
+  background: rgba(0, 0, 0, 0.08);
+  padding: 1px 5px;
+  border-radius: 10px;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+.chip.active .chip-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  .chip.chip-shared {
+    background-color: #451a03;
+    color: #fde68a;
+    border-color: #78350f;
+  }
+  .chip.chip-shared.active {
+    background-color: #b45309;
+    color: #ffffff;
+  }
+}
+
 /* Navigation Tabs */
 .nav-tabs {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   gap: 4px;
   padding-bottom: 8px;
 }
@@ -363,12 +473,40 @@ body {
   justify-content: space-between;
 }
 
+.card-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4px;
+}
+
 .card-title {
   font-size: 14px;
   font-weight: 700;
   color: var(--text-color);
   line-height: 1.3;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  color: rgba(142, 142, 147, 0.4);
+  padding: 0 0 4px 4px;
+  transition: transform 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.star-btn:active {
+  transform: scale(1.3);
+}
+
+.star-btn.active {
+  color: #f59e0b;
+  text-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
 }
 
 .card-sku {
@@ -388,24 +526,117 @@ body {
 /* Price Box */
 .price-banner {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  flex-direction: column;
   background-color: var(--accent-green-bg);
   border-radius: 8px;
   padding: 6px 10px;
-  margin-top: 2px;
+  margin-top: 4px;
+}
+
+.unit-price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
 }
 
 .unit-price-highlight {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 800;
   color: var(--accent-green);
+  letter-spacing: -0.2px;
 }
 
 .pack-price-sub {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--hint-color);
+  margin-top: 1px;
+}
+
+/* Favorites Toolbar & In-Store Checkbox */
+.favs-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--secondary-bg-color);
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.favs-progress {
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.favs-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.favs-action-btn {
+  border: none;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.favs-action-btn:active {
+  opacity: 0.7;
+}
+
+.favs-action-btn.text-danger {
+  color: var(--lidl-red);
+}
+
+.fav-card-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fav-check-btn {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--hint-color);
+  background: var(--bg-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 800;
+  color: transparent;
+  transition: all 0.2s;
+  padding: 0;
+}
+
+.fav-check-btn.checked {
+  background-color: var(--accent-green);
+  border-color: var(--accent-green);
+  color: #fff;
+}
+
+.card.checked-item {
+  opacity: 0.5;
+  background-color: var(--bg-color);
+}
+
+.card.checked-item .card-title,
+.card.checked-item .unit-price-highlight,
+.card.checked-item .pack-price-sub {
+  text-decoration: line-through;
 }
 
 /* Badges & Tags */

@@ -26,7 +26,17 @@
       <div class="update-bar">
         <span class="status-dot"></span>
         <span id="update-time">Загрузка данных...</span>
-        <button id="refresh-btn" class="icon-btn" title="Обновить">↻</button>
+        <button id="refresh-btn" class="icon-btn" title="Обновить с сервера">↻</button>
+      </div>
+
+      <!-- Monetary Discount Banner (Euro Coupons) -->
+      <div id="monetary-banner" class="monetary-banner hidden">
+        <div class="monetary-icon">💶</div>
+        <div class="monetary-content">
+          <div class="monetary-title" id="monetary-title">Скидка на кассе: 1€</div>
+          <div class="monetary-sub" id="monetary-sub">Скидка со всего чека при покупке</div>
+        </div>
+        <div class="monetary-action" id="monetary-badge">Сева</div>
       </div>
 
       <!-- Search Bar -->
@@ -37,11 +47,16 @@
       </div>
 
       <!-- Family Filter Chips -->
-      <div class="family-chips-scroll">
+      <div class="family-chips-scroll" id="family-chips-container">
         <div class="family-chips" id="family-chips">
           <button class="chip active" data-member="all">
             <span class="chip-avatar">👥</span>
             <span class="chip-name">Все</span>
+          </button>
+          <button class="chip chip-shared" data-member="shared" id="chip-shared">
+            <span class="chip-avatar">✨</span>
+            <span class="chip-name">Пересечения</span>
+            <span class="chip-count" id="chip-shared-count">0</span>
           </button>
           <button class="chip chip-vova" data-member="Вова">
             <span class="chip-avatar">👨</span>
@@ -66,24 +81,37 @@
       <nav class="nav-tabs">
         <button class="tab-btn active" data-tab="double">
           <span class="tab-icon">🔥</span>
-          <span class="tab-label">Двойная выгода</span>
+          <span class="tab-label">Комбо</span>
           <span class="tab-badge" id="badge-double">0</span>
         </button>
         <button class="tab-btn" data-tab="coupons">
           <span class="tab-icon">🎟</span>
-          <span class="tab-label">Купоны семьи</span>
+          <span class="tab-label">Купоны</span>
           <span class="tab-badge" id="badge-coupons">0</span>
         </button>
         <button class="tab-btn" data-tab="store">
           <span class="tab-icon">🛒</span>
-          <span class="tab-label">Акции магазина</span>
+          <span class="tab-label">Магазин</span>
           <span class="tab-badge" id="badge-store">0</span>
+        </button>
+        <button class="tab-btn" data-tab="favs">
+          <span class="tab-icon">⭐</span>
+          <span class="tab-label">Список</span>
+          <span class="tab-badge" id="badge-favs">0</span>
         </button>
       </nav>
     </header>
 
     <!-- Main Content List -->
     <main class="content-container">
+      <!-- Favorites Toolbar (shown only in favs tab) -->
+      <div id="favs-toolbar" class="favs-toolbar hidden">
+        <div class="favs-progress" id="favs-progress">Куплено: 0 из 0</div>
+        <div class="favs-actions">
+          <button id="clear-checked-btn" class="favs-action-btn" title="Удалить купленные">✓ Купленные</button>
+          <button id="clear-all-favs-btn" class="favs-action-btn text-danger" title="Очистить весь список">🗑 Очистить</button>
+        </div>
+      </div>
       <div id="loading-spinner" class="spinner-container">
         <div class="spinner"></div>
         <p>Загрузка каталога и скидок...</p>

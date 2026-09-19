@@ -47,6 +47,9 @@ def get_keywords(text):
 
 def extract_unit_price(offer):
     """Извлечение финальной цены за 1 кг или 1 л по акции магазина"""
+    pbox = offer.get("priceBox", {})
+    item_price = pbox.get("largePartNumeric")
+
     ppu = offer.get("pricePerUnit") or ""
     m = re.search(r'to\s+([0-9]+[.,][0-9]+)', ppu, re.IGNORECASE)
     if m:
@@ -60,12 +63,31 @@ def extract_unit_price(offer):
         unit = "/л" if "1 l" in ppu.lower() else "/кг"
         return val, unit
 
-    pkg = offer.get("packaging") or ""
-    if "kg" in pkg.lower():
-        pbox = offer.get("priceBox", {})
-        price = pbox.get("largePartNumeric")
-        if price:
-            return float(price), "/кг"
+    desc = clean_text(offer.get("description") or "").lower()
+    if item_price:
+        if "per kg" in desc or "за кг" in desc:
+            return float(item_price), "/кг"
+        if "per l" in desc or "за л" in desc:
+            return float(item_price), "/л"
+
+    product_ids = offer.get("productIds", [])
+    if any(str(pid).startswith("008") for pid in product_ids) and item_price:
+        return float(item_price), "/кг"
+
+    pkg = clean_text(offer.get("packaging") or "")
+    if item_price:
+        if re.search(r'up to \d+\s*kg', pkg, re.IGNORECASE):
+            return float(item_price), "/кг"
+        mg = re.search(r'(\d+)\s*g\b', pkg, re.IGNORECASE)
+        if mg:
+            grams = float(mg.group(1))
+            if grams > 0:
+                return round(float(item_price) / (grams / 1000.0), 2), "/кг"
+        mml = re.search(r'(\d+)\s*ml\b', pkg, re.IGNORECASE)
+        if mml:
+            ml = float(mml.group(1))
+            if ml > 0:
+                return round(float(item_price) / (ml / 1000.0), 2), "/л"
 
     return None, ""
 
@@ -232,10 +254,10 @@ def process_accounts(config):
 
     return all_coupons
 
-def fetch_product_code(country, store_id, promotion_id, cache={}):
-    """Извлечение официального кода товара (SKU) из детального эндпоинта промо-акции"""
+def fetch_promo_details(country, store_id, promotion_id, cache={}):
+    """Извлечение полных деталей акции: все коды товаров (SKU) и описание из API"""
     if not promotion_id:
-        return ""
+        return {"display_sku": "", "codes": [], "title": "", "description": ""}
     if promotion_id in cache:
         return cache[promotion_id]
 
@@ -249,35 +271,62 @@ def fetch_product_code(country, store_id, promotion_id, cache={}):
         "-H", f"Country: {country.upper()}",
         "--max-time", "6"
     ]
-    res = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8")
-    if res.returncode == 0 and res.stdout and res.stdout.startswith("{"):
+    res = subprocess.run(cmd, capture_output=True)
+    raw = res.stdout.decode("utf-8", errors="ignore") if res.stdout else ""
+    if res.returncode == 0 and raw and raw.startswith("{"):
         try:
-            data = json.loads(res.stdout)
-            main_prods = data.get("productCodes", {}).get("mainProducts", [])
-            codes = [mp.get("code") for mp in main_prods if mp.get("code")]
+            data = json.loads(raw)
+            main_prods = data.get("productCodes", {}).get("mainProducts", []) or []
+            sec_prods = data.get("productCodes", {}).get("secondaryProducts", []) or []
+            all_prods = main_prods + sec_prods
+            codes = [str(mp.get("code")).strip() for mp in all_prods if mp.get("code")]
+            
             if len(codes) > 3:
-                res_code = f"Категория ({len(codes)} тов.)"
+                disp = f"Категория ({len(codes)} тов.)"
             elif codes:
-                res_code = ", ".join(codes)
+                disp = ", ".join(codes)
             else:
-                res_code = ""
-            cache[promotion_id] = res_code
-            return res_code
+                disp = ""
+            
+            detail = {
+                "display_sku": disp,
+                "codes": codes,
+                "title": data.get("title") or "",
+                "description": data.get("description") or "",
+                "pricePerUnit": data.get("pricePerUnit"),
+                "packaging": data.get("packaging")
+            }
+            cache[promotion_id] = detail
+            return detail
         except Exception:
             pass
-    cache[promotion_id] = ""
-    return ""
+    fallback = {"display_sku": "", "codes": [], "title": "", "description": ""}
+    cache[promotion_id] = fallback
+    return fallback
 
-def find_double_discounts(store_offers, family_coupons):
+def fetch_product_code(country, store_id, promotion_id, cache={}):
+    """Извлечение отображаемого артикула SKU (для совместимости)"""
+    detail = fetch_promo_details(country, store_id, promotion_id)
+    return detail.get("display_sku", "")
+
+def find_double_discounts(store_offers, family_coupons, country="CY", store_id="CY0119"):
     """Поиск пересечений: где скидка магазина суммируется со скидкой купона семьи"""
     double_deals = []
+
+    # Предзагрузка деталей купонов для категорийных совпадений по кодам
+    promo_cache = {}
+    for c in family_coupons:
+        pid = c.get("promotionId")
+        if pid and pid not in promo_cache:
+            promo_cache[pid] = fetch_promo_details(country, store_id, pid)
 
     for o in store_offers:
         o_title = clean_text(o.get("title") or "")
         o_brand = clean_text(o.get("brand") or "")
         full_offer_name = f"{o_brand} {o_title}".strip()
         o_words = get_keywords(full_offer_name)
-        sku = ", ".join(o.get("productIds", []))
+        store_skus = [str(x).strip() for x in o.get("productIds", [])]
+        sku = ", ".join(store_skus)
         pbox = o.get("priceBox", {})
         store_disc = pbox.get("discountMessage", "")
         item_price = pbox.get("largePartNumeric")
@@ -288,15 +337,27 @@ def find_double_discounts(store_offers, family_coupons):
         unit_val, unit_name = extract_unit_price(o)
         store_unit_price_str = f"{unit_val:.2f} €{unit_name}" if unit_val else "-"
 
+        # Множество кодов магазина для быстрого поиска
+        store_sku_set = set(store_skus) | {s.lstrip('0') for s in store_skus}
+
         for c in family_coupons:
             c_title = clean_text(c["Товар"])
             c_words = get_keywords(c_title)
             c_disc = c["Скидка"]
             member = c["У кого"]
             coupon_img = c.get("imageUrl") or ""
+            pid = c.get("promotionId")
+            detail = promo_cache.get(pid, {})
+            coupon_codes = detail.get("codes", [])
+            coupon_codes_set = set(coupon_codes) | {code.lstrip('0') for code in coupon_codes}
 
+            # 1. Проверка прямого совпадения по кодам товаров (SKU)
+            # Включает категорийные купоны (например 'On vegetables' содержит 97 кодов, 'On household paper' 71 код)
+            sku_match = bool(coupon_codes_set and (coupon_codes_set & store_sku_set))
+
+            # 2. Проверка по ключевым словам
             overlap = o_words.intersection(c_words)
-            is_match = (len(overlap) >= 2) or (
+            keyword_match = (len(overlap) >= 2) or (
                 len(overlap) == 1 and any(w in overlap for w in [
                     "burger", "edam", "pepper", "grape", "kiwi", "lime", 
                     "cheddar", "gouda", "yoghurt", "bacon", "salami", "pear", "peach"
@@ -304,22 +365,25 @@ def find_double_discounts(store_offers, family_coupons):
             )
 
             if "juice" in full_offer_name.lower() and "juice" not in c_title.lower():
-                is_match = False
+                keyword_match = False
 
+            # 3. Дополнительная проверка на категорию овощей, если в купоне есть vegetables
             is_veg = "vegetables" in c_title.lower() and (
                 any(w in full_offer_name.lower() for w in ["pepper", "salad", "tomato", "carrot", "cucumber", "avocado"])
                 or sku.startswith("008") and any(w in full_offer_name.lower() for w in ["pepper", "avocado"])
             )
 
-            if is_match or is_veg:
+            if sku_match or keyword_match or is_veg:
                 final_unit_val = calc_final_unit_price_after_coupon(unit_val, c_disc)
                 final_unit_str = f"{final_unit_val:.2f} €{unit_name}" if final_unit_val else "-"
 
                 final_pack_val = calc_final_unit_price_after_coupon(item_price, c_disc)
                 final_pack_str = f"{final_pack_val:.2f} €" if final_pack_val else "-"
 
+                deal_sku = sku if sku else detail.get("display_sku", "")
+
                 double_deals.append({
-                    "Код (SKU)": sku,
+                    "Код (SKU)": deal_sku,
                     "Товар": full_offer_name,
                     "Скидка магазина": store_disc,
                     "Купон": f"{c_title} ({c_disc})",
@@ -409,6 +473,7 @@ def export_web_data(coupons, store_offers, double_deals, output_path="web/data.j
                 sku_val = m_sku
             unit_price = m_uprice
 
+        is_monetary = bool("€" in disc and "%" not in disc)
         web_family_coupons.append({
             "title": title,
             "discount": disc,
@@ -416,7 +481,8 @@ def export_web_data(coupons, store_offers, double_deals, output_path="web/data.j
             "unit_price": unit_price,
             "image_url": img,
             "owners": sorted(list(owners)),
-            "is_shared": len(owners) >= 2
+            "is_shared": len(owners) >= 2,
+            "is_monetary": is_monetary
         })
     web_family_coupons.sort(key=lambda x: x["title"])
 
@@ -446,6 +512,20 @@ def export_web_data(coupons, store_offers, double_deals, output_path="web/data.j
         })
     web_store_offers.sort(key=lambda x: x["title"])
 
+    # 4. Денежные купоны (скидки на весь чек в евро)
+    web_monetary_coupons = []
+    for c in coupons:
+        disc = clean_text(c.get("Скидка", ""))
+        title = clean_text(c.get("Товар", "Скидка на чек"))
+        if "€" in disc and "%" not in disc:
+            web_monetary_coupons.append({
+                "title": f"Скидка {disc} на весь чек",
+                "discount": disc,
+                "owner": c.get("У кого", ""),
+                "description": "Скидка на всю сумму покупки при сканировании карты Lidl Plus",
+                "image_url": c.get("imageUrl", "")
+            })
+
     now = datetime.now()
     now_str = now.strftime("%d.%m.%Y %H:%M")
 
@@ -461,8 +541,11 @@ def export_web_data(coupons, store_offers, double_deals, output_path="web/data.j
         "stats": {
             "double_deals_count": len(web_double_deals),
             "family_coupons_count": len(web_family_coupons),
-            "store_offers_count": len(web_store_offers)
+            "store_offers_count": len(web_store_offers),
+            "shared_coupons_count": sum(1 for c in web_family_coupons if c.get("is_shared")),
+            "monetary_coupons_count": len(web_monetary_coupons)
         },
+        "monetary_coupons": web_monetary_coupons,
         "double_deals": web_double_deals,
         "family_coupons": web_family_coupons,
         "store_offers": web_store_offers
@@ -685,7 +768,7 @@ def main():
     print(f"   📦 Загружено акций магазина: {len(store_offers)}")
 
     # 3. Поиск двойных скидок (пересечений)
-    double_deals = find_double_discounts(store_offers, coupons)
+    double_deals = find_double_discounts(store_offers, coupons, country=country, store_id=store_id)
 
     # 4. Экспорт для веб-приложения Telegram Mini App
     export_web_data(coupons, store_offers, double_deals, output_path="web/data.json", config=config)

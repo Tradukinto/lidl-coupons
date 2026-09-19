@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-18T15:45:24.389476",
-  "generated_at_str": "18.09.2026 15:45",
+  "generated_at": "2026-09-19T14:52:01.350038",
+  "generated_at_str": "19.09.2026 14:52",
   "store": {
     "id": "CY0119",
     "name": "Pafos / Touristika (Tombs of the Kings 104)",
@@ -14,19 +14,30 @@
   ],
   "stats": {
     "double_deals_count": 12,
-    "family_coupons_count": 48,
-    "store_offers_count": 74
+    "family_coupons_count": 47,
+    "store_offers_count": 74,
+    "shared_coupons_count": 8,
+    "monetary_coupons_count": 1
   },
+  "monetary_coupons": [
+    {
+      "title": "Скидка 1€ на весь чек",
+      "discount": "1€",
+      "owner": "Сева",
+      "description": "Скидка на всю сумму покупки при сканировании карты Lidl Plus",
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/55d34732-c9b9-45dd-a28f-0c4b654b51b6.png?t=1787059437"
+    }
+  ],
   "double_deals": [
     {
       "sku": "0080615",
       "title": "Avocado",
       "store_discount": "-20%",
       "coupon_discount": "-20%",
-      "final_unit_price": "-",
+      "final_unit_price": "3.96 €/кг",
       "final_pack_price": "3.96 €",
       "store_pack_price": "4.95 €",
-      "store_unit_price": "-",
+      "store_unit_price": "4.95 €/кг",
       "packaging": "Up to 2 packages",
       "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/c4ddca25-d7ac-48d1-98f1-66a17f964eb2.jpeg?t=1789127294",
       "owners": [
@@ -215,7 +226,8 @@
       "owners": [
         "Вова"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Almond Bar",
@@ -228,7 +240,8 @@
         "Вова",
         "Сева"
       ],
-      "is_shared": true
+      "is_shared": true,
+      "is_monetary": false
     },
     {
       "title": "Bananas",
@@ -239,7 +252,8 @@
       "owners": [
         "Вова"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Cabanossi Air Dried Salami",
@@ -250,7 +264,8 @@
       "owners": [
         "Света"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Carbonated Mineral Water",
@@ -261,18 +276,8 @@
       "owners": [
         "Вова"
       ],
-      "is_shared": false
-    },
-    {
-      "title": "Carrots",
-      "discount": "-20%",
-      "sku": "0082755",
-      "unit_price": "",
-      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/ea58d5ed-f972-4a64-9bd0-189367129c63.png?t=1769087700",
-      "owners": [
-        "Света"
-      ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Cheese Slices",
@@ -283,7 +288,8 @@
       "owners": [
         "Влада"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Creamy Fruit Dessert",
@@ -294,7 +300,8 @@
       "owners": [
         "Влада"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Discount!",
@@ -305,7 +312,8 @@
       "owners": [
         "Сева"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": true
     },
     {
       "title": "Edam Slices",
@@ -316,7 +324,8 @@
       "owners": [
         "Влада"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Emmental Slices",
@@ -327,7 +336,8 @@
       "owners": [
         "Влада"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Free Range Medium Eggs",
@@ -338,7 +348,8 @@
       "owners": [
         "Света"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Fresh Anari",
@@ -349,7 +360,8 @@
       "owners": [
         "Сева"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Fried Peppers",
@@ -360,7 +372,8 @@
       "owners": [
         "Вова"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Fruit Yoghurt 3,8% fat",
@@ -371,7 +384,8 @@
       "owners": [
         "Света"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Gouda Slices",
@@ -382,7 +396,8 @@
       "owners": [
         "Влада"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Granny Smith Green apples",
@@ -394,7 +409,8 @@
         "Влада",
         "Сева"
       ],
-      "is_shared": true
+      "is_shared": true,
+      "is_monetary": false
     },
     {
       "title": "Greek bread ring",
@@ -405,7 +421,8 @@
       "owners": [
         "Света"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Green peppers",
@@ -416,7 +433,8 @@
       "owners": [
         "Света"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Kinder Bueno Chocolate",
@@ -427,7 +445,8 @@
       "owners": [
         "Света"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Kiwis",
@@ -438,7 +457,8 @@
       "owners": [
         "Сева"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Laser Distance Meter 50m",
@@ -450,7 +470,8 @@
         "Влада",
         "Сева"
       ],
-      "is_shared": true
+      "is_shared": true,
+      "is_monetary": false
     },
     {
       "title": "Lemon Ice Tea",
@@ -461,7 +482,8 @@
       "owners": [
         "Вова"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Limes",
@@ -472,7 +494,8 @@
       "owners": [
         "Сева"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "MSC Fish Fingers",
@@ -483,7 +506,8 @@
       "owners": [
         "Вова"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Mild Cheddar Cheese",
@@ -494,7 +518,8 @@
       "owners": [
         "Влада"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Mini Brezels",
@@ -505,7 +530,8 @@
       "owners": [
         "Сева"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Mixed Burgers Pork & Beef",
@@ -516,7 +542,8 @@
       "owners": [
         "Вова"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Multiseed Bread Sticks",
@@ -527,7 +554,8 @@
       "owners": [
         "Сева"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Natural Apple Juice",
@@ -538,7 +566,8 @@
       "owners": [
         "Света"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Natural Mineral Water",
@@ -550,7 +579,8 @@
         "Вова",
         "Сева"
       ],
-      "is_shared": true
+      "is_shared": true,
+      "is_monetary": false
     },
     {
       "title": "Nectarines",
@@ -561,7 +591,8 @@
       "owners": [
         "Вова"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "On household paper",
@@ -572,7 +603,8 @@
       "owners": [
         "Сева"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "On vegetables",
@@ -584,7 +616,8 @@
         "Влада",
         "Света"
       ],
-      "is_shared": true
+      "is_shared": true,
+      "is_monetary": false
     },
     {
       "title": "Peaches",
@@ -597,7 +630,8 @@
         "Света",
         "Сева"
       ],
-      "is_shared": true
+      "is_shared": true,
+      "is_monetary": false
     },
     {
       "title": "Peaches",
@@ -608,7 +642,8 @@
       "owners": [
         "Света"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Roasted & Salted Peanuts",
@@ -619,7 +654,8 @@
       "owners": [
         "Света"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Roasted hazelnuts",
@@ -630,7 +666,8 @@
       "owners": [
         "Вова"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Russian Salad",
@@ -641,7 +678,8 @@
       "owners": [
         "Света"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Rustik Baquette",
@@ -652,7 +690,8 @@
       "owners": [
         "Сева"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Sliced Edam Cheese",
@@ -663,7 +702,8 @@
       "owners": [
         "Влада"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Strained Yoghurt 10%",
@@ -675,7 +715,8 @@
         "Вова",
         "Сева"
       ],
-      "is_shared": true
+      "is_shared": true,
+      "is_monetary": false
     },
     {
       "title": "Sugar Free Chewing Gums",
@@ -686,7 +727,8 @@
       "owners": [
         "Влада"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Tomatoes on a twig",
@@ -699,7 +741,8 @@
         "Света",
         "Сева"
       ],
-      "is_shared": true
+      "is_shared": true,
+      "is_monetary": false
     },
     {
       "title": "White grapes seedless",
@@ -710,7 +753,8 @@
       "owners": [
         "Вова"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "White grapes seedless",
@@ -721,7 +765,8 @@
       "owners": [
         "Влада"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "White grapes seedless",
@@ -732,7 +777,8 @@
       "owners": [
         "Влада"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     },
     {
       "title": "Whole Wheat Baquette",
@@ -743,7 +789,8 @@
       "owners": [
         "Сева"
       ],
-      "is_shared": false
+      "is_shared": false,
+      "is_monetary": false
     }
   ],
   "store_offers": [
@@ -778,7 +825,7 @@
       "title": "Avocado",
       "sku": "0080615",
       "discount": "-20%",
-      "unit_price": "-",
+      "unit_price": "4.95 €/кг",
       "pack_price": "4.95 €",
       "packaging": "Up to 2 packages",
       "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/c4ddca25-d7ac-48d1-98f1-66a17f964eb2.jpeg?t=1789127294"
