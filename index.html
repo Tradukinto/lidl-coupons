@@ -9,7 +9,7 @@
   <title>Lidl Пафос — Скидки и Купоны семьи</title>
   <!-- Telegram Web App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css?v=2.3">
+  <link rel="stylesheet" href="style.css?v=2.4">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
         <div class="brand">
           <span class="lidl-logo">LIDL</span>
           <span class="badge-plus">+ Семья</span>
-          <span class="version-tag">v2.3</span>
+          <span class="version-tag">v2.4</span>
         </div>
         <div class="store-tag" id="store-title">Пафос • Tombs of the Kings</div>
       </div>
@@ -50,8 +50,32 @@
         <button id="clear-search" class="clear-btn hidden">✕</button>
       </div>
 
-      <!-- Family Filter Chips -->
-      <div class="family-chips-scroll" id="family-chips-container">
+      <!-- Navigation Tabs (Primary Row) -->
+      <nav class="nav-tabs">
+        <button class="tab-btn active" data-tab="double">
+          <span class="tab-icon">🔥</span>
+          <span class="tab-label">Комбо</span>
+          <span class="tab-badge" id="badge-double">0</span>
+        </button>
+        <button class="tab-btn" data-tab="coupons">
+          <span class="tab-icon">🎟</span>
+          <span class="tab-label">Купоны</span>
+          <span class="tab-badge" id="badge-coupons">0</span>
+        </button>
+        <button class="tab-btn" data-tab="store">
+          <span class="tab-icon">🛒</span>
+          <span class="tab-label">Daily Savers</span>
+          <span class="tab-badge" id="badge-store">0</span>
+        </button>
+        <button class="tab-btn" data-tab="favs">
+          <span class="tab-icon">⭐</span>
+          <span class="tab-label">Список</span>
+          <span class="tab-badge" id="badge-favs">0</span>
+        </button>
+      </nav>
+
+      <!-- Family Filter Chips (Secondary Sub-Row - Shown only when 'Купоны' is active) -->
+      <div class="family-chips-scroll hidden" id="family-chips-container">
         <div class="family-chips" id="family-chips">
           <button class="chip active" data-member="all">
             <span class="chip-avatar">👥</span>
@@ -80,30 +104,6 @@
           </button>
         </div>
       </div>
-
-      <!-- Navigation Tabs -->
-      <nav class="nav-tabs">
-        <button class="tab-btn active" data-tab="double">
-          <span class="tab-icon">🔥</span>
-          <span class="tab-label">Комбо</span>
-          <span class="tab-badge" id="badge-double">0</span>
-        </button>
-        <button class="tab-btn" data-tab="coupons">
-          <span class="tab-icon">🎟</span>
-          <span class="tab-label">Купоны</span>
-          <span class="tab-badge" id="badge-coupons">0</span>
-        </button>
-        <button class="tab-btn" data-tab="store">
-          <span class="tab-icon">🛒</span>
-          <span class="tab-label">Daily Savers</span>
-          <span class="tab-badge" id="badge-store">0</span>
-        </button>
-        <button class="tab-btn" data-tab="favs">
-          <span class="tab-icon">⭐</span>
-          <span class="tab-label">Список</span>
-          <span class="tab-badge" id="badge-favs">0</span>
-        </button>
-      </nav>
     </header>
 
     <!-- Main Content List -->
@@ -137,6 +137,6 @@
     <div id="toast" class="toast hidden"></div>
   </div>
 
-  <script src="app.js?v=2.3"></script>
+  <script src="app.js?v=2.4"></script>
 </body>
 </html>

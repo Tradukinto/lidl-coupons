@@ -294,7 +294,14 @@ body {
   white-space: nowrap;
   scrollbar-width: none;
   margin: 0 -14px 8px -14px;
-  padding: 0 14px;
+  padding: 6px 14px 4px 14px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  .family-chips-scroll {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
 }
 .family-chips-scroll::-webkit-scrollbar {
   display: none;
