@@ -44,6 +44,17 @@
   const favsProgress = document.getElementById('favs-progress');
   const clearCheckedBtn = document.getElementById('clear-checked-btn');
   const clearAllFavsBtn = document.getElementById('clear-all-favs-btn');
+  const familyChipsContainer = document.getElementById('family-chips-container');
+
+  // Toggle family chips visibility (shown only when 'coupons' tab is active)
+  function updateFamilyChipsVisibility() {
+    if (!familyChipsContainer) return;
+    if (currentTab === 'coupons') {
+      familyChipsContainer.classList.remove('hidden');
+    } else {
+      familyChipsContainer.classList.add('hidden');
+    }
+  }
 
   // Trigger haptic feedback
   function haptic(type = 'light') {
@@ -160,6 +171,7 @@
       fullData = await res.json();
 
       updateHeader();
+      updateFamilyChipsVisibility();
       renderCurrentList();
 
       if (isUserClick) {
@@ -221,11 +233,6 @@
   function getFilteredItems() {
     if (currentTab === 'favs') {
       let favs = getFavorites();
-      if (currentMember === 'shared') {
-        favs = favs.filter(item => item.owners && item.owners.length >= 2);
-      } else if (currentMember !== 'all') {
-        favs = favs.filter(item => item.owners && item.owners.includes(currentMember));
-      }
       if (searchQuery) {
         const q = searchQuery.toLowerCase().trim();
         favs = favs.filter(item => {
@@ -243,13 +250,11 @@
     else if (currentTab === 'coupons') list = fullData.family_coupons || [];
     else if (currentTab === 'store') list = fullData.store_offers || [];
 
-    // Filter by member or shared
-    if (currentMember === 'shared') {
-      if (currentTab === 'double' || currentTab === 'coupons') {
+    // Filter by member or shared: applies ONLY when 'coupons' tab is active
+    if (currentTab === 'coupons') {
+      if (currentMember === 'shared') {
         list = list.filter(item => (item.owners && item.owners.length >= 2) || item.is_shared);
-      }
-    } else if (currentMember !== 'all') {
-      if (currentTab === 'double' || currentTab === 'coupons') {
+      } else if (currentMember !== 'all') {
         list = list.filter(item => item.owners && item.owners.includes(currentMember));
       }
     }
@@ -586,6 +591,7 @@
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentTab = btn.dataset.tab;
+      updateFamilyChipsVisibility();
       renderCurrentList();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
