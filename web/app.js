@@ -13,12 +13,15 @@
     double_deals: [],
     family_coupons: [],
     store_offers: [],
-    monetary_coupons: []
+    monetary_coupons: [],
+    super_savers: [],
+    super_saver_doubles: []
   };
 
   let currentTab = 'double';
   let currentMember = 'all';
   let currentCategory = 'all';
+  let currentSuperFilter = 'all';
   let searchQuery = '';
   let cachedUnifiedCategoryItems = null;
 
@@ -33,9 +36,13 @@
   const scrollTopBtn = document.getElementById('scroll-top-btn');
   const badgeDouble = document.getElementById('badge-double');
   const badgeCoupons = document.getElementById('badge-coupons');
+  const badgeSuper = document.getElementById('badge-super');
   const badgeStore = document.getElementById('badge-store');
   const badgeCategories = document.getElementById('badge-categories');
   const badgeFavs = document.getElementById('badge-favs');
+  const superChipsContainer = document.getElementById('super-chips-container');
+  const superCountAll = document.getElementById('super-count-all');
+  const superCountCombos = document.getElementById('super-count-combos');
   const toastEl = document.getElementById('toast');
   const monetaryBanner = document.getElementById('monetary-banner');
   const monetaryTitle = document.getElementById('monetary-title');
@@ -97,7 +104,7 @@
     }
   }
 
-  // Toggle secondary sub-row visibility (family chips vs category chips)
+  // Toggle secondary sub-row visibility (family chips vs category chips vs super chips)
   function updateSubRowsVisibility() {
     if (familyChipsContainer) {
       if (currentTab === 'coupons') {
@@ -113,6 +120,13 @@
         setTimeout(updateCategoryScrollArrows, 60);
       } else {
         categoryChipsContainer.classList.add('hidden');
+      }
+    }
+    if (superChipsContainer) {
+      if (currentTab === 'super') {
+        superChipsContainer.classList.remove('hidden');
+      } else {
+        superChipsContainer.classList.add('hidden');
       }
     }
   }
@@ -206,10 +220,11 @@
         type: item.type || currentTab,
         title: item.title,
         sku: item.sku || '',
-        discount: item.discount || `${item.store_discount || ''} + ${item.coupon_discount || ''}`.trim(),
+        discount: item.discount || item.super_discount || `${item.store_discount || ''} + ${item.coupon_discount || ''}`.trim(),
         final_unit_price: item.final_unit_price || item.unit_price || '-',
-        final_pack_price: item.final_pack_price || item.pack_price || '-',
+        final_pack_price: item.final_pack_price || item.final_price || item.pack_price || item.price || '-',
         packaging: item.packaging || '',
+        formatted_date: item.formatted_date || '',
         owners: item.owners || [],
         image_url: item.image_url || '',
         checked: false,
@@ -340,6 +355,15 @@
       }
     });
 
+    // 4. Super Savers
+    (fullData.super_savers || []).forEach(ss => {
+      const k = getProductKey(ss);
+      if (!seenKeys.has(k)) {
+        seenKeys.add(k);
+        list.push({ ...ss, type: 'super' });
+      }
+    });
+
     cachedUnifiedCategoryItems = list;
     return list;
   }
@@ -388,7 +412,10 @@
     }
     if (badgeDouble) badgeDouble.textContent = fullData.double_deals?.length || 0;
     if (badgeCoupons) badgeCoupons.textContent = fullData.family_coupons?.length || 0;
+    if (badgeSuper) badgeSuper.textContent = fullData.super_savers?.length || 0;
     if (badgeStore) badgeStore.textContent = fullData.store_offers?.length || 0;
+    if (superCountAll) superCountAll.textContent = fullData.super_savers?.length || 0;
+    if (superCountCombos) superCountCombos.textContent = fullData.super_saver_doubles?.length || 0;
 
     // Category count & badge
     const unified = getUnifiedCategoryItems();
@@ -481,6 +508,24 @@
       return list;
     }
 
+    if (currentTab === 'super') {
+      let list = currentSuperFilter === 'combos' 
+        ? (fullData.super_saver_doubles || []) 
+        : (fullData.super_savers || []);
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase().trim();
+        list = list.filter(item => {
+          const title = (item.title || '').toLowerCase();
+          const sku = (item.sku || '').toLowerCase();
+          const disc = (item.discount || item.super_discount || item.coupon_discount || '').toLowerCase();
+          const dateStr = (item.formatted_date || item.deal_date || '').toLowerCase();
+          const camp = (item.campaign || '').toLowerCase();
+          return title.includes(q) || sku.includes(q) || disc.includes(q) || dateStr.includes(q) || camp.includes(q);
+        });
+      }
+      return list;
+    }
+
     let list = [];
     if (currentTab === 'double') list = fullData.double_deals || [];
     else if (currentTab === 'coupons') list = fullData.family_coupons || [];
@@ -556,6 +601,9 @@
       } else if (currentTab === 'coupons') {
         card.className = 'card';
         card.innerHTML = renderCouponCard(item);
+      } else if (currentTab === 'super') {
+        card.className = 'card';
+        card.innerHTML = renderSuperCard(item);
       } else if (currentTab === 'store') {
         card.className = 'card';
         card.innerHTML = renderStoreCard(item);
@@ -565,6 +613,8 @@
           card.innerHTML = renderDoubleCard(item);
         } else if (item.type === 'coupons') {
           card.innerHTML = renderCouponCard(item);
+        } else if (item.type === 'super') {
+          card.innerHTML = renderSuperCard(item);
         } else {
           card.innerHTML = renderStoreCard(item);
         }
@@ -806,6 +856,72 @@
     `;
   }
 
+  function renderSuperCard(item) {
+    const isFav = isFavorite(item);
+    const key = getProductKey(item);
+
+    const imgHtml = item.image_url 
+      ? `<img src="${item.image_url}" class="card-img" loading="lazy" alt="${item.title}">`
+      : `<span class="card-img-fallback">⚡</span>`;
+
+    const skuHtml = item.sku 
+      ? `<span class="card-sku copy-sku" data-sku="${item.sku}">Код: ${item.sku} 📋</span>` 
+      : '';
+
+    const isCombo = Boolean(item.coupon_discount || (item.owners && item.owners.length));
+
+    let priceHtml = '';
+    if (isCombo) {
+      priceHtml = `
+        <div class="price-banner">
+          <div class="unit-price-row">
+            <span class="unit-price-highlight">${item.final_price}</span>
+            ${item.super_price && item.super_price !== item.final_price ? `<span class="old-price-strike">${item.super_price}</span>` : ''}
+          </div>
+          <span class="pack-price-sub">с купоном семьи</span>
+        </div>
+      `;
+    } else {
+      const hasOldPrice = item.old_price && item.old_price !== item.price;
+      priceHtml = `
+        <div class="price-banner">
+          <div class="unit-price-row">
+            <span class="unit-price-highlight">${item.price}</span>
+            ${hasOldPrice ? `<span class="old-price-strike">${item.old_price}</span>` : ''}
+          </div>
+          ${item.unit_price ? `<span class="pack-price-sub">${item.unit_price}</span>` : (item.packaging ? `<span class="pack-price-sub">${item.packaging}</span>` : '')}
+        </div>
+      `;
+    }
+
+    const dateBadge = item.formatted_date 
+      ? `<span class="tag tag-super-date">${item.formatted_date}</span>`
+      : '';
+
+    return `
+      <div class="card-top">
+        <div class="card-img-wrap">${imgHtml}</div>
+        <div class="card-body">
+          <div>
+            <div class="card-header-row">
+              <div class="card-title">${item.title}</div>
+              <button class="star-btn ${isFav ? 'active' : ''}" data-key="${key}" data-sku="${item.sku || ''}" data-title="${item.title || ''}" data-type="super" title="${isFav ? 'Удалить из списка' : 'В список покупок'}">${isFav ? '⭐' : '☆'}</button>
+            </div>
+            ${skuHtml}
+          </div>
+          ${priceHtml}
+        </div>
+      </div>
+      <div class="card-tags">
+        ${dateBadge}
+        ${isCombo ? `<span class="tag tag-coupon">🎟 ${item.coupon_discount}</span>` : (item.discount ? `<span class="tag tag-store">${item.discount}</span>` : '')}
+        ${isCombo ? renderOwners(item.owners) : ''}
+        ${item.campaign ? `<span class="tag tag-super-campaign">${item.campaign}</span>` : ''}
+        ${item.product_url ? `<a href="${item.product_url}" target="_blank" rel="noopener" class="tag" style="text-decoration:none; color:var(--link-color); background:var(--bg-color);">На сайт ↗</a>` : ''}
+      </div>
+    `;
+  }
+
   function renderFavCard(item) {
     const imgHtml = item.image_url 
       ? `<img src="${item.image_url}" class="card-img" loading="lazy" alt="${item.title}">`
@@ -819,7 +935,11 @@
       ? `<span class="tag tag-store">🔥 Комбо</span>`
       : item.type === 'coupons'
       ? `<span class="tag tag-coupon">🎟 Купон</span>`
+      : item.type === 'super'
+      ? `<span class="tag tag-super">⚡ Super Savers</span>`
       : `<span class="tag tag-store">🛒 Daily Savers</span>`;
+
+    const dateTag = item.formatted_date ? `<span class="tag tag-super-date">${item.formatted_date}</span>` : '';
 
     return `
       <div class="fav-card-row">
@@ -845,6 +965,7 @@
           </div>
           <div class="card-tags" style="margin-top:8px;">
             ${sourceTag}
+            ${dateTag}
             ${item.discount ? `<span class="tag tag-coupon">${item.discount}</span>` : ''}
             ${renderOwners(item.owners)}
           </div>
@@ -884,6 +1005,17 @@
       document.querySelectorAll('#category-chips .chip-cat').forEach(c => c.classList.remove('active'));
       chip.classList.add('active');
       currentCategory = chip.dataset.cat;
+      renderCurrentList();
+    });
+  });
+
+  // Event Listeners: Super Savers Filter Chips
+  document.querySelectorAll('#super-chips .chip-super').forEach(chip => {
+    chip.addEventListener('click', () => {
+      haptic('selection');
+      document.querySelectorAll('#super-chips .chip-super').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      currentSuperFilter = chip.dataset.super;
       renderCurrentList();
     });
   });

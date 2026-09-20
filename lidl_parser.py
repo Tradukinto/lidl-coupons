@@ -5,11 +5,16 @@ import sys
 import base64
 import subprocess
 import shutil
-from datetime import datetime
+from datetime import datetime, date, timedelta
 import pandas as pd
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
+import requests
+import urllib3
+from bs4 import BeautifulSoup
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -400,7 +405,216 @@ def find_double_discounts(store_offers, family_coupons, country="CY", store_id="
 
     return double_deals
 
-def export_web_data(coupons, store_offers, double_deals, output_path="web/data.json", config={}):
+WEEKDAYS_RU = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
+
+def fetch_super_savers(country="CY", language="el"):
+    """Сбор специальных акций Super Savers / Great Deals с официального сайта Lidl Cyprus.
+    Автоматически исключает просроченные акции (например, акции на прошлые дни),
+    оставляя только актуальные и предстоящие акции с точной датой действия.
+    """
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+    }
+    today = date.today()
+    base_url = "https://www.lidl.com.cy"
+
+    try:
+        r = requests.get(base_url, headers=headers, verify=False, timeout=12)
+        if r.status_code != 200:
+            print(f"⚠️ Не удалось загрузить главную страницу Lidl: status {r.status_code}")
+            return []
+    except Exception as e:
+        print(f"⚠️ Ошибка запроса к сайту Lidl: {e}")
+        return []
+
+    # Находим все ссылки на кампании текущей и будущих недель (-26kwXX)
+    links = set(re.findall(r'(/c/el-CY/[^"\'\s<>]+-26kw\d+/[as]\d+)', r.text))
+    
+    super_savers = []
+    seen_products = set()
+
+    for link in sorted(links):
+        page_url = base_url + link if link.startswith('/') else link
+        try:
+            resp = requests.get(page_url, headers=headers, verify=False, timeout=10)
+            if resp.status_code != 200:
+                continue
+            soup = BeautifulSoup(resp.text, 'html.parser')
+        except Exception:
+            continue
+
+        page_h1 = soup.find('h1')
+        campaign_name = page_h1.get_text(strip=True) if page_h1 else link.split('/')[3]
+
+        for it in soup.find_all(attrs={"data-grid-data": True}):
+            try:
+                d = json.loads(it['data-grid-data'])
+            except Exception:
+                continue
+
+            stock = d.get('stockAvailability', {})
+            badges = stock.get('badgeInfo', {}).get('badges', [])
+            badge_text = badges[0].get('text') if badges else ""
+            badge_type = badges[0].get('type') if badges else ""
+
+            # Игнорируем товары, помеченные Lidl как прошедшие
+            if badge_type == 'IN_STORE_PAST_DATE_RANGE':
+                continue
+
+            # Извлечение даты
+            m = re.search(r'(\d{1,2})\.(\d{1,2})', badge_text)
+            if not m:
+                continue
+
+            day = int(m.group(1))
+            month = int(m.group(2))
+            deal_date = date(today.year, month, day)
+
+            # Исключаем просроченные акции
+            if deal_date < today:
+                continue
+
+            weekday_str = WEEKDAYS_RU[deal_date.weekday()]
+            if deal_date == today:
+                formatted_date = f"⚡ Сегодня, {day:02d}.{month:02d} ({weekday_str})"
+            elif deal_date == today + timedelta(days=1):
+                formatted_date = f"⚡ Завтра, {day:02d}.{month:02d} ({weekday_str})"
+            else:
+                formatted_date = f"⚡ Только {day:02d}.{month:02d} ({weekday_str})"
+
+            title = clean_text(d.get('fullTitle') or d.get('title') or '')
+            if not title:
+                continue
+
+            price_obj = d.get('price', {})
+            item_price = price_obj.get('price')
+            old_price = price_obj.get('oldPrice') or price_obj.get('discount', {}).get('deletedPrice')
+            pct = price_obj.get('discount', {}).get('percentageDiscount')
+            if pct:
+                discount_str = f"-{pct}%"
+            elif old_price and item_price and old_price > item_price:
+                calc_pct = round((old_price - item_price) / old_price * 100)
+                discount_str = f"-{calc_pct}%"
+            else:
+                discount_str = ""
+
+            packaging = clean_text(price_obj.get('packaging', {}).get('text') or '')
+            base_price = clean_text(price_obj.get('basePrice', {}).get('text') or '')
+            image_url = d.get('image') or ''
+
+            ians = [str(x).strip() for x in d.get('ians', []) if str(x).strip()]
+            product_id = str(d.get('productId') or '').strip()
+            erp_number = str(d.get('erpNumber') or '').strip()
+            sku = ians[0] if ians else (product_id or erp_number)
+
+            canonical = d.get('canonicalPath') or d.get('canonicalUrl') or ''
+            product_url = (base_url + canonical) if canonical.startswith('/') else canonical
+
+            dedup_key = (sku, title, str(deal_date))
+            if dedup_key in seen_products:
+                continue
+            seen_products.add(dedup_key)
+
+            super_savers.append({
+                "sku": sku,
+                "title": title,
+                "price": item_price,
+                "price_str": f"{item_price:.2f} €" if item_price is not None else "-",
+                "old_price": old_price,
+                "old_price_str": f"{old_price:.2f} €" if old_price is not None else "",
+                "discount": discount_str,
+                "packaging": packaging,
+                "unit_price": base_price,
+                "image_url": image_url,
+                "formatted_date": formatted_date,
+                "raw_date": f"{day:02d}.{month:02d}",
+                "deal_date": deal_date.isoformat(),
+                "badge": badge_text,
+                "campaign": campaign_name,
+                "product_url": product_url,
+                "ians": ians,
+                "productId": product_id,
+                "erpNumber": erp_number
+            })
+
+    super_savers.sort(key=lambda x: (x["deal_date"], x["title"]))
+    return super_savers
+
+def find_super_saver_doubles(super_savers, family_coupons, country="CY", store_id="CY0119"):
+    """Поиск комбо-скидок: где акция Super Saver пересекается с персональным купоном семьи"""
+    doubles = []
+    promo_cache = {}
+    for c in family_coupons:
+        pid = c.get("promotionId")
+        if pid and pid not in promo_cache:
+            promo_cache[pid] = fetch_promo_details(country, store_id, pid)
+
+    for ss in super_savers:
+        ss_codes = set(ss['ians']) | {x.zfill(7) for x in ss['ians']} | {x.lstrip('0') for x in ss['ians']}
+        if ss.get('productId'):
+            p_id = str(ss['productId'])
+            ss_codes.update({p_id, p_id.zfill(7), p_id.lstrip('0')})
+        if ss.get('erpNumber'):
+            e_id = str(ss['erpNumber'])
+            ss_codes.update({e_id, e_id.zfill(7), e_id.lstrip('0')})
+
+        ss_title = ss['title']
+        ss_words = get_keywords(ss_title)
+        title_lower = ss_title.lower()
+
+        for c in family_coupons:
+            c_title = c.get("Товар", "")
+            c_title_lower = c_title.lower()
+            c_words = get_keywords(c_title)
+            c_disc = c.get("Скидка", "")
+            member = c.get("У кого", "")
+            pid = c.get("promotionId")
+            detail = promo_cache.get(pid, {})
+            c_codes = detail.get("codes", [])
+            c_codes_set = set(c_codes) | {code.lstrip('0') for code in c_codes} | {code.zfill(7) for code in c_codes}
+
+            # 1. Прямое совпадение по SKU / IAN кодам
+            sku_match = bool(c_codes_set and (c_codes_set & ss_codes))
+
+            # 2. Совпадение по ключевым словам
+            overlap = ss_words.intersection(c_words)
+            kw_match = len(overlap) >= 2 or (len(overlap) == 1 and any(w in overlap for w in ["nuts", "alesto", "sondey", "chocolate", "potato", "pineapple", "blueberries", "nike", "esmara"]))
+
+            # Исключаем йогурты и десерты от сопоставления со свежими фруктами
+            is_yoghurt_or_dessert = any(w in c_title_lower for w in ["yoghurt", "yogurt", "dessert", "juice"])
+
+            # 3. Категорийные совпадения
+            is_veg = "vegetables" in c_title_lower and any(w in title_lower for w in ["πατάτες", "τοματίνια", "potato"])
+            is_fruit = ("fruit" in c_title_lower or "berries" in c_title_lower) and not is_yoghurt_or_dessert and any(w in title_lower for w in ["μύρτιλα", "ανανάς", "σταφύλια", "berries", "pineapple"])
+            is_nuts = ("nuts" in c_title_lower or "alesto" in c_title_lower or "peanut" in c_title_lower or "hazelnut" in c_title_lower) and ("alesto" in title_lower or "mix ξηρών" in title_lower)
+            is_choc = "chocolate" in c_title_lower and not any(w in c_title_lower for w in ["kinder", "bar"]) and any(w in title_lower for w in ["σοκολάτα", "fin carré", "carré", "chocolate"])
+
+            if sku_match or kw_match or is_veg or is_fruit or is_nuts or is_choc:
+                item_price = ss.get("price")
+                final_price = calc_final_unit_price_after_coupon(item_price, c_disc)
+                final_price_str = f"{final_price:.2f} €" if final_price else "-"
+
+                doubles.append({
+                    "sku": ss["sku"],
+                    "title": ss["title"],
+                    "super_price": ss["price_str"],
+                    "final_price": final_price_str,
+                    "super_discount": ss["discount"],
+                    "coupon_discount": c_disc,
+                    "coupon_title": c_title,
+                    "owner": member,
+                    "packaging": ss["packaging"],
+                    "unit_price": ss["unit_price"],
+                    "image_url": ss["image_url"],
+                    "formatted_date": ss["formatted_date"],
+                    "deal_date": ss["deal_date"],
+                    "badge": ss["badge"],
+                    "campaign": ss["campaign"],
+                    "product_url": ss["product_url"]
+                })
+    return doubles
+
+def export_web_data(coupons, store_offers, double_deals, super_savers=None, super_saver_doubles=None, output_path="web/data.json", config={}):
     """Экспорт структурированных данных в формат JSON для мобильного Telegram Mini App"""
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
@@ -526,6 +740,71 @@ def export_web_data(coupons, store_offers, double_deals, output_path="web/data.j
                 "image_url": c.get("imageUrl", "")
             })
 
+    # 5. Специальные акции Super Savers
+    web_super_savers = []
+    if super_savers:
+        for ss in super_savers:
+            web_super_savers.append({
+                "sku": ss.get("sku", ""),
+                "title": ss.get("title", ""),
+                "price": ss.get("price_str", "-"),
+                "numeric_price": ss.get("price"),
+                "old_price": ss.get("old_price_str", ""),
+                "discount": ss.get("discount", ""),
+                "packaging": ss.get("packaging", ""),
+                "unit_price": ss.get("unit_price", ""),
+                "image_url": ss.get("image_url", ""),
+                "formatted_date": ss.get("formatted_date", ""),
+                "raw_date": ss.get("raw_date", ""),
+                "deal_date": ss.get("deal_date", ""),
+                "badge": ss.get("badge", ""),
+                "campaign": ss.get("campaign", ""),
+                "product_url": ss.get("product_url", "")
+            })
+
+    # 6. Пересечения Super Savers с купонами семьи
+    web_super_doubles = []
+    if super_saver_doubles:
+        grouped_ss_doubles = {}
+        for d in super_saver_doubles:
+            key = (
+                d["sku"], d["title"], d["super_price"], d["super_discount"],
+                d["packaging"], d["unit_price"], d["image_url"],
+                d["formatted_date"], d["deal_date"], d["campaign"], d["product_url"]
+            )
+            if key not in grouped_ss_doubles:
+                grouped_ss_doubles[key] = {
+                    "owners": set(),
+                    "coupons": set(),
+                    "final_prices": []
+                }
+            grouped_ss_doubles[key]["owners"].add(d["owner"])
+            grouped_ss_doubles[key]["coupons"].add(f"{d['coupon_title']} ({d['coupon_discount']})")
+            if d.get("final_price") and d["final_price"] != "-":
+                grouped_ss_doubles[key]["final_prices"].append(d["final_price"])
+
+        for key, info in grouped_ss_doubles.items():
+            sku, title, s_price, s_disc, pkg, u_price, img, f_date, d_date, camp, p_url = key
+            best_final_price = sorted(info["final_prices"])[0] if info["final_prices"] else s_price
+            coupon_disc_str = ", ".join(sorted(info["coupons"]))
+            web_super_doubles.append({
+                "sku": sku,
+                "title": title,
+                "super_price": s_price,
+                "final_price": best_final_price,
+                "super_discount": s_disc,
+                "coupon_discount": coupon_disc_str,
+                "packaging": pkg,
+                "unit_price": u_price,
+                "image_url": img,
+                "formatted_date": f_date,
+                "deal_date": d_date,
+                "campaign": camp,
+                "product_url": p_url,
+                "owners": sorted(list(info["owners"]))
+            })
+        web_super_doubles.sort(key=lambda x: (x["deal_date"], x["title"]))
+
     now = datetime.now()
     now_str = now.strftime("%d.%m.%Y %H:%M")
 
@@ -542,19 +821,23 @@ def export_web_data(coupons, store_offers, double_deals, output_path="web/data.j
             "double_deals_count": len(web_double_deals),
             "family_coupons_count": len(web_family_coupons),
             "store_offers_count": len(web_store_offers),
+            "super_savers_count": len(web_super_savers),
+            "super_saver_doubles_count": len(web_super_doubles),
             "shared_coupons_count": sum(1 for c in web_family_coupons if c.get("is_shared")),
             "monetary_coupons_count": len(web_monetary_coupons)
         },
         "monetary_coupons": web_monetary_coupons,
         "double_deals": web_double_deals,
         "family_coupons": web_family_coupons,
-        "store_offers": web_store_offers
+        "store_offers": web_store_offers,
+        "super_savers": web_super_savers,
+        "super_saver_doubles": web_super_doubles
     }
 
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
-    print(f"📱 Данные для веб-приложения успешно сохранены: {output_path} ({len(web_double_deals)} комбо, {len(web_family_coupons)} купонов, {len(web_store_offers)} акций)")
+    print(f"📱 Данные для веб-приложения успешно сохранены: {output_path} ({len(web_double_deals)} комбо, {len(web_family_coupons)} купонов, {len(web_store_offers)} акций, {len(web_super_savers)} Super Savers)")
     return payload
 
 def generate_excel_report(coupons, store_offers, double_deals, excel_filename="lidl_discounts_paphos.xlsx", country="CY", store_id="CY0119"):
@@ -767,11 +1050,18 @@ def main():
     store_offers = fetch_daily_savers(country, store_id, language="en")
     print(f"   📦 Загружено акций магазина: {len(store_offers)}")
 
-    # 3. Поиск двойных скидок (пересечений)
+    # 3. Поиск двойных скидок (пересечений Daily Savers с купонами семьи)
     double_deals = find_double_discounts(store_offers, coupons, country=country, store_id=store_id)
 
-    # 4. Экспорт для веб-приложения Telegram Mini App
-    export_web_data(coupons, store_offers, double_deals, output_path="web/data.json", config=config)
+    # 4. Сбор акций Super Savers (Great Deals) с фильтрацией просроченных
+    print(f"\n⚡ Загрузка акций Super Savers (Great Deals)...")
+    super_savers = fetch_super_savers(country=country)
+    print(f"   ⚡ Загружено актуальных Super Savers: {len(super_savers)}")
+    super_saver_doubles = find_super_saver_doubles(super_savers, coupons, country=country, store_id=store_id)
+    print(f"   ✨ Найдено пересечений Super Savers с купонами: {len(super_saver_doubles)}")
+
+    # 5. Экспорт для веб-приложения Telegram Mini App
+    export_web_data(coupons, store_offers, double_deals, super_savers=super_savers, super_saver_doubles=super_saver_doubles, output_path="web/data.json", config=config)
 
     # 5. Сохранение локальных отчетов (CSV и Excel)
     if double_deals:
