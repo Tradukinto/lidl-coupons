@@ -48,6 +48,7 @@
   const monetaryTitle = document.getElementById('monetary-title');
   const monetarySub = document.getElementById('monetary-sub');
   const monetaryBadge = document.getElementById('monetary-badge');
+  const monetaryDate = document.getElementById('monetary-date');
   const chipSharedCount = document.getElementById('chip-shared-count');
   const favsToolbar = document.getElementById('favs-toolbar');
   const favsProgress = document.getElementById('favs-progress');
@@ -489,9 +490,16 @@
       monetaryBanner.classList.remove('hidden');
       const first = monetaryList[0];
       const allOwners = Array.from(new Set(monetaryList.map(m => m.owner))).join(', ');
-      monetaryTitle.textContent = `Скидка на чек: ${first.discount} (аккаунт ${allOwners})`;
-      const valStr = first.validity_str ? ` • ${first.validity_str}` : '';
-      monetarySub.textContent = `Скидка снимется со всего чека при сканировании карты на кассе${valStr}`;
+      monetaryTitle.textContent = `Скидка ${first.discount} на весь чек`;
+      if (monetaryDate) {
+        if (first.validity_str) {
+          monetaryDate.textContent = first.validity_str;
+          monetaryDate.classList.remove('hidden');
+        } else {
+          monetaryDate.classList.add('hidden');
+        }
+      }
+      monetarySub.textContent = `Скидка снимется со всего чека при сканировании карты на кассе`;
       monetaryBadge.textContent = allOwners;
     } else if (monetaryBanner) {
       monetaryBanner.classList.add('hidden');
