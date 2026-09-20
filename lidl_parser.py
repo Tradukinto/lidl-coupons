@@ -5,7 +5,7 @@ import sys
 import base64
 import subprocess
 import shutil
-from datetime import datetime, date, timedelta
+from datetime import datetime, date, timedelta, timezone
 import pandas as pd
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
@@ -23,6 +23,8 @@ APP_VERSION = "16.7.0"
 OFFERS_APP_VERSION = "17.0.5"
 
 CURL_BIN = shutil.which("curl.exe") or shutil.which("curl") or "curl"
+
+WEEKDAYS_RU = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
 
 COMMON_WORDS = {
     "and", "the", "for", "with", "from", "slices", "sliced", "natural",
@@ -405,17 +407,24 @@ def find_double_discounts(store_offers, family_coupons, country="CY", store_id="
 
     return double_deals
 
-WEEKDAYS_RU = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
-
 def fetch_super_savers(country="CY", language="el"):
     """Сбор специальных акций Super Savers / Great Deals с официального сайта Lidl Cyprus.
-    Автоматически исключает просроченные акции (например, акции на прошлые дни),
-    оставляя только актуальные и предстоящие акции с точной датой действия.
+    Собирает акции, действующие сегодня, а также предстоящие акции (на ближайшие дни).
+    Исключает полностью просроченные акции.
     """
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
     }
+    now_utc = datetime.now(timezone.utc)
     today = date.today()
+    curr_year, curr_week, _ = today.isocalendar()
+    year_short = int(str(curr_year)[-2:])
+    min_week = curr_week - 1
+    min_year = year_short
+    if min_week < 1:
+        min_week = 52
+        min_year = year_short - 1
+
     base_url = "https://www.lidl.com.cy"
 
     try:
@@ -428,12 +437,20 @@ def fetch_super_savers(country="CY", language="el"):
         return []
 
     # Находим все ссылки на кампании текущей и будущих недель (-26kwXX)
-    links = set(re.findall(r'(/c/el-CY/[^"\'\s<>]+-26kw\d+/[as]\d+)', r.text))
-    
+    raw_links = set(re.findall(r'(/c/el-CY/[^"\'\s<>]+-26kw\d+/[as]\d+)', r.text))
+    campaign_links = []
+    for link in sorted(raw_links):
+        m_kw = re.search(r'-(\d{2})kw(\d{1,2})/', link)
+        if m_kw:
+            yr = int(m_kw.group(1))
+            wk = int(m_kw.group(2))
+            if yr > year_short or (yr == year_short and wk >= min_week) or (yr == min_year and wk >= min_week):
+                campaign_links.append(link)
+
     super_savers = []
     seen_products = set()
 
-    for link in sorted(links):
+    for link in campaign_links:
         page_url = base_url + link if link.startswith('/') else link
         try:
             resp = requests.get(page_url, headers=headers, verify=False, timeout=10)
@@ -452,39 +469,64 @@ def fetch_super_savers(country="CY", language="el"):
             except Exception:
                 continue
 
+            title = clean_text(d.get('fullTitle') or d.get('title') or '')
+            if not title:
+                continue
+
             stock = d.get('stockAvailability', {})
+            b_v2 = stock.get('badgeInfoV2', [])
             badges = stock.get('badgeInfo', {}).get('badges', [])
             badge_text = badges[0].get('text') if badges else ""
             badge_type = badges[0].get('type') if badges else ""
 
-            # Игнорируем товары, помеченные Lidl как прошедшие
-            if badge_type == 'IN_STORE_PAST_DATE_RANGE':
+            chosen_range = None
+            for bv in b_v2:
+                vf = bv.get('validFrom')
+                vu = bv.get('validUntil')
+                if vf and vu:
+                    df = datetime.fromtimestamp(vf, timezone.utc)
+                    du = datetime.fromtimestamp(vu, timezone.utc)
+                    if df <= now_utc <= du:
+                        chosen_range = ('ACTIVE_TODAY', df, du)
+                        break
+                    elif df > now_utc and (df - now_utc).days <= 14:
+                        if not chosen_range:
+                            chosen_range = ('FUTURE', df, du)
+
+            if not chosen_range:
+                m = re.search(r'(\d{1,2})\.(\d{1,2})', badge_text)
+                if m and badge_type != 'IN_STORE_PAST_DATE_RANGE':
+                    d_day = int(m.group(1))
+                    d_mon = int(m.group(2))
+                    d_date = date(today.year, d_mon, d_day)
+                    if d_date == today:
+                        chosen_range = ('ACTIVE_TODAY', datetime(today.year, d_mon, d_day, tzinfo=timezone.utc), datetime(today.year, d_mon, d_day, 23, 59, 59, tzinfo=timezone.utc))
+                    elif d_date > today and (d_date - today).days <= 14:
+                        chosen_range = ('FUTURE', datetime(today.year, d_mon, d_day, tzinfo=timezone.utc), datetime(today.year, d_mon, d_day, tzinfo=timezone.utc) + timedelta(days=3))
+
+            if not chosen_range:
                 continue
 
-            # Извлечение даты
-            m = re.search(r'(\d{1,2})\.(\d{1,2})', badge_text)
-            if not m:
-                continue
+            status, df, du = chosen_range
+            cy_from = (df + timedelta(hours=3)).date()
+            cy_until = (du + timedelta(hours=3)).date()
 
-            day = int(m.group(1))
-            month = int(m.group(2))
-            deal_date = date(today.year, month, day)
-
-            # Исключаем просроченные акции
-            if deal_date < today:
-                continue
-
-            weekday_str = WEEKDAYS_RU[deal_date.weekday()]
-            if deal_date == today:
-                formatted_date = f"⚡ Сегодня, {day:02d}.{month:02d} ({weekday_str})"
-            elif deal_date == today + timedelta(days=1):
-                formatted_date = f"⚡ Завтра, {day:02d}.{month:02d} ({weekday_str})"
+            if status == 'ACTIVE_TODAY':
+                until_weekday = WEEKDAYS_RU[cy_until.weekday()]
+                if cy_until == today:
+                    formatted_date = f"⚡ Только сегодня, {cy_until.strftime('%d.%m')} ({until_weekday})"
+                else:
+                    formatted_date = f"⚡ Действует сегодня (до {cy_until.strftime('%d.%m')} {until_weekday})"
+                status_order = 0
+                deal_date_iso = today.isoformat()
             else:
-                formatted_date = f"⚡ Только {day:02d}.{month:02d} ({weekday_str})"
-
-            title = clean_text(d.get('fullTitle') or d.get('title') or '')
-            if not title:
-                continue
+                from_weekday = WEEKDAYS_RU[cy_from.weekday()]
+                if cy_from == today + timedelta(days=1):
+                    formatted_date = f"⚡ Завтра, {cy_from.strftime('%d.%m')} ({from_weekday})"
+                else:
+                    formatted_date = f"⚡ с {cy_from.strftime('%d.%m')} ({from_weekday})"
+                status_order = 1
+                deal_date_iso = cy_from.isoformat()
 
             price_obj = d.get('price', {})
             item_price = price_obj.get('price')
@@ -510,7 +552,7 @@ def fetch_super_savers(country="CY", language="el"):
             canonical = d.get('canonicalPath') or d.get('canonicalUrl') or ''
             product_url = (base_url + canonical) if canonical.startswith('/') else canonical
 
-            dedup_key = (sku, title, str(deal_date))
+            dedup_key = (sku, title, deal_date_iso)
             if dedup_key in seen_products:
                 continue
             seen_products.add(dedup_key)
@@ -527,8 +569,9 @@ def fetch_super_savers(country="CY", language="el"):
                 "unit_price": base_price,
                 "image_url": image_url,
                 "formatted_date": formatted_date,
-                "raw_date": f"{day:02d}.{month:02d}",
-                "deal_date": deal_date.isoformat(),
+                "raw_date": cy_from.strftime('%d.%m'),
+                "deal_date": deal_date_iso,
+                "status_order": status_order,
                 "badge": badge_text,
                 "campaign": campaign_name,
                 "product_url": product_url,
@@ -537,7 +580,7 @@ def fetch_super_savers(country="CY", language="el"):
                 "erpNumber": erp_number
             })
 
-    super_savers.sort(key=lambda x: (x["deal_date"], x["title"]))
+    super_savers.sort(key=lambda x: (x["status_order"], x["deal_date"], x["title"]))
     return super_savers
 
 def find_super_saver_doubles(super_savers, family_coupons, country="CY", store_id="CY0119"):
@@ -608,6 +651,7 @@ def find_super_saver_doubles(super_savers, family_coupons, country="CY", store_i
                     "image_url": ss["image_url"],
                     "formatted_date": ss["formatted_date"],
                     "deal_date": ss["deal_date"],
+                    "status_order": ss.get("status_order", 0),
                     "badge": ss["badge"],
                     "campaign": ss["campaign"],
                     "product_url": ss["product_url"]
@@ -757,10 +801,12 @@ def export_web_data(coupons, store_offers, double_deals, super_savers=None, supe
                 "formatted_date": ss.get("formatted_date", ""),
                 "raw_date": ss.get("raw_date", ""),
                 "deal_date": ss.get("deal_date", ""),
+                "status_order": ss.get("status_order", 0),
                 "badge": ss.get("badge", ""),
                 "campaign": ss.get("campaign", ""),
                 "product_url": ss.get("product_url", "")
             })
+        web_super_savers.sort(key=lambda x: (x.get("status_order", 0), x["deal_date"], x["title"]))
 
     # 6. Пересечения Super Savers с купонами семьи
     web_super_doubles = []
@@ -770,7 +816,7 @@ def export_web_data(coupons, store_offers, double_deals, super_savers=None, supe
             key = (
                 d["sku"], d["title"], d["super_price"], d["super_discount"],
                 d["packaging"], d["unit_price"], d["image_url"],
-                d["formatted_date"], d["deal_date"], d["campaign"], d["product_url"]
+                d["formatted_date"], d["deal_date"], d.get("status_order", 0), d["campaign"], d["product_url"]
             )
             if key not in grouped_ss_doubles:
                 grouped_ss_doubles[key] = {
@@ -784,7 +830,7 @@ def export_web_data(coupons, store_offers, double_deals, super_savers=None, supe
                 grouped_ss_doubles[key]["final_prices"].append(d["final_price"])
 
         for key, info in grouped_ss_doubles.items():
-            sku, title, s_price, s_disc, pkg, u_price, img, f_date, d_date, camp, p_url = key
+            sku, title, s_price, s_disc, pkg, u_price, img, f_date, d_date, s_order, camp, p_url = key
             best_final_price = sorted(info["final_prices"])[0] if info["final_prices"] else s_price
             coupon_disc_str = ", ".join(sorted(info["coupons"]))
             web_super_doubles.append({
@@ -799,11 +845,12 @@ def export_web_data(coupons, store_offers, double_deals, super_savers=None, supe
                 "image_url": img,
                 "formatted_date": f_date,
                 "deal_date": d_date,
+                "status_order": s_order,
                 "campaign": camp,
                 "product_url": p_url,
                 "owners": sorted(list(info["owners"]))
             })
-        web_super_doubles.sort(key=lambda x: (x["deal_date"], x["title"]))
+        web_super_doubles.sort(key=lambda x: (x.get("status_order", 0), x["deal_date"], x["title"]))
 
     now = datetime.now()
     now_str = now.strftime("%d.%m.%Y %H:%M")
