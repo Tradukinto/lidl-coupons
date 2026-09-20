@@ -469,8 +469,8 @@ body {
 /* Navigation Tabs */
 .nav-tabs {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 3px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2px;
   padding-bottom: 8px;
 }
 
@@ -478,13 +478,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  padding: 7px 1px;
+  gap: 1.5px;
+  padding: 6px 1px;
   border: none;
   background: none;
   border-radius: 8px;
   color: var(--hint-color);
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
   cursor: pointer;
   position: relative;
@@ -494,16 +494,16 @@ body {
 
 @media (max-width: 420px) {
   .tab-btn {
-    font-size: 9.5px;
-    gap: 1.5px;
-    padding: 6px 1px;
+    font-size: 8.5px;
+    gap: 1px;
+    padding: 5px 0.5px;
   }
   .tab-icon {
-    font-size: 11px;
+    font-size: 10px;
   }
   .tab-badge {
-    font-size: 8.5px;
-    padding: 0 3px;
+    font-size: 7.5px;
+    padding: 0 2px;
   }
 }
 
@@ -788,6 +788,38 @@ body {
   background-color: #fef3c7;
   color: #b45309;
   font-weight: 700;
+}
+
+.tag-super {
+  background-color: #fef08a;
+  color: #854d0e;
+  font-weight: 700;
+}
+
+.tag-super-date {
+  background: linear-gradient(135deg, #fef08a, #facc15);
+  color: #713f12;
+  font-weight: 800;
+  border: 1px solid rgba(234, 179, 8, 0.4);
+  box-shadow: 0 1px 3px rgba(234, 179, 8, 0.2);
+}
+
+.tag-super-campaign {
+  background-color: var(--bg-color);
+  color: var(--hint-color);
+  font-size: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tag-super {
+    background-color: #451a03;
+    color: #fef08a;
+  }
+  .tag-super-date {
+    background: linear-gradient(135deg, #713f12, #854d0e);
+    color: #fef08a;
+    border-color: rgba(250, 204, 21, 0.3);
+  }
 }
 
 /* Owner Pill */

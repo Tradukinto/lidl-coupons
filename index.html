@@ -9,7 +9,7 @@
   <title>Lidl Пафос — Скидки и Купоны семьи</title>
   <!-- Telegram Web App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css?v=2.6">
+  <link rel="stylesheet" href="style.css?v=2.7">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
         <div class="brand">
           <span class="lidl-logo">LIDL</span>
           <span class="badge-plus">+ Семья</span>
-          <span class="version-tag">v2.6</span>
+          <span class="version-tag">v2.7</span>
         </div>
         <div class="store-tag" id="store-title">Пафос • Tombs of the Kings</div>
       </div>
@@ -61,6 +61,11 @@
           <span class="tab-icon">🎟</span>
           <span class="tab-label">Купоны</span>
           <span class="tab-badge" id="badge-coupons">0</span>
+        </button>
+        <button class="tab-btn" data-tab="super">
+          <span class="tab-icon">⚡</span>
+          <span class="tab-label">Super</span>
+          <span class="tab-badge" id="badge-super">0</span>
         </button>
         <button class="tab-btn" data-tab="store">
           <span class="tab-icon">🛒</span>
@@ -163,6 +168,22 @@
         </div>
         <button class="chips-arrow chips-arrow-right" id="cat-arrow-right" title="Вперед" aria-label="Вперед">›</button>
       </div>
+
+      <!-- Super Savers Filter Chips (Secondary Sub-Row - Shown only when 'Super' is active) -->
+      <div class="family-chips-wrapper hidden" id="super-chips-container">
+        <div class="family-chips" id="super-chips" style="justify-content: center; gap: 8px;">
+          <button class="chip chip-super active" data-super="all">
+            <span class="chip-avatar">⚡</span>
+            <span class="chip-name">Все</span>
+            <span class="chip-count" id="super-count-all">0</span>
+          </button>
+          <button class="chip chip-super chip-shared" data-super="combos">
+            <span class="chip-avatar">✨</span>
+            <span class="chip-name">Пересечения</span>
+            <span class="chip-count" id="super-count-combos">0</span>
+          </button>
+        </div>
+      </div>
     </header>
 
     <!-- Main Content List -->
@@ -196,6 +217,6 @@
     <div id="toast" class="toast hidden"></div>
   </div>
 
-  <script src="app.js?v=2.6"></script>
+  <script src="app.js?v=2.7"></script>
 </body>
 </html>
