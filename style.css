@@ -204,11 +204,25 @@ body {
   min-width: 0;
 }
 
+.monetary-title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
 .monetary-title {
   font-size: 13px;
   font-weight: 700;
   color: #137333;
   line-height: 1.2;
+}
+
+#monetary-date {
+  font-size: 10px;
+  padding: 1px 7px;
+  font-weight: 700;
+  border-radius: 6px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -220,10 +234,8 @@ body {
 .monetary-sub {
   font-size: 11px;
   color: var(--hint-color);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-top: 1px;
+  margin-top: 2px;
+  line-height: 1.2;
 }
 
 .monetary-action {
