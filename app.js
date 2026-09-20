@@ -368,6 +368,27 @@
     return list;
   }
 
+  let lastCheckedTime = null;
+
+  function formatBaseTime(isoStr, fallbackStr) {
+    if (isoStr) {
+      try {
+        const d = new Date(isoStr);
+        if (!isNaN(d.getTime())) {
+          const now = new Date();
+          const isToday = d.toDateString() === now.toDateString();
+          const timeStr = d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+          if (isToday) {
+            return `Сегодня в ${timeStr}`;
+          }
+          const dateStr = d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
+          return `${dateStr} в ${timeStr}`;
+        }
+      } catch (e) {}
+    }
+    return fallbackStr || '';
+  }
+
   // Load data.json
   async function loadData(isUserClick = false) {
     if (refreshBtn) refreshBtn.classList.add('rotating');
@@ -384,12 +405,17 @@
       fullData = await res.json();
       cachedUnifiedCategoryItems = null;
 
+      if (isUserClick) {
+        lastCheckedTime = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+      }
+
       updateHeader();
       updateSubRowsVisibility();
       renderCurrentList();
 
       if (isUserClick) {
-        showToast(`✓ Синхронизировано (${fullData.generated_at_str || 'сейчас'})`);
+        const baseTime = formatBaseTime(fullData.generated_at, fullData.generated_at_str) || 'актуально';
+        showToast(`✓ База проверена в ${lastCheckedTime} (каталог: ${baseTime})`);
       }
     } catch (err) {
       console.error('Ошибка загрузки данных:', err);
@@ -407,8 +433,13 @@
 
   function updateHeader() {
     loadingSpinner.classList.add('hidden');
-    if (fullData.generated_at_str) {
-      updateTimeEl.textContent = `Обновлено: ${fullData.generated_at_str}`;
+    const baseTime = formatBaseTime(fullData.generated_at, fullData.generated_at_str);
+    if (baseTime) {
+      if (lastCheckedTime) {
+        updateTimeEl.textContent = `Обновлено: ${baseTime} (проверено в ${lastCheckedTime})`;
+      } else {
+        updateTimeEl.textContent = `Обновлено: ${baseTime}`;
+      }
     }
     if (badgeDouble) badgeDouble.textContent = fullData.double_deals?.length || 0;
     if (badgeCoupons) badgeCoupons.textContent = fullData.family_coupons?.length || 0;
@@ -459,7 +490,8 @@
       const first = monetaryList[0];
       const allOwners = Array.from(new Set(monetaryList.map(m => m.owner))).join(', ');
       monetaryTitle.textContent = `Скидка на чек: ${first.discount} (аккаунт ${allOwners})`;
-      monetarySub.textContent = `Скидка снимется со всего чека при сканировании карты на кассе`;
+      const valStr = first.validity_str ? ` • ${first.validity_str}` : '';
+      monetarySub.textContent = `Скидка снимется со всего чека при сканировании карты на кассе${valStr}`;
       monetaryBadge.textContent = allOwners;
     } else if (monetaryBanner) {
       monetaryBanner.classList.add('hidden');
@@ -708,7 +740,10 @@
       final_pack_price: found.final_pack_price || found.pack_price || '-',
       packaging: found.packaging || '',
       owners: found.owners || [],
-      image_url: found.image_url || ''
+      image_url: found.image_url || '',
+      formatted_date: found.formatted_date || '',
+      validity_str: found.validity_str || '',
+      is_expiring_today: found.is_expiring_today || false
     };
   }
 
@@ -759,6 +794,7 @@
       <div class="card-tags">
         ${item.store_discount ? `<span class="tag tag-store">🛒 ${item.store_discount}</span>` : ''}
         ${item.coupon_discount ? `<span class="tag tag-coupon">🎟 ${item.coupon_discount}</span>` : ''}
+        ${item.validity_str ? `<span class="tag tag-coupon-date ${item.is_expiring_today ? 'tag-coupon-expiring' : ''}">${item.validity_str}</span>` : ''}
         ${item.packaging ? `<span class="tag" style="background:var(--bg-color); color:var(--hint-color);">${item.packaging}</span>` : ''}
         ${renderOwners(item.owners)}
       </div>
@@ -809,6 +845,7 @@
       </div>
       <div class="card-tags">
         <span class="tag tag-coupon">${isMonetary ? '💶 На чек: ' : '🎟 '}${item.discount}</span>
+        ${item.validity_str ? `<span class="tag tag-coupon-date ${item.is_expiring_today ? 'tag-coupon-expiring' : ''}">${item.validity_str}</span>` : ''}
         ${item.is_shared ? `<span class="tag tag-shared">⭐ Совпадение (${item.owners.length})</span>` : ''}
         ${renderOwners(item.owners)}
       </div>
@@ -939,7 +976,9 @@
       ? `<span class="tag tag-super">⚡ Super Savers</span>`
       : `<span class="tag tag-store">🛒 Daily Savers</span>`;
 
-    const dateTag = item.formatted_date ? `<span class="tag tag-super-date">${item.formatted_date}</span>` : '';
+    const dateTag = item.formatted_date 
+      ? `<span class="tag tag-super-date">${item.formatted_date}</span>` 
+      : (item.validity_str ? `<span class="tag tag-coupon-date ${item.is_expiring_today ? 'tag-coupon-expiring' : ''}">${item.validity_str}</span>` : '');
 
     return `
       <div class="fav-card-row">

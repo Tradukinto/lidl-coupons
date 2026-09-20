@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-20T15:15:13.539834",
-  "generated_at_str": "20.09.2026 15:15",
+  "generated_at": "2026-09-20T15:39:37.856066+03:00",
+  "generated_at_str": "20.09.2026 15:39",
   "store": {
     "id": "CY0119",
     "name": "Pafos / Touristika (Tombs of the Kings 104)",
@@ -27,7 +27,9 @@
       "discount": "1€",
       "owner": "Сева",
       "description": "Скидка на всю сумму покупки при сканировании карты Lidl Plus",
-      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/55d34732-c9b9-45dd-a28f-0c4b654b51b6.png?t=1787059437"
+      "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/55d34732-c9b9-45dd-a28f-0c4b654b51b6.png?t=1787059437",
+      "validity_str": "до 30.09 (Ср)",
+      "valid_until": "2026-09-30"
     }
   ],
   "double_deals": [
@@ -44,7 +46,10 @@
       "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/8aa0c2e6-ce81-440e-a3b0-88528ee96666.jpeg?t=1788516813",
       "owners": [
         "Вова"
-      ]
+      ],
+      "validity_str": "до 23.09 (Ср)",
+      "valid_until": "2026-09-23",
+      "is_expiring_today": false
     },
     {
       "sku": "6203668",
@@ -59,7 +64,10 @@
       "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/4d80f5a7-8f28-49c3-af87-a3036130f49a.jpeg?t=1789127280",
       "owners": [
         "Света"
-      ]
+      ],
+      "validity_str": "до 23.09 (Ср)",
+      "valid_until": "2026-09-23",
+      "is_expiring_today": false
     },
     {
       "sku": "0038893",
@@ -74,7 +82,10 @@
       "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/89e47a36-27dc-4564-88cc-2ae9013c9ed3.jpeg?t=1789127260",
       "owners": [
         "Влада"
-      ]
+      ],
+      "validity_str": "до 23.09 (Ср)",
+      "valid_until": "2026-09-23",
+      "is_expiring_today": false
     },
     {
       "sku": "0000001",
@@ -90,7 +101,10 @@
       "owners": [
         "Вова",
         "Сева"
-      ]
+      ],
+      "validity_str": "до 23.09 (Ср)",
+      "valid_until": "2026-09-23",
+      "is_expiring_today": false
     },
     {
       "sku": "0082586",
@@ -105,7 +119,10 @@
       "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/f47f8f5f-4fee-4753-98c7-63c6fb6cb28c.jpeg?t=1789127288",
       "owners": [
         "Вова"
-      ]
+      ],
+      "validity_str": "до 23.09 (Ср)",
+      "valid_until": "2026-09-23",
+      "is_expiring_today": false
     },
     {
       "sku": "0082586",
@@ -120,7 +137,10 @@
       "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/f47f8f5f-4fee-4753-98c7-63c6fb6cb28c.jpeg?t=1789127288",
       "owners": [
         "Света"
-      ]
+      ],
+      "validity_str": "до 23.09 (Ср)",
+      "valid_until": "2026-09-23",
+      "is_expiring_today": false
     },
     {
       "sku": "0080475",
@@ -136,7 +156,10 @@
       "owners": [
         "Влада",
         "Вова"
-      ]
+      ],
+      "validity_str": "до 23.09 (Ср)",
+      "valid_until": "2026-09-23",
+      "is_expiring_today": false
     },
     {
       "sku": "0080475",
@@ -151,7 +174,10 @@
       "image_url": "https://static-coupons.lidlplus.com/images/promotions/CY/20becb2e-29bd-48d9-83fa-b30c0f246b33.jpeg?t=1789127292",
       "owners": [
         "Влада"
-      ]
+      ],
+      "validity_str": "до 23.09 (Ср)",
+      "valid_until": "2026-09-23",
+      "is_expiring_today": false
     }
   ],
   "family_coupons": [
@@ -165,7 +191,12 @@
         "Вова"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Almond Bar",
@@ -179,7 +210,12 @@
         "Сева"
       ],
       "is_shared": true,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-13",
+      "valid_until": "2026-09-20",
+      "validity_str": "⏳ До сегодня (20.09 Вс)",
+      "is_expiring_soon": true,
+      "is_expiring_today": true
     },
     {
       "title": "Bananas",
@@ -191,7 +227,12 @@
         "Вова"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-18",
+      "valid_until": "2026-09-24",
+      "validity_str": "до 24.09 (Чт)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Cabanossi Air Dried Salami",
@@ -203,7 +244,12 @@
         "Света"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Carbonated Mineral Water",
@@ -215,7 +261,12 @@
         "Вова"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Cheese Slices",
@@ -227,7 +278,12 @@
         "Влада"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Creamy Fruit Dessert",
@@ -239,7 +295,12 @@
         "Влада"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Discount!",
@@ -251,7 +312,12 @@
         "Сева"
       ],
       "is_shared": false,
-      "is_monetary": true
+      "is_monetary": true,
+      "valid_from": "2026-09-13",
+      "valid_until": "2026-09-30",
+      "validity_str": "до 30.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Edam Slices",
@@ -263,7 +329,12 @@
         "Влада"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Emmental Slices",
@@ -275,7 +346,12 @@
         "Влада"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Free Range Medium Eggs",
@@ -287,7 +363,12 @@
         "Света"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Fresh Anari",
@@ -299,7 +380,12 @@
         "Сева"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Fried Peppers",
@@ -311,7 +397,12 @@
         "Вова"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Fruit Yoghurt 3,8% fat",
@@ -323,7 +414,12 @@
         "Света"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Gouda Slices",
@@ -335,7 +431,12 @@
         "Влада"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Granny Smith Green apples",
@@ -348,7 +449,12 @@
         "Сева"
       ],
       "is_shared": true,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Greek bread ring",
@@ -360,7 +466,12 @@
         "Света"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Green peppers",
@@ -372,7 +483,12 @@
         "Света"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Kinder Bueno Chocolate",
@@ -384,7 +500,12 @@
         "Света"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Kiwis",
@@ -396,7 +517,12 @@
         "Сева"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Laser Distance Meter 50m",
@@ -409,7 +535,12 @@
         "Сева"
       ],
       "is_shared": true,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Lemon Ice Tea",
@@ -421,7 +552,12 @@
         "Вова"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Limes",
@@ -433,7 +569,12 @@
         "Сева"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "MSC Fish Fingers",
@@ -445,7 +586,12 @@
         "Вова"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Mild Cheddar Cheese",
@@ -457,7 +603,12 @@
         "Влада"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Mini Brezels",
@@ -469,7 +620,12 @@
         "Сева"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Mixed Burgers Pork & Beef",
@@ -481,7 +637,12 @@
         "Вова"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Multiseed Bread Sticks",
@@ -493,7 +654,12 @@
         "Сева"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Natural Apple Juice",
@@ -505,7 +671,12 @@
         "Света"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Natural Mineral Water",
@@ -518,7 +689,12 @@
         "Сева"
       ],
       "is_shared": true,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Nectarines",
@@ -530,7 +706,12 @@
         "Вова"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "On household paper",
@@ -542,7 +723,12 @@
         "Сева"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-15",
+      "valid_until": "2026-09-21",
+      "validity_str": "⏳ До завтра (21.09 Пн)",
+      "is_expiring_soon": true,
+      "is_expiring_today": false
     },
     {
       "title": "Peaches",
@@ -556,7 +742,12 @@
         "Сева"
       ],
       "is_shared": true,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Peaches",
@@ -568,7 +759,12 @@
         "Света"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Roasted & Salted Peanuts",
@@ -580,7 +776,12 @@
         "Света"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Roasted hazelnuts",
@@ -592,7 +793,12 @@
         "Вова"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Russian Salad",
@@ -604,7 +810,12 @@
         "Света"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Rustik Baquette",
@@ -616,7 +827,12 @@
         "Сева"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Sliced Edam Cheese",
@@ -628,7 +844,12 @@
         "Влада"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Strained Yoghurt 10%",
@@ -641,7 +862,12 @@
         "Сева"
       ],
       "is_shared": true,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Sugar Free Chewing Gums",
@@ -653,7 +879,12 @@
         "Влада"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Tomatoes on a twig",
@@ -667,7 +898,12 @@
         "Сева"
       ],
       "is_shared": true,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "White grapes seedless",
@@ -679,7 +915,12 @@
         "Вова"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "White grapes seedless",
@@ -691,7 +932,12 @@
         "Влада"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "White grapes seedless",
@@ -703,7 +949,12 @@
         "Влада"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     },
     {
       "title": "Whole Wheat Baquette",
@@ -715,7 +966,12 @@
         "Сева"
       ],
       "is_shared": false,
-      "is_monetary": false
+      "is_monetary": false,
+      "valid_from": "2026-09-17",
+      "valid_until": "2026-09-23",
+      "validity_str": "до 23.09 (Ср)",
+      "is_expiring_soon": false,
+      "is_expiring_today": false
     }
   ],
   "store_offers": [
@@ -4042,7 +4298,7 @@
       "discount": "",
       "packaging": "Κάθε συσκευασία",
       "unit_price": "",
-      "image_url": "https://www.lidl.com.cy/assets/gcpe949aa499866450ba1f1799f20cf1b78.png",
+      "image_url": "https://www.lidl.com.cy/assets/gcp3cf67ef6292a4919b2330356a2a3b43f.png",
       "formatted_date": "⚡ Завтра, 21.09 (Пн)",
       "raw_date": "21.09",
       "deal_date": "2026-09-21",
