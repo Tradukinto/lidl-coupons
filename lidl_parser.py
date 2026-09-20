@@ -108,6 +108,65 @@ def calc_final_unit_price_after_coupon(store_unit_price, coupon_disc_str):
         return round(store_unit_price * (1.0 - pct / 100.0), 2)
     return store_unit_price
 
+def parse_validity_dates(validity_dict):
+    """Парсинг дат действия купона в часовом поясе Кипра (UTC+3)"""
+    if not validity_dict or not isinstance(validity_dict, dict):
+        return {
+            "valid_from": "",
+            "valid_until": "",
+            "validity_str": "",
+            "is_expiring_soon": False,
+            "is_expiring_today": False
+        }
+
+    start_str = validity_dict.get("start") or ""
+    end_str = validity_dict.get("end") or ""
+
+    today = date.today()
+    cy_from_date = None
+    cy_until_date = None
+
+    if start_str:
+        try:
+            dt_s = datetime.fromisoformat(start_str.replace("Z", "+00:00"))
+            cy_from_date = (dt_s + timedelta(hours=3)).date()
+        except Exception:
+            pass
+
+    if end_str:
+        try:
+            dt_e = datetime.fromisoformat(end_str.replace("Z", "+00:00"))
+            cy_until_date = (dt_e + timedelta(hours=3)).date()
+        except Exception:
+            pass
+
+    validity_str = ""
+    is_expiring_soon = False
+    is_expiring_today = False
+
+    if cy_until_date:
+        weekday = WEEKDAYS_RU[cy_until_date.weekday()]
+        d_str = cy_until_date.strftime("%d.%m")
+        if cy_until_date < today:
+            validity_str = f"Завершен {d_str}"
+        elif cy_until_date == today:
+            validity_str = f"⏳ До сегодня ({d_str} {weekday})"
+            is_expiring_soon = True
+            is_expiring_today = True
+        elif cy_until_date == today + timedelta(days=1):
+            validity_str = f"⏳ До завтра ({d_str} {weekday})"
+            is_expiring_soon = True
+        else:
+            validity_str = f"до {d_str} ({weekday})"
+
+    return {
+        "valid_from": cy_from_date.isoformat() if cy_from_date else "",
+        "valid_until": cy_until_date.isoformat() if cy_until_date else "",
+        "validity_str": validity_str,
+        "is_expiring_soon": is_expiring_soon,
+        "is_expiring_today": is_expiring_today
+    }
+
 def load_config():
     """Загрузка конфигурации из переменной окружения LIDL_CONFIG_JSON или локального config.json"""
     env_cfg = os.environ.get("LIDL_CONFIG_JSON")
@@ -253,7 +312,8 @@ def process_accounts(config):
                     "У кого": name,
                     "Статус": "Активирован" if is_activated else "Не активен",
                     "promotionId": catalog_promo_id,
-                    "imageUrl": image_url
+                    "imageUrl": image_url,
+                    "validity": promo.get("validity", {})
                 })
 
         except Exception as e:
@@ -402,7 +462,8 @@ def find_double_discounts(store_offers, family_coupons, country="CY", store_id="
                     "imageUrl": offer_img or coupon_img,
                     "store_unit_price": store_unit_price_str,
                     "coupon_title": c_title,
-                    "coupon_disc": c_disc
+                    "coupon_disc": c_disc,
+                    "validity": c.get("validity", {})
                 })
 
     return double_deals
@@ -676,12 +737,18 @@ def export_web_data(coupons, store_offers, double_deals, super_savers=None, supe
             d["Цена в магазине"], d["store_unit_price"], d["Фасовка"], d["imageUrl"]
         )
         if key not in grouped_double:
-            grouped_double[key] = set()
-        grouped_double[key].add(d["У кого купон"])
+            grouped_double[key] = {
+                "owners": set(),
+                "validity": d.get("validity", {})
+            }
+        grouped_double[key]["owners"].add(d["У кого купон"])
+        if not grouped_double[key]["validity"] and d.get("validity"):
+            grouped_double[key]["validity"] = d["validity"]
 
     web_double_deals = []
-    for key, owners in grouped_double.items():
+    for key, info in grouped_double.items():
         sku, title, s_disc, c_disc, f_unit, f_pack, s_pack, s_unit, pkg, img = key
+        v_info = parse_validity_dates(info.get("validity", {}))
         web_double_deals.append({
             "sku": sku,
             "title": title,
@@ -693,7 +760,10 @@ def export_web_data(coupons, store_offers, double_deals, super_savers=None, supe
             "store_unit_price": s_unit,
             "packaging": pkg,
             "image_url": img,
-            "owners": sorted(list(owners))
+            "owners": sorted(list(info["owners"])),
+            "validity_str": v_info["validity_str"],
+            "valid_until": v_info["valid_until"],
+            "is_expiring_today": v_info["is_expiring_today"]
         })
     web_double_deals.sort(key=lambda x: x["title"])
 
@@ -718,11 +788,16 @@ def export_web_data(coupons, store_offers, double_deals, super_savers=None, supe
     for c in coupons:
         key = (c["Товар"], c["Скидка"], c.get("promotionId", ""), c.get("imageUrl", ""))
         if key not in grouped_coupons:
-            grouped_coupons[key] = set()
-        grouped_coupons[key].add(c["У кого"])
+            grouped_coupons[key] = {
+                "owners": set(),
+                "validity": c.get("validity", {})
+            }
+        grouped_coupons[key]["owners"].add(c["У кого"])
+        if not grouped_coupons[key]["validity"] and c.get("validity"):
+            grouped_coupons[key]["validity"] = c["validity"]
 
     web_family_coupons = []
-    for (title, disc, p_id, img), owners in grouped_coupons.items():
+    for (title, disc, p_id, img), info in grouped_coupons.items():
         sku_val = sku_cache.get(p_id, "")
         unit_price = ""
         if (title, disc) in match_map:
@@ -732,15 +807,21 @@ def export_web_data(coupons, store_offers, double_deals, super_savers=None, supe
             unit_price = m_uprice
 
         is_monetary = bool("€" in disc and "%" not in disc)
+        v_info = parse_validity_dates(info.get("validity", {}))
         web_family_coupons.append({
             "title": title,
             "discount": disc,
             "sku": sku_val,
             "unit_price": unit_price,
             "image_url": img,
-            "owners": sorted(list(owners)),
-            "is_shared": len(owners) >= 2,
-            "is_monetary": is_monetary
+            "owners": sorted(list(info["owners"])),
+            "is_shared": len(info["owners"]) >= 2,
+            "is_monetary": is_monetary,
+            "valid_from": v_info["valid_from"],
+            "valid_until": v_info["valid_until"],
+            "validity_str": v_info["validity_str"],
+            "is_expiring_soon": v_info["is_expiring_soon"],
+            "is_expiring_today": v_info["is_expiring_today"]
         })
     web_family_coupons.sort(key=lambda x: x["title"])
 
@@ -776,12 +857,15 @@ def export_web_data(coupons, store_offers, double_deals, super_savers=None, supe
         disc = clean_text(c.get("Скидка", ""))
         title = clean_text(c.get("Товар", "Скидка на чек"))
         if "€" in disc and "%" not in disc:
+            v_info = parse_validity_dates(c.get("validity", {}))
             web_monetary_coupons.append({
                 "title": f"Скидка {disc} на весь чек",
                 "discount": disc,
                 "owner": c.get("У кого", ""),
                 "description": "Скидка на всю сумму покупки при сканировании карты Lidl Plus",
-                "image_url": c.get("imageUrl", "")
+                "image_url": c.get("imageUrl", ""),
+                "validity_str": v_info["validity_str"],
+                "valid_until": v_info["valid_until"]
             })
 
     # 5. Специальные акции Super Savers
@@ -852,7 +936,8 @@ def export_web_data(coupons, store_offers, double_deals, super_savers=None, supe
             })
         web_super_doubles.sort(key=lambda x: (x.get("status_order", 0), x["deal_date"], x["title"]))
 
-    now = datetime.now()
+    cy_tz = timezone(timedelta(hours=3))
+    now = datetime.now(cy_tz)
     now_str = now.strftime("%d.%m.%Y %H:%M")
 
     payload = {
