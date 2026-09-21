@@ -9,7 +9,7 @@
   <title>Lidl Пафос — Скидки и Купоны семьи</title>
   <!-- Telegram Web App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css?v=2.8.1">
+  <link rel="stylesheet" href="style.css?v=2.8.2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,15 +22,18 @@
         <div class="brand">
           <span class="lidl-logo">LIDL</span>
           <span class="badge-plus">+ Семья</span>
-          <span class="version-tag">v2.8.1</span>
+          <span class="version-tag">v2.8.2</span>
         </div>
-        <div class="store-tag" id="store-title">Пафос • Tombs of the Kings</div>
+        <div class="header-actions">
+          <div class="store-tag" id="store-title" title="Филиал Lidl: Tombs of the Kings 104, Пафос">Пафос • Tombs of the Kings</div>
+          <button id="help-btn" class="help-btn" title="Справка: возможности приложения и инструкция" aria-label="Справка">?</button>
+        </div>
       </div>
       
       <div class="update-bar">
         <span class="status-dot"></span>
         <span id="update-time">Загрузка данных...</span>
-        <button id="refresh-btn" class="icon-btn" title="Обновить с сервера">↻</button>
+        <button id="refresh-btn" class="icon-btn" title="Проверить обновление каталога на сервере">↻</button>
       </div>
 
       <!-- Monetary Discount Banner (Euro Coupons) -->
@@ -43,49 +46,49 @@
           </div>
           <div class="monetary-sub" id="monetary-sub">Скидка со всего чека при покупке</div>
         </div>
-        <div class="monetary-action" id="monetary-badge">Сева</div>
+        <div class="monetary-action" id="monetary-badge" title="У кого из членов семьи активен купон">Сева</div>
       </div>
 
       <!-- Search Bar -->
       <div class="search-box">
         <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" placeholder="Поиск товара, категории или кода SKU..." autocomplete="off">
-        <button id="clear-search" class="clear-btn hidden">✕</button>
+        <input type="text" id="search-input" placeholder="Поиск товара, категории или кода SKU..." autocomplete="off" title="Быстрый поиск по названию или коду товара">
+        <button id="clear-search" class="clear-btn hidden" title="Очистить поиск">✕</button>
       </div>
 
       <!-- Navigation Tabs (Primary Row) -->
       <nav class="nav-tabs">
-        <button class="tab-btn active" data-tab="double">
+        <button class="tab-btn active" data-tab="double" title="Двойные комбо-скидки: магазин + купон семьи">
           <span class="tab-icon">🔥</span>
           <span class="tab-label">Комбо</span>
           <span class="tab-badge" id="badge-double">0</span>
         </button>
-        <button class="tab-btn" data-tab="coupons">
+        <button class="tab-btn" data-tab="coupons" title="Персональные купоны семьи (активируются автоматически)">
           <span class="tab-icon">🎟</span>
           <span class="tab-label">Купоны</span>
           <span class="tab-badge" id="badge-coupons">0</span>
         </button>
-        <button class="tab-btn" data-tab="super">
+        <button class="tab-btn" data-tab="super" title="Супер-скидки одного дня (Great Deals)">
           <span class="tab-icon">⚡</span>
           <span class="tab-label">Super</span>
           <span class="tab-badge" id="badge-super">0</span>
         </button>
-        <button class="tab-btn" data-tab="store">
+        <button class="tab-btn" data-tab="store" title="Еженедельные акции магазина в Пафосе">
           <span class="tab-icon">🛒</span>
           <span class="tab-label">Daily Savers</span>
           <span class="tab-badge" id="badge-store">0</span>
         </button>
-        <button class="tab-btn" data-tab="categories">
+        <button class="tab-btn" data-tab="categories" title="Каталог по категориям товаров">
           <span class="tab-icon">🏷</span>
           <span class="tab-label">Категории</span>
           <span class="tab-badge" id="badge-categories">0</span>
         </button>
-        <button class="tab-btn" data-tab="favs">
+        <button class="tab-btn" data-tab="favs" title="Список покупок для похода в магазин">
           <span class="tab-icon">⭐</span>
           <span class="tab-label">Список</span>
           <span class="tab-badge" id="badge-favs">0</span>
         </button>
-        <button class="tab-btn" data-tab="radar">
+        <button class="tab-btn" data-tab="radar" title="Отслеживание нужных товаров и уведомления бота">
           <span class="tab-icon">🔔</span>
           <span class="tab-label">Радар</span>
           <span class="tab-badge" id="badge-radar">0</span>
@@ -279,10 +282,93 @@
     <!-- Scroll to Top Button -->
     <button id="scroll-top-btn" class="scroll-top-btn hidden" title="Наверх">↑</button>
 
+    <!-- Help / Guide Modal -->
+    <div id="help-modal" class="modal-backdrop hidden">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <div class="modal-title">
+            <span class="modal-title-icon">📖</span>
+            <h3>Возможности приложения Lidl</h3>
+          </div>
+          <button id="modal-close-btn" class="modal-close-btn" title="Закрыть справку" aria-label="Закрыть">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="help-section">
+            <div class="help-item">
+              <div class="help-icon">🔥</div>
+              <div class="help-text">
+                <strong>Комбо (Двойная выгода)</strong>
+                <p>Товары, где скидка магазина суммируется с купоном семьи. Рассчитана точная цена за 1 кг/л и указано имя владельца купона.</p>
+              </div>
+            </div>
+
+            <div class="help-item">
+              <div class="help-icon">🎟</div>
+              <div class="help-text">
+                <strong>Купоны семьи</strong>
+                <p>Все персональные купоны 4 аккаунтов (Вова, Света, Влада, Сева). Купоны активируются автоматически. Подсвечены совпадения и срок действия.</p>
+              </div>
+            </div>
+
+            <div class="help-item">
+              <div class="help-icon">⚡</div>
+              <div class="help-text">
+                <strong>Супер-день (Great Deals)</strong>
+                <p>Однодневные супер-акции Lidl. Переключайтесь между днями недели и смотрите пересечения с семейными купонами на вкладке «Пересечения».</p>
+              </div>
+            </div>
+
+            <div class="help-item">
+              <div class="help-icon">🛒</div>
+              <div class="help-text">
+                <strong>Акции магазина</strong>
+                <p>Все регулярные акции недели магазина в Пафосе (Tombs of the Kings). Удобная группировка по категориям и коды артикулов (SKU).</p>
+              </div>
+            </div>
+
+            <div class="help-item">
+              <div class="help-icon">🔔</div>
+              <div class="help-text">
+                <strong>Радар и Telegram-бот</strong>
+                <p>Отслеживайте любые товары (йогурт, лосось, сыр, Parkside). Бот <a href="https://t.me/lidlcouponsbot" target="_blank">@lidlcouponsbot</a> мгновенно пришлёт сообщение семье, как только появится скидка.</p>
+              </div>
+            </div>
+
+            <div class="help-item">
+              <div class="help-icon">⭐</div>
+              <div class="help-text">
+                <strong>Список покупок</strong>
+                <p>Нажимайте на звёздочку ☆ на карточках товаров, чтобы составить список перед походом в Lidl. В магазине вычеркивайте купленное в 1 клик.</p>
+              </div>
+            </div>
+
+            <div class="help-item">
+              <div class="help-icon">💶</div>
+              <div class="help-text">
+                <strong>Денежный евро-купон</strong>
+                <p>Верхний баннер показывает персональный денежный купон на кассе (например, 1€ на весь чек) с точной датой окончания.</p>
+              </div>
+            </div>
+
+            <div class="help-item">
+              <div class="help-icon">↻</div>
+              <div class="help-text">
+                <strong>Проверка обновления</strong>
+                <p>Нажмите ↻ в строке под логотипом, чтобы быстро опросить сервер. В строке фиксируется точное время последней проверки.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="modal-ok-btn" class="modal-action-btn" title="Закрыть окно справки">Понятно</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Toast Notification -->
     <div id="toast" class="toast hidden"></div>
   </div>
 
-  <script src="app.js?v=2.8.1"></script>
+  <script src="app.js?v=2.8.2"></script>
 </body>
 </html>

@@ -77,6 +77,10 @@
   const categoryChipsScroll = document.getElementById('category-chips-scroll');
   const catArrowLeft = document.getElementById('cat-arrow-left');
   const catArrowRight = document.getElementById('cat-arrow-right');
+  const helpBtn = document.getElementById('help-btn');
+  const helpModal = document.getElementById('help-modal');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  const modalOkBtn = document.getElementById('modal-ok-btn');
 
   // Update navigation arrows visibility for family chips
   function updateFamilyScrollArrows() {
@@ -923,6 +927,43 @@
         addTrackedItem(query);
       });
     });
+
+    // Help Modal listeners
+    if (helpBtn) {
+      helpBtn.addEventListener('click', openHelpModal);
+    }
+    if (modalCloseBtn) {
+      modalCloseBtn.addEventListener('click', closeHelpModal);
+    }
+    if (modalOkBtn) {
+      modalOkBtn.addEventListener('click', closeHelpModal);
+    }
+    if (helpModal) {
+      helpModal.addEventListener('click', (e) => {
+        if (e.target === helpModal) {
+          closeHelpModal();
+        }
+      });
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && helpModal && !helpModal.classList.contains('hidden')) {
+        closeHelpModal();
+      }
+    });
+  }
+
+  function openHelpModal() {
+    if (!helpModal) return;
+    helpModal.classList.remove('hidden');
+    haptic('medium');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeHelpModal() {
+    if (!helpModal) return;
+    helpModal.classList.add('hidden');
+    haptic('light');
+    document.body.style.overflow = '';
   }
 
   let lastCheckedTime = null;
