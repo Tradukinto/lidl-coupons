@@ -1278,6 +1278,12 @@ body {
   color: var(--text-color);
 }
 
+.radar-tracked-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .radar-reset-btn {
   background: none;
   border: none;
