@@ -88,6 +88,25 @@ def send_telegram_message(bot_token, chat_id, text, parse_mode="HTML"):
         print(f"⚠️ Ошибка отправки сообщения в {chat_id}: {e}")
         return None
 
+def set_bot_commands(bot_token):
+    """Установка списка команд в меню бота Telegram"""
+    url = f"https://api.telegram.org/bot{bot_token}/setMyCommands"
+    commands = [
+        {"command": "start", "description": "🚀 Запустить бота и открыть витрину"},
+        {"command": "radar", "description": "🎯 Проверить совпадения радара сейчас"},
+        {"command": "list", "description": "📋 Мои отслеживаемые товары"},
+        {"command": "add", "description": "➕ Добавить товар (/add йогурт)"},
+        {"command": "del", "description": "🗑 Удалить товар (/del йогурт)"},
+        {"command": "clear", "description": "🧹 Очистить список радара"},
+        {"command": "help", "description": "ℹ️ Инструкция и возможности"}
+    ]
+    try:
+        res = requests.post(url, json={"commands": commands}, verify=False, timeout=10)
+        return res.json().get("ok", False)
+    except Exception as e:
+        print(f"⚠️ Ошибка установки команд бота: {e}")
+        return False
+
 def sync_telegram_updates(bot_token, config=None):
     """
     Опрос входящих сообщений (getUpdates) от пользователей и групп.
@@ -96,6 +115,7 @@ def sync_telegram_updates(bot_token, config=None):
     if not bot_token:
         return []
 
+    set_bot_commands(bot_token)
     subscribers = set(load_subscribers(config))
     state = load_bot_state()
     last_update_id = state.get("last_update_id", 0)
@@ -145,7 +165,7 @@ def sync_telegram_updates(bot_token, config=None):
         parts = text.split(maxsplit=1)
         cmd = parts[0].lower().replace("@lidlcouponsbot", "")
 
-        from radar import load_tracked_items, save_tracked_items, expand_keyword_query
+        from radar import load_tracked_items, save_tracked_items, expand_keyword_query, find_radar_matches
 
         if cmd == "/start":
             welcome_msg = (
@@ -153,18 +173,23 @@ def sync_telegram_updates(bot_token, config=None):
                 f"Я отслеживаю скидки магазина и персональные купоны семьи на нужные товары "
                 f"(йогурты, лосось, сыр, авокадо, кофе, Parkside и др.) и сразу присылаю уведомления.\n\n"
                 f"🎯 <b>Команды:</b>\n"
+                f"• <code>/radar</code> — проверить скидки по радару прямо сейчас\n"
                 f"• <code>/list</code> — список отслеживаемых товаров\n"
                 f"• <code>/add &lt;товар&gt;</code> — добавить товар (например: <code>/add yogurt</code>)\n"
                 f"• <code>/del &lt;товар&gt;</code> — удалить товар из радара\n"
-                f"• <code>/radar</code> — проверить совпадения скидок прямо сейчас\n\n"
-                f"📱 <i>Все акции с картинками и ценами доступны в мини-приложении по кнопке меню слева внизу!</i>"
+                f"• <code>/clear</code> — очистить список отслеживания\n"
+                f"• <code>/help</code> — подробная справка\n\n"
+                f"📱 <i>Все акции с картинками и ценами доступны в мини-приложении по синей кнопке меню внизу слева!</i>"
             )
             send_telegram_message(bot_token, chat_id, welcome_msg)
 
         elif cmd == "/list":
             items = load_tracked_items()
-            lines = [f"• {it.get('icon', '🎯')} <b>{it.get('name')}</b>" for it in items]
-            reply = "📋 <b>Отслеживаемые товары в радаре:</b>\n\n" + "\n".join(lines) + "\n\n<i>Чтобы добавить новый товар, напишите <code>/add название</code></i>"
+            if items:
+                lines = [f"• {it.get('icon', '🎯')} <b>{it.get('name')}</b>" for it in items]
+                reply = f"📋 <b>Отслеживаемые товары в радаре ({len(items)}):</b>\n\n" + "\n".join(lines) + "\n\n<i>Чтобы добавить новый товар, напишите <code>/add название</code></i>\n<i>Чтобы очистить, напишите <code>/clear</code></i>"
+            else:
+                reply = "📋 <b>Список отслеживания пуст.</b>\nДобавьте товары командой <code>/add название</code> (например: <code>/add сыр</code>)."
             send_telegram_message(bot_token, chat_id, reply)
 
         elif cmd == "/add" and len(parts) > 1:
@@ -172,7 +197,6 @@ def sync_telegram_updates(bot_token, config=None):
             item_def = expand_keyword_query(q)
             if item_def:
                 cur_items = load_tracked_items()
-                # Check if exists
                 existing = next((it for it in cur_items if it.get("id") == item_def.get("id") or it.get("name").lower() == item_def.get("name").lower()), None)
                 if not existing:
                     cur_items.append(item_def)
@@ -181,6 +205,20 @@ def sync_telegram_updates(bot_token, config=None):
                 else:
                     reply = f"ℹ️ Товар {existing.get('icon', '🎯')} <b>{existing.get('name')}</b> уже отслеживается в радаре."
                 send_telegram_message(bot_token, chat_id, reply)
+            else:
+                # Custom keyword
+                cur_items = load_tracked_items()
+                custom_id = f"custom_{re.sub(r'[^a-zA-Z0-9а-яА-ЯёЁ]', '', q.lower())}"
+                new_item = {
+                    "id": custom_id,
+                    "name": q.capitalize(),
+                    "icon": "🎯",
+                    "category": "all",
+                    "keywords": [q.lower()]
+                }
+                cur_items.append(new_item)
+                save_tracked_items(cur_items)
+                send_telegram_message(bot_token, chat_id, f"✅ Товар 🎯 <b>{q.capitalize()}</b> добавлен в радар по запросу <code>{q.lower()}</code>.")
 
         elif cmd == "/del" and len(parts) > 1:
             q = parts[1].strip().lower()
@@ -191,6 +229,63 @@ def sync_telegram_updates(bot_token, config=None):
                 send_telegram_message(bot_token, chat_id, f"🗑 Товар <b>{q}</b> удален из радара.")
             else:
                 send_telegram_message(bot_token, chat_id, f"⚠️ Товар <b>{q}</b> не найден в списке отслеживаемых. Напишите <code>/list</code>.")
+
+        elif cmd == "/clear":
+            save_tracked_items([])
+            send_telegram_message(bot_token, chat_id, "🧹 <b>Список радара очищен!</b>\nТеперь вы можете добавить нужные товары командой <code>/add название</code>.")
+
+        elif cmd == "/radar":
+            items = load_tracked_items()
+            if not items:
+                send_telegram_message(bot_token, chat_id, "🎯 <b>Список радара пуст.</b>\nДобавьте товары командой <code>/add &lt;товар&gt;</code> или выберите их в мини-приложении!")
+            else:
+                try:
+                    data_file = os.path.join("web", "data.json")
+                    if os.path.exists(data_file):
+                        with open(data_file, "r", encoding="utf-8") as df:
+                            data = json.load(df)
+                        matches = find_radar_matches(
+                            items,
+                            double_deals=data.get("double_deals", []),
+                            family_coupons=data.get("family_coupons", []),
+                            super_savers=data.get("super_savers", []),
+                            store_offers=data.get("store_offers", [])
+                        )
+                        if matches:
+                            lines = []
+                            for m in matches[:10]:
+                                type_label = {"double": "🔥 Комбо", "super": "⚡ Super", "coupons": "🎟 Купон", "store": "🛒 Магазин"}.get(m.get("type"), "🎯")
+                                price_str = f"<b>{m.get('discounted_price', m.get('price'))}€</b>"
+                                lines.append(f"• {type_label} <b>{m.get('title')}</b> — {price_str} (#{m.get('matched_keyword')})")
+                            msg_text = f"🎯 <b>Найдено скидок по радару ({len(matches)}):</b>\n\n" + "\n".join(lines)
+                            if len(matches) > 10:
+                                msg_text += f"\n\n<i>...и ещё {len(matches)-10} товаров. Откройте мини-приложение для просмотра всех!</i>"
+                            send_telegram_message(bot_token, chat_id, msg_text)
+                        else:
+                            send_telegram_message(bot_token, chat_id, f"🎯 <b>По вашим {len(items)} товарам сейчас нет активных скидок.</b>\nКак только товар появится в каталоге, я сразу пришлю оповещение!")
+                    else:
+                        send_telegram_message(bot_token, chat_id, "ℹ️ Каталог еще формируется.")
+                except Exception as err:
+                    send_telegram_message(bot_token, chat_id, f"⚠️ Ошибка проверки радара: {err}")
+
+        elif cmd in ["/help", "help", "инструкция"]:
+            help_msg = (
+                f"ℹ️ <b>Возможности бота и витрины Lidl Пафос</b>\n\n"
+                f"🎯 <b>Команды бота:</b>\n"
+                f"• <code>/radar</code> — проверить скидки по вашим товарам прямо сейчас\n"
+                f"• <code>/list</code> — список отслеживаемых товаров\n"
+                f"• <code>/add &lt;товар&gt;</code> — добавить товар (напр.: <code>/add yogurt</code> или <code>/add сыр</code>)\n"
+                f"• <code>/del &lt;товар&gt;</code> — удалить товар из отслеживания\n"
+                f"• <code>/clear</code> — очистить весь список радара\n\n"
+                f"📱 <b>Разделы мини-приложения (кнопка меню):</b>\n"
+                f"🔥 <b>Комбо</b> — максимальная выгода (скидка магазина + купон семьи)\n"
+                f"🎟 <b>Купоны</b> — персональные купоны семьи (авто-активируются)\n"
+                f"⚡ <b>Супер-день</b> — супер-скидки одного дня (Great Deals)\n"
+                f"🛒 <b>Магазин</b> — все еженедельные акции магазина в Пафосе\n"
+                f"🔔 <b>Радар</b> — визуальный поиск и отслеживание товаров\n"
+                f"⭐ <b>Список</b> — список покупок (отмечайте ☆ на товарах)"
+            )
+            send_telegram_message(bot_token, chat_id, help_msg)
 
     if max_id > last_update_id:
         state["last_update_id"] = max_id
