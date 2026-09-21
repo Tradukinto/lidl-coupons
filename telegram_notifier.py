@@ -325,7 +325,8 @@ def handle_command_action(bot_token, chat_id, cmd_name, arg="", callback_query_i
                 save_tracked_items(cur_items)
                 reply = (
                     f"✅ Товар {item_def.get('icon', '🎯')} <b>{item_def.get('name')}</b> успешно добавлен в радар!\n"
-                    f"Ключевые слова: <code>{', '.join(item_def.get('keywords', []))}</code>"
+                    f"Ключевые слова: <code>{', '.join(item_def.get('keywords', []))}</code>\n\n"
+                    f"🔔 <i>Как только в Lidl появится скидка или купон на этот товар, бот сразу пришлет вам оповещение с ценой!</i>"
                 )
             else:
                 reply = f"ℹ️ Товар {existing.get('icon', '🎯')} <b>{existing.get('name')}</b> уже отслеживается в радаре."
@@ -418,7 +419,8 @@ def handle_command_action(bot_token, chat_id, cmd_name, arg="", callback_query_i
                 save_tracked_items(cur_items)
                 reply = (
                     f"✅ Товар {item_def.get('icon', '🎯')} <b>{item_def.get('name')}</b> добавлен в радар!\n"
-                    f"Ключевые слова: <code>{', '.join(item_def.get('keywords', []))}</code>"
+                    f"Ключевые слова: <code>{', '.join(item_def.get('keywords', []))}</code>\n\n"
+                    f"🔔 <i>Как только в Lidl появится скидка или купон на этот товар, бот сразу пришлет вам оповещение с ценой!</i>"
                 )
             else:
                 reply = f"ℹ️ Товар {existing.get('icon', '🎯')} <b>{existing.get('name')}</b> уже отслеживается в вашем радаре."
