@@ -389,7 +389,7 @@ def load_tracked_items(filepath=TRACKED_ITEMS_FILE):
         try:
             with open(filepath, "r", encoding="utf-8") as f:
                 items = json.load(f)
-                if isinstance(items, list) and len(items) > 0:
+                if isinstance(items, list):
                     return items
         except Exception as e:
             print(f"⚠️ Ошибка чтения {filepath}: {e}")

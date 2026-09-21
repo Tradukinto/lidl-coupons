@@ -48,6 +48,7 @@
   const radarDropdown = document.getElementById('radar-dropdown');
   const radarChipsList = document.getElementById('radar-chips-list');
   const radarTrackedCount = document.getElementById('radar-tracked-count');
+  const radarClearAllBtn = document.getElementById('radar-clear-all-btn');
   const radarResetBtn = document.getElementById('radar-reset-btn');
   const radarQuickScroll = document.getElementById('radar-quick-scroll');
 
@@ -514,9 +515,9 @@
   function getTrackedItems() {
     try {
       const raw = localStorage.getItem(RADAR_STORAGE_KEY);
-      if (raw) {
+      if (raw !== null) {
         const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed)) return parsed;
       }
     } catch (e) {}
 
@@ -560,7 +561,8 @@
   }
 
   function getRadarMatches() {
-    const items = trackedItems.length ? trackedItems : getTrackedItems();
+    const items = getTrackedItems();
+    if (items.length === 0) return [];
     const matches = [];
     const seen = new Set();
 
@@ -599,11 +601,16 @@
 
   function renderRadarChips() {
     if (!radarChipsList) return;
-    const items = trackedItems.length ? trackedItems : getTrackedItems();
+    const items = getTrackedItems();
     trackedItems = items;
 
     if (radarTrackedCount) {
       radarTrackedCount.textContent = items.length;
+    }
+
+    if (items.length === 0) {
+      radarChipsList.innerHTML = `<span style="font-size:12px; color:var(--hint-color); padding:4px 0;">Список пуст. Введите товар в строке выше или выберите быструю подсказку 👆</span>`;
+      return;
     }
 
     const allMatches = getRadarMatches();
@@ -713,7 +720,8 @@
   }
 
   function deleteTrackedItem(id) {
-    const items = (trackedItems.length ? trackedItems : getTrackedItems()).filter(it => it.id !== id);
+    const cur = getTrackedItems();
+    const items = cur.filter(it => it.id !== id);
     if (activeRadarFilter === id) {
       activeRadarFilter = 'all';
     }
@@ -724,18 +732,28 @@
     showToast('🗑 Товар удален из радара');
   }
 
-  function resetTrackedItems() {
-    if (confirm('Сбросить список отслеживаемых товаров к стандартному набору семьи?')) {
-      localStorage.removeItem(RADAR_STORAGE_KEY);
-      trackedItems = (fullData.tracked_items && fullData.tracked_items.length > 0) 
-        ? JSON.parse(JSON.stringify(fullData.tracked_items)) 
-        : getBuiltinTrackedItems();
+  function clearAllTrackedItems() {
+    if (confirm('Очистить весь список отслеживания? Все товары будут удалены.')) {
       activeRadarFilter = 'all';
-      saveTrackedItems(trackedItems);
+      saveTrackedItems([]);
       renderRadarChips();
       renderCurrentList();
       haptic('medium');
-      showToast('Стандартный список семьи восстановлен');
+      showToast('Список отслеживания очищен');
+    }
+  }
+
+  function resetTrackedItems() {
+    if (confirm('Восстановить примеры популярных товаров семьи (йогурт, сыр, лосось и др.)?')) {
+      const examples = (fullData.tracked_items && fullData.tracked_items.length > 0) 
+        ? JSON.parse(JSON.stringify(fullData.tracked_items)) 
+        : getBuiltinTrackedItems();
+      activeRadarFilter = 'all';
+      saveTrackedItems(examples);
+      renderRadarChips();
+      renderCurrentList();
+      haptic('medium');
+      showToast('Примеры товаров добавлены');
     }
   }
 
@@ -885,6 +903,10 @@
       });
     }
 
+    if (radarClearAllBtn) {
+      radarClearAllBtn.addEventListener('click', clearAllTrackedItems);
+    }
+
     if (radarResetBtn) {
       radarResetBtn.addEventListener('click', resetTrackedItems);
     }
@@ -971,9 +993,9 @@
     const baseTime = formatBaseTime(fullData.generated_at, fullData.generated_at_str);
     if (baseTime) {
       if (lastCheckedTime) {
-        updateTimeEl.textContent = `Обновлено: ${baseTime} (проверено в ${lastCheckedTime})`;
+        updateTimeEl.textContent = `Каталог: ${baseTime} • Проверено: ${lastCheckedTime}`;
       } else {
-        updateTimeEl.textContent = `Обновлено: ${baseTime}`;
+        updateTimeEl.textContent = `Каталог: ${baseTime}`;
       }
     }
     if (badgeDouble) badgeDouble.textContent = fullData.double_deals?.length || 0;
@@ -1176,20 +1198,67 @@
         emptyState.querySelector('h3').textContent = 'Список покупок пуст';
         emptyState.querySelector('p').textContent = 'Нажимайте на звёздочку ☆ на карточках товаров, чтобы составить список перед походом в Lidl';
       } else if (currentTab === 'radar') {
-        emptyState.querySelector('.empty-icon').textContent = '⏳';
-        if (activeRadarFilter !== 'all') {
-          const tracked = (trackedItems.length ? trackedItems : getTrackedItems()).find(t => t.id === activeRadarFilter);
-          const name = tracked ? tracked.name : activeRadarFilter;
+        const tracked = getTrackedItems();
+        if (tracked.length === 0) {
+          emptyState.querySelector('.empty-icon').textContent = '🎯';
+          emptyState.querySelector('h3').textContent = 'Радар пуст';
+          emptyState.querySelector('p').innerHTML = 'Вы ещё не добавили товары для отслеживания.<br>Введите название продукта в строке поиска выше или выберите быструю подсказку (+ 🐟 Лосось, + 🧀 Сыр), чтобы получать уведомления о скидках.';
+        } else if (activeRadarFilter !== 'all') {
+          const item = tracked.find(t => t.id === activeRadarFilter);
+          const name = item ? item.name : activeRadarFilter;
+          emptyState.querySelector('.empty-icon').textContent = '⏳';
           emptyState.querySelector('h3').textContent = `Ожидаем скидку на: ${name}`;
           emptyState.querySelector('p').innerHTML = `Сейчас в магазине нет активных скидок на этот товар.<br>Бот <a href="https://t.me/lidlcouponsbot" target="_blank" style="color:var(--link-color); font-weight:600;">@lidlcouponsbot</a> сразу пришлет оповещение в Telegram, как только товар появится в каталоге!`;
         } else {
-          emptyState.querySelector('h3').textContent = 'Нет активных скидок по радару';
-          emptyState.querySelector('p').textContent = 'Добавьте интересующие вас товары выше, и бот уведомит семью, когда на них появятся акции.';
+          emptyState.querySelector('.empty-icon').textContent = '⏳';
+          emptyState.querySelector('h3').textContent = 'Нет активных скидок по отслеживаемым товарам';
+          emptyState.querySelector('p').textContent = 'Сейчас ни на один из ваших товаров нет скидок. Бот пришлет оповещение при обновлении каталога.';
         }
-      } else {
-        emptyState.querySelector('.empty-icon').textContent = '🔍';
-        emptyState.querySelector('h3').textContent = 'Ничего не найдено';
-        emptyState.querySelector('p').textContent = 'Попробуйте изменить запрос или выбрать фильтр «Все»';
+      } else if (currentTab === 'double') {
+        emptyState.querySelector('.empty-icon').textContent = searchQuery ? '🔍' : '🔥';
+        if (searchQuery) {
+          emptyState.querySelector('h3').textContent = 'Комбо не найдены';
+          emptyState.querySelector('p').textContent = `По запросу «${searchQuery}» комбо-скидок не найдено. Попробуйте другой запрос.`;
+        } else {
+          emptyState.querySelector('h3').textContent = 'Сейчас нет активных комбо';
+          emptyState.querySelector('p').textContent = 'Комбо появляются, когда скидка магазина суммируется с персональным купоном одного из членов семьи. Проверьте вкладки «Купоны семьи» и «Магазин».';
+        }
+      } else if (currentTab === 'coupons') {
+        emptyState.querySelector('.empty-icon').textContent = searchQuery ? '🔍' : '🎟';
+        if (searchQuery) {
+          emptyState.querySelector('h3').textContent = 'Купоны не найдены';
+          emptyState.querySelector('p').textContent = `По запросу «${searchQuery}» купоны не найдены.`;
+        } else if (currentMember !== 'all') {
+          emptyState.querySelector('h3').textContent = 'У выбранного члена семьи нет купонов';
+          emptyState.querySelector('p').textContent = 'Выберите фильтр «Все» или переключитесь на другого члена семьи.';
+        } else {
+          emptyState.querySelector('h3').textContent = 'Купоны отсутствуют';
+          emptyState.querySelector('p').textContent = 'Сейчас нет активных персональных купонов.';
+        }
+      } else if (currentTab === 'super') {
+        emptyState.querySelector('.empty-icon').textContent = searchQuery ? '🔍' : '⚡';
+        if (searchQuery) {
+          emptyState.querySelector('h3').textContent = 'Товары не найдены';
+          emptyState.querySelector('p').textContent = `По запросу «${searchQuery}» ничего не найдено.`;
+        } else if (currentSuperFilter === 'intersect') {
+          emptyState.querySelector('h3').textContent = 'Нет пересечений с купонами';
+          emptyState.querySelector('p').textContent = 'Среди супер-скидок дня сейчас нет совпадений с купонами вашей семьи. Переключитесь на «Все супер-скидки».';
+        } else {
+          emptyState.querySelector('h3').textContent = 'Нет предложений на эту дату';
+          emptyState.querySelector('p').textContent = 'На выбранный день нет активных супер-скидок.';
+        }
+      } else { // store
+        emptyState.querySelector('.empty-icon').textContent = searchQuery ? '🔍' : '🛒';
+        if (searchQuery) {
+          emptyState.querySelector('h3').textContent = 'Товары не найдены';
+          emptyState.querySelector('p').textContent = `По запросу «${searchQuery}» ничего не найдено.`;
+        } else if (currentCategory !== 'all') {
+          emptyState.querySelector('h3').textContent = 'В этой категории пока пусто';
+          emptyState.querySelector('p').textContent = 'Попробуйте выбрать категорию «Все».';
+        } else {
+          emptyState.querySelector('h3').textContent = 'Нет активных предложений';
+          emptyState.querySelector('p').textContent = 'Каталог магазина обновляется.';
+        }
       }
       return;
     }

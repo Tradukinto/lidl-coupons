@@ -983,6 +983,21 @@ def export_web_data(coupons, store_offers, double_deals, super_savers=None, supe
         "thesaurus": radar.BILINGUAL_THESAURUS
     }
 
+    # Defensive safeguard: don't wipe out rich data if CI environment tokens expired
+    if os.path.exists(output_path):
+        try:
+            with open(output_path, "r", encoding="utf-8") as f:
+                old_data = json.load(f)
+                old_coupons_count = len(old_data.get("family_coupons", []))
+                if len(web_family_coupons) < 5 and old_coupons_count > 20:
+                    print(f"⚠️ Внимание: получено всего {len(web_family_coupons)} купонов (устарели токены в LIDL_CONFIG_JSON). Сохраняем существующие {old_coupons_count} купонов и {len(old_data.get('double_deals', []))} комбо для защиты от затирания!")
+                    payload["family_coupons"] = old_data.get("family_coupons", [])
+                    payload["double_deals"] = old_data.get("double_deals", [])
+                    payload["stats"]["family_coupons_count"] = old_coupons_count
+                    payload["stats"]["double_deals_count"] = len(old_data.get("double_deals", []))
+        except Exception as e:
+            print(f"⚠️ Ошибка проверки резервных данных: {e}")
+
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
