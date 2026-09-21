@@ -13,6 +13,8 @@ from openpyxl.utils import get_column_letter
 import requests
 import urllib3
 from bs4 import BeautifulSoup
+import radar
+import telegram_notifier
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -936,6 +938,16 @@ def export_web_data(coupons, store_offers, double_deals, super_savers=None, supe
             })
         web_super_doubles.sort(key=lambda x: (x.get("status_order", 0), x["deal_date"], x["title"]))
 
+    # 7. Радар нужных акций семьи
+    tracked_items = radar.load_tracked_items()
+    radar_matches = radar.find_radar_matches(
+        tracked_items,
+        double_deals=web_double_deals,
+        family_coupons=web_family_coupons,
+        super_savers=web_super_savers,
+        store_offers=web_store_offers
+    )
+
     cy_tz = timezone(timedelta(hours=3))
     now = datetime.now(cy_tz)
     now_str = now.strftime("%d.%m.%Y %H:%M")
@@ -956,20 +968,25 @@ def export_web_data(coupons, store_offers, double_deals, super_savers=None, supe
             "super_savers_count": len(web_super_savers),
             "super_saver_doubles_count": len(web_super_doubles),
             "shared_coupons_count": sum(1 for c in web_family_coupons if c.get("is_shared")),
-            "monetary_coupons_count": len(web_monetary_coupons)
+            "monetary_coupons_count": len(web_monetary_coupons),
+            "radar_matches_count": len(radar_matches),
+            "tracked_items_count": len(tracked_items)
         },
         "monetary_coupons": web_monetary_coupons,
         "double_deals": web_double_deals,
         "family_coupons": web_family_coupons,
         "store_offers": web_store_offers,
         "super_savers": web_super_savers,
-        "super_saver_doubles": web_super_doubles
+        "super_saver_doubles": web_super_doubles,
+        "tracked_items": tracked_items,
+        "radar_matches": radar_matches,
+        "thesaurus": radar.BILINGUAL_THESAURUS
     }
 
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
-    print(f"📱 Данные для веб-приложения успешно сохранены: {output_path} ({len(web_double_deals)} комбо, {len(web_family_coupons)} купонов, {len(web_store_offers)} акций, {len(web_super_savers)} Super Savers)")
+    print(f"📱 Данные для веб-приложения успешно сохранены: {output_path} ({len(web_double_deals)} комбо, {len(web_family_coupons)} купонов, {len(web_store_offers)} акций, {len(web_super_savers)} Super Savers, {len(radar_matches)} совпадений радара)")
     return payload
 
 def generate_excel_report(coupons, store_offers, double_deals, excel_filename="lidl_discounts_paphos.xlsx", country="CY", store_id="CY0119"):
@@ -1193,7 +1210,17 @@ def main():
     print(f"   ✨ Найдено пересечений Super Savers с купонами: {len(super_saver_doubles)}")
 
     # 5. Экспорт для веб-приложения Telegram Mini App
-    export_web_data(coupons, store_offers, double_deals, super_savers=super_savers, super_saver_doubles=super_saver_doubles, output_path="web/data.json", config=config)
+    web_payload = export_web_data(coupons, store_offers, double_deals, super_savers=super_savers, super_saver_doubles=super_saver_doubles, output_path="web/data.json", config=config)
+
+    # 6. Отправка уведомлений в Telegram по радару акций
+    tg_token = config.get("telegram", {}).get("bot_token") or os.getenv("TELEGRAM_BOT_TOKEN") or "8891599403:AAHhNhQdmzXZWgm74tQVNx1-nB7eB8Ye54A"
+    if tg_token:
+        print(f"\n🔔 Проверка радара акций и отправка уведомлений в Telegram...")
+        try:
+            sent_count = telegram_notifier.send_radar_notifications(tg_token, web_payload.get("radar_matches", []), config=config)
+            print(f"   📢 Telegram-уведомления: доставлено в {sent_count} чат(ов)")
+        except Exception as e:
+            print(f"   ⚠️ Ошибка отправки Telegram-уведомлений: {e}")
 
     # 5. Сохранение локальных отчетов (CSV и Excel)
     if double_deals:

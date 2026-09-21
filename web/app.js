@@ -40,6 +40,20 @@
   const badgeStore = document.getElementById('badge-store');
   const badgeCategories = document.getElementById('badge-categories');
   const badgeFavs = document.getElementById('badge-favs');
+  const badgeRadar = document.getElementById('badge-radar');
+  const radarPanel = document.getElementById('radar-panel');
+  const radarInput = document.getElementById('radar-input');
+  const radarClearBtn = document.getElementById('radar-clear-btn');
+  const radarAddBtn = document.getElementById('radar-add-btn');
+  const radarDropdown = document.getElementById('radar-dropdown');
+  const radarChipsList = document.getElementById('radar-chips-list');
+  const radarTrackedCount = document.getElementById('radar-tracked-count');
+  const radarResetBtn = document.getElementById('radar-reset-btn');
+  const radarQuickScroll = document.getElementById('radar-quick-scroll');
+
+  const RADAR_STORAGE_KEY = 'lidl_radar_tracked_items_v1';
+  let trackedItems = [];
+  let activeRadarFilter = 'all';
   const superChipsContainer = document.getElementById('super-chips-container');
   const superCountAll = document.getElementById('super-count-all');
   const superCountCombos = document.getElementById('super-count-combos');
@@ -128,6 +142,14 @@
         superChipsContainer.classList.remove('hidden');
       } else {
         superChipsContainer.classList.add('hidden');
+      }
+    }
+    if (radarPanel) {
+      if (currentTab === 'radar') {
+        radarPanel.classList.remove('hidden');
+        renderRadarChips();
+      } else {
+        radarPanel.classList.add('hidden');
       }
     }
   }
@@ -369,6 +391,518 @@
     return list;
   }
 
+  // ==========================================================================
+  // Radar (Радар нужных акций) Controller
+  // ==========================================================================
+
+  function getBuiltinTrackedItems() {
+    return [
+      {
+        id: "yogurt",
+        name: "Йогурт",
+        icon: "🥛",
+        category: "dairy_cheese",
+        keywords: ["yogurt", "yoghurt", "γιαουρτι", "γιαούρτι", "skyr", "йогурт"]
+      },
+      {
+        id: "salmon",
+        name: "Лосось / Форель",
+        icon: "🐟",
+        category: "meat_fish",
+        keywords: ["salmon", "trout", "σολομος", "σολομός", "σολομού", "πέστροφα", "лосось", "семга", "форель"]
+      },
+      {
+        id: "cheese",
+        name: "Сыр / Фета / Халуми",
+        icon: "🧀",
+        category: "dairy_cheese",
+        keywords: ["cheese", "feta", "halloumi", "gouda", "edam", "mozzarella", "cheddar", "τυρι", "τυρί", "φέτα", "χαλούμι", "сыр"]
+      },
+      {
+        id: "butter",
+        name: "Сливочное масло",
+        icon: "🧈",
+        category: "dairy_cheese",
+        keywords: ["butter", "βουτυρο", "βούτυρο", "сливочное масло"]
+      },
+      {
+        id: "avocado",
+        name: "Авокадо",
+        icon: "🥑",
+        category: "veg_fruit",
+        keywords: ["avocado", "αβοκαντο", "αβοκάντο", "авокадо"]
+      },
+      {
+        id: "coffee",
+        name: "Кофе",
+        icon: "☕",
+        category: "beverages",
+        keywords: ["coffee", "espresso", "καφες", "καφές", "кофе"]
+      },
+      {
+        id: "chicken",
+        name: "Курица / Птица",
+        icon: "🍗",
+        category: "meat_fish",
+        keywords: ["chicken", "κοτοπουλο", "κοτόπουλο", "курица", "цыпленок"]
+      },
+      {
+        id: "olive_oil",
+        name: "Оливковое масло",
+        icon: "🫒",
+        category: "bakery_grocery",
+        keywords: ["olive oil", "ελαιολαδο", "ελαιόλαδο", "оливковое масло"]
+      },
+      {
+        id: "nuts",
+        name: "Орехи",
+        icon: "🥜",
+        category: "sweets_snacks",
+        keywords: ["nuts", "almond", "walnut", "cashew", "ξηρων καρπων", "орехи"]
+      },
+      {
+        id: "chocolate",
+        name: "Шоколад",
+        icon: "🍫",
+        category: "sweets_snacks",
+        keywords: ["chocolate", "σοκολατα", "σοκολάτα", "шоколад"]
+      },
+      {
+        id: "parkside",
+        name: "Parkside / Инструменты",
+        icon: "🔧",
+        category: "non_food",
+        keywords: ["parkside", "инструмент", "парксайд"]
+      }
+    ];
+  }
+
+  function getThesaurus() {
+    return fullData.thesaurus || {
+      "йогурт": { name: "Йогурт", icon: "🥛", synonyms: ["yogurt", "yoghurt", "γιαουρτι", "skyr", "йогурт"] },
+      "лосось": { name: "Лосось / Форель", icon: "🐟", synonyms: ["salmon", "trout", "σολομος", "πέστροφα", "лосось", "семга", "форель"] },
+      "сыр": { name: "Сыр / Фета / Халуми", icon: "🧀", synonyms: ["cheese", "feta", "halloumi", "gouda", "edam", "mozzarella", "cheddar", "τυρι", "φέτα", "χαλούμι", "сыр"] },
+      "сливочное масло": { name: "Сливочное масло", icon: "🧈", synonyms: ["butter", "βουτυρο", "сливочное масло"] },
+      "авокадо": { name: "Авокадо", icon: "🥑", synonyms: ["avocado", "αβοκαντο", "авокадо"] },
+      "кофе": { name: "Кофе", icon: "☕", synonyms: ["coffee", "espresso", "καφες", "кофе"] },
+      "курица": { name: "Курица / Птица", icon: "🍗", synonyms: ["chicken", "κοτοπουλο", "курица", "цыпленок"] },
+      "оливковое масло": { name: "Оливковое масло", icon: "🫒", synonyms: ["olive oil", "ελαιολαδο", "оливковое масло"] },
+      "орехи": { name: "Орехи", icon: "🥜", synonyms: ["nuts", "almond", "walnut", "cashew", "ξηρων καρπων", "орехи"] },
+      "шоколад": { name: "Шоколад", icon: "🍫", synonyms: ["chocolate", "σοκολατα", "шоколад"] },
+      "мороженое": { name: "Мороженое", icon: "🍨", synonyms: ["ice cream", "παγωτο", "gelatelli", "bon gelati", "мороженое"] },
+      "бананы": { name: "Бананы", icon: "🍌", synonyms: ["banana", "bananas", "μπανανες", "банан"] },
+      "яблоки": { name: "Яблоки", icon: "🍎", synonyms: ["apple", "apples", "μηλα", "яблок"] },
+      "помидоры": { name: "Помидоры", icon: "🍅", synonyms: ["tomato", "tomatoes", "ντοματες", "томат", "помидор"] },
+      "огурцы": { name: "Огурцы", icon: "🥒", synonyms: ["cucumber", "cucumbers", "αγγουρια", "огур"] },
+      "яйца": { name: "Яйца", icon: "🥚", synonyms: ["eggs", "αυγα", "яйц"] },
+      "креветки": { name: "Креветки / Морепродукты", icon: "🍤", synonyms: ["shrimp", "shrimps", "prawn", "seafood", "γαριδες", "креветк"] },
+      "говядина": { name: "Говядина / Бургеры", icon: "🥩", synonyms: ["beef", "burger", "μοσχαρι", "говядин"] },
+      "свинина": { name: "Свинина / Бекон", icon: "🥩", synonyms: ["pork", "bacon", "χοιρινο", "свинин", "бекон"] },
+      "колбаса": { name: "Колбаса / Сосиски", icon: "🌭", synonyms: ["sausage", "salami", "ham", "λουκανικα", "колбас", "сосиск"] },
+      "макароны": { name: "Макароны / Паста", icon: "🍝", synonyms: ["pasta", "spaghetti", "combino", "макарон", "паста"] },
+      "хлеб": { name: "Хлеб / Выпечка", icon: "🍞", synonyms: ["bread", "toast", "ψωμι", "хлеб"] },
+      "чай": { name: "Чай", icon: "🫖", synonyms: ["tea", "lord nelson", "τσαϊ", "чай"] },
+      "сок": { name: "Сок", icon: "🧃", synonyms: ["juice", "eviva", "solevita", "χυμος", "сок"] },
+      "пиво": { name: "Пиво", icon: "🍺", synonyms: ["beer", "perlenbacher", "μπυρα", "пиво"] },
+      "вино": { name: "Вино", icon: "🍷", synonyms: ["wine", "allini", "κρασι", "вино"] },
+      "пицца": { name: "Пицца", icon: "🍕", synonyms: ["pizza", "πιτσα", "пицца"] },
+      "parkside": { name: "Parkside / Инструменты", icon: "🔧", synonyms: ["parkside", "инструмент", "парксайд"] },
+      "бытовая химия": { name: "W5 / Бытовая химия", icon: "🧺", synonyms: ["w5", "detergent", "laundry", "cleaner", "порошок", "стирк"] }
+    };
+  }
+
+  function getTrackedItems() {
+    try {
+      const raw = localStorage.getItem(RADAR_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+
+    if (fullData.tracked_items && Array.isArray(fullData.tracked_items) && fullData.tracked_items.length > 0) {
+      return JSON.parse(JSON.stringify(fullData.tracked_items));
+    }
+    return getBuiltinTrackedItems();
+  }
+
+  function saveTrackedItems(items) {
+    try {
+      localStorage.setItem(RADAR_STORAGE_KEY, JSON.stringify(items));
+    } catch (e) {}
+    trackedItems = items;
+    renderRadarChips();
+    updateHeader();
+  }
+
+  function normalizeRadarText(text) {
+    if (!text) return '';
+    return text.toLowerCase()
+      .replace(/[άέήίόύώϊΐϋΰ]/g, m => ({'ά':'α','έ':'ε','ή':'η','ί':'ι','ό':'ο','ύ':'υ','ώ':'ω','ϊ':'ι','ΐ':'ι','ϋ':'υ','ΰ':'υ'}[m] || m))
+      .replace(/ё/g, 'е')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function matchItemKeywords(item, keywords) {
+    const text = normalizeRadarText(`${item.title || ''} ${item.packaging || ''} ${item.description || ''}`);
+    for (const kw of keywords) {
+      const nkw = normalizeRadarText(kw);
+      if (!nkw) continue;
+      if (nkw.length <= 4) {
+        const reg = new RegExp(`(^|\\b|_)${nkw.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}($|\\b|_)`, 'i');
+        if (reg.test(text)) return kw;
+      } else {
+        if (text.includes(nkw)) return kw;
+      }
+    }
+    return null;
+  }
+
+  function getRadarMatches() {
+    const items = trackedItems.length ? trackedItems : getTrackedItems();
+    const matches = [];
+    const seen = new Set();
+
+    const sections = [
+      { type: 'double', label: '🔥 Комбо', list: fullData.double_deals || [] },
+      { type: 'super', label: '⚡ Super', list: fullData.super_savers || [] },
+      { type: 'coupons', label: '🎟 Купон', list: fullData.family_coupons || [] },
+      { type: 'store', label: '🛒 Daily', list: fullData.store_offers || [] }
+    ];
+
+    items.forEach(def => {
+      sections.forEach(sec => {
+        sec.list.forEach(deal => {
+          const matchedKw = matchItemKeywords(deal, def.keywords || [def.name]);
+          if (matchedKw) {
+            const key = `${def.id}_${sec.type}_${deal.sku || deal.title}`;
+            if (seen.has(key)) return;
+            seen.add(key);
+            matches.push({
+              ...deal,
+              type: sec.type,
+              tracked_item_id: def.id,
+              tracked_item_name: def.name,
+              tracked_item_icon: def.icon || '🎯',
+              matched_keyword: matchedKw
+            });
+          }
+        });
+      });
+    });
+
+    const prio = { double: 1, super: 2, coupons: 3, store: 4 };
+    matches.sort((a, b) => (prio[a.type] || 9) - (prio[b.type] || 9));
+    return matches;
+  }
+
+  function renderRadarChips() {
+    if (!radarChipsList) return;
+    const items = trackedItems.length ? trackedItems : getTrackedItems();
+    trackedItems = items;
+
+    if (radarTrackedCount) {
+      radarTrackedCount.textContent = items.length;
+    }
+
+    const allMatches = getRadarMatches();
+    const matchCounts = {};
+    allMatches.forEach(m => {
+      matchCounts[m.tracked_item_id] = (matchCounts[m.tracked_item_id] || 0) + 1;
+    });
+
+    let html = `
+      <button class="radar-chip ${activeRadarFilter === 'all' ? 'active' : ''}" data-id="all">
+        <span>👥 Все</span>
+        <span class="radar-chip-count">${allMatches.length}</span>
+      </button>
+    `;
+
+    items.forEach(it => {
+      const count = matchCounts[it.id] || 0;
+      const isActive = activeRadarFilter === it.id;
+      html += `
+        <div class="radar-chip ${isActive ? 'active' : ''}" data-id="${it.id}">
+          <span>${it.icon || '🎯'} ${it.name}</span>
+          <span class="radar-chip-count">${count}</span>
+          <button class="radar-chip-del" data-del-id="${it.id}" title="Удалить из радара">✕</button>
+        </div>
+      `;
+    });
+
+    radarChipsList.innerHTML = html;
+
+    // Attach chip clicks
+    radarChipsList.querySelectorAll('.radar-chip').forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        if (e.target.classList.contains('radar-chip-del')) return;
+        haptic('selection');
+        activeRadarFilter = chip.dataset.id;
+        renderRadarChips();
+        renderCurrentList();
+      });
+    });
+
+    // Attach delete clicks
+    radarChipsList.querySelectorAll('.radar-chip-del').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.delId;
+        deleteTrackedItem(id);
+      });
+    });
+  }
+
+  function addTrackedItem(query) {
+    const q = (query || '').trim();
+    if (!q) return;
+
+    const nq = normalizeRadarText(q);
+    const thes = getThesaurus();
+    let itemDef = null;
+
+    // Check thesaurus match
+    for (const [key, info] of Object.entries(thes)) {
+      if (normalizeRadarText(key) === nq || nq.includes(normalizeRadarText(key)) || normalizeRadarText(key).includes(nq)) {
+        itemDef = {
+          id: key.replace(/[^a-zA-Z0-9а-яА-ЯёЁ_]/g, '_'),
+          name: info.name,
+          icon: info.icon || '🎯',
+          category: info.category || 'custom',
+          keywords: info.synonyms || [key]
+        };
+        break;
+      }
+    }
+
+    if (!itemDef) {
+      itemDef = {
+        id: nq.replace(/[^a-zA-Z0-9а-яА-ЯёЁ_]/g, '_') || 'custom',
+        name: q.charAt(0).toUpperCase() + q.slice(1),
+        icon: '🎯',
+        category: 'custom',
+        keywords: [nq]
+      };
+    }
+
+    const items = trackedItems.length ? trackedItems : getTrackedItems();
+    const exists = items.some(it => it.id === itemDef.id || it.name.toLowerCase() === itemDef.name.toLowerCase());
+    if (exists) {
+      activeRadarFilter = itemDef.id;
+      renderRadarChips();
+      renderCurrentList();
+      showToast(`Товар ${itemDef.name} уже есть в радаре`);
+      if (radarInput) radarInput.value = '';
+      if (radarClearBtn) radarClearBtn.classList.add('hidden');
+      if (radarDropdown) radarDropdown.classList.add('hidden');
+      return;
+    }
+
+    items.push(itemDef);
+    saveTrackedItems(items);
+    activeRadarFilter = itemDef.id;
+    renderRadarChips();
+    renderCurrentList();
+    haptic('success');
+    showToast(`✅ Добавлено в радар: ${itemDef.name}`);
+
+    if (radarInput) radarInput.value = '';
+    if (radarClearBtn) radarClearBtn.classList.add('hidden');
+    if (radarDropdown) radarDropdown.classList.add('hidden');
+  }
+
+  function deleteTrackedItem(id) {
+    const items = (trackedItems.length ? trackedItems : getTrackedItems()).filter(it => it.id !== id);
+    if (activeRadarFilter === id) {
+      activeRadarFilter = 'all';
+    }
+    saveTrackedItems(items);
+    renderRadarChips();
+    renderCurrentList();
+    haptic('light');
+    showToast('🗑 Товар удален из радара');
+  }
+
+  function resetTrackedItems() {
+    if (confirm('Сбросить список отслеживаемых товаров к стандартному набору семьи?')) {
+      localStorage.removeItem(RADAR_STORAGE_KEY);
+      trackedItems = (fullData.tracked_items && fullData.tracked_items.length > 0) 
+        ? JSON.parse(JSON.stringify(fullData.tracked_items)) 
+        : getBuiltinTrackedItems();
+      activeRadarFilter = 'all';
+      saveTrackedItems(trackedItems);
+      renderRadarChips();
+      renderCurrentList();
+      haptic('medium');
+      showToast('Стандартный список семьи восстановлен');
+    }
+  }
+
+  function renderRadarCard(item) {
+    let baseHtml = '';
+    if (item.type === 'double') baseHtml = renderDoubleCard(item);
+    else if (item.type === 'coupons') baseHtml = renderCouponCard(item);
+    else if (item.type === 'super') baseHtml = renderSuperCard(item);
+    else baseHtml = renderStoreCard(item);
+
+    const radarBadge = `<span class="tag tag-radar-keyword">🎯 ${item.tracked_item_icon || '🎯'} ${item.tracked_item_name} (#${item.matched_keyword})</span>`;
+    return baseHtml.replace('<div class="card-tags">', `<div class="card-tags">${radarBadge}`);
+  }
+
+  function setupRadarAutocomplete() {
+    if (!radarInput || !radarDropdown) return;
+
+    radarInput.addEventListener('input', (e) => {
+      const q = e.target.value.trim();
+      if (!q) {
+        radarDropdown.classList.add('hidden');
+        if (radarClearBtn) radarClearBtn.classList.add('hidden');
+        return;
+      }
+      if (radarClearBtn) radarClearBtn.classList.remove('hidden');
+
+      const nq = normalizeRadarText(q);
+      const thes = getThesaurus();
+      const suggestions = [];
+      const seenNames = new Set();
+
+      // 1. Search in Thesaurus
+      for (const [key, info] of Object.entries(thes)) {
+        const nkey = normalizeRadarText(key);
+        const matchSynonym = (info.synonyms || []).some(s => normalizeRadarText(s).includes(nq));
+        if (nkey.includes(nq) || matchSynonym) {
+          if (!seenNames.has(info.name)) {
+            seenNames.add(info.name);
+            suggestions.push({
+              id: key,
+              name: info.name,
+              icon: info.icon || '🎯',
+              query: key,
+              sub: (info.synonyms || []).slice(0, 3).join(', ')
+            });
+          }
+        }
+      }
+
+      // 2. Search catalog product titles
+      const allDeals = [
+        ...(fullData.double_deals || []),
+        ...(fullData.family_coupons || []),
+        ...(fullData.super_savers || []),
+        ...(fullData.store_offers || [])
+      ];
+
+      for (const d of allDeals) {
+        const title = d.title || '';
+        const nTitle = normalizeRadarText(title);
+        if (nTitle.includes(nq) && !seenNames.has(title)) {
+          seenNames.add(title);
+          suggestions.push({
+            id: 'catalog_' + (d.sku || title),
+            name: title,
+            icon: '🛒',
+            query: title,
+            sub: d.discount ? `Скидка ${d.discount}` : (d.final_pack_price || d.price || '')
+          });
+          if (suggestions.length >= 8) break;
+        }
+      }
+
+      if (suggestions.length === 0) {
+        suggestions.push({
+          id: 'custom_' + nq,
+          name: q,
+          icon: '🎯',
+          query: q,
+          sub: 'Добавить собственный поисковый запрос'
+        });
+      }
+
+      // Check current deal status for each suggestion
+      const allMatches = getRadarMatches();
+      let html = '';
+      suggestions.slice(0, 7).forEach(s => {
+        const count = allMatches.filter(m => {
+          return matchItemKeywords(m, [s.query, s.name]);
+        }).length;
+
+        const badgeHtml = count > 0 
+          ? `<span class="radar-item-badge radar-badge-active">🔥 ${count} ${count === 1 ? 'акция' : count < 5 ? 'акции' : 'акций'}</span>`
+          : `<span class="radar-item-badge radar-badge-waiting">⏳ Ожидаем</span>`;
+
+        html += `
+          <div class="radar-dropdown-item" data-query="${s.query}">
+            <div class="radar-item-left">
+              <span class="radar-item-icon">${s.icon}</span>
+              <div class="radar-item-texts">
+                <span class="radar-item-title">${s.name}</span>
+                <span class="radar-item-sub">${s.sub || ''}</span>
+              </div>
+            </div>
+            ${badgeHtml}
+          </div>
+        `;
+      });
+
+      radarDropdown.innerHTML = html;
+      radarDropdown.classList.remove('hidden');
+
+      radarDropdown.querySelectorAll('.radar-dropdown-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const query = item.dataset.query;
+          addTrackedItem(query);
+        });
+      });
+    });
+
+    radarInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const q = radarInput.value.trim();
+        if (q) {
+          addTrackedItem(q);
+        }
+      } else if (e.key === 'Escape') {
+        radarDropdown.classList.add('hidden');
+      }
+    });
+
+    if (radarClearBtn) {
+      radarClearBtn.addEventListener('click', () => {
+        radarInput.value = '';
+        radarClearBtn.classList.add('hidden');
+        radarDropdown.classList.add('hidden');
+      });
+    }
+
+    if (radarAddBtn) {
+      radarAddBtn.addEventListener('click', () => {
+        const q = radarInput.value.trim();
+        if (q) {
+          addTrackedItem(q);
+        }
+      });
+    }
+
+    if (radarResetBtn) {
+      radarResetBtn.addEventListener('click', resetTrackedItems);
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!radarInput.contains(e.target) && !radarDropdown.contains(e.target)) {
+        radarDropdown.classList.add('hidden');
+      }
+    });
+
+    document.querySelectorAll('.radar-quick-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const query = btn.dataset.query;
+        addTrackedItem(query);
+      });
+    });
+  }
+
   let lastCheckedTime = null;
 
   function formatBaseTime(isoStr, fallbackStr) {
@@ -449,6 +983,10 @@
     if (superCountAll) superCountAll.textContent = fullData.super_savers?.length || 0;
     if (superCountCombos) superCountCombos.textContent = fullData.super_saver_doubles?.length || 0;
 
+    // Radar matches count & badge
+    const rMatches = getRadarMatches();
+    if (badgeRadar) badgeRadar.textContent = rMatches.length;
+
     // Category count & badge
     const unified = getUnifiedCategoryItems();
     if (badgeCategories) badgeCategories.textContent = unified.length;
@@ -528,6 +1066,25 @@
         });
       }
       return favs;
+    }
+
+    if (currentTab === 'radar') {
+      let matches = getRadarMatches();
+      if (activeRadarFilter !== 'all') {
+        matches = matches.filter(m => m.tracked_item_id === activeRadarFilter);
+      }
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase().trim();
+        matches = matches.filter(item => {
+          const title = (item.title || '').toLowerCase();
+          const sku = (item.sku || '').toLowerCase();
+          const disc = (item.discount || item.store_discount || item.coupon_discount || item.super_discount || '').toLowerCase();
+          const kw = (item.matched_keyword || '').toLowerCase();
+          const name = (item.tracked_item_name || '').toLowerCase();
+          return title.includes(q) || sku.includes(q) || disc.includes(q) || kw.includes(q) || name.includes(q);
+        });
+      }
+      return matches;
     }
 
     if (currentTab === 'categories') {
@@ -618,6 +1175,17 @@
         emptyState.querySelector('.empty-icon').textContent = '⭐';
         emptyState.querySelector('h3').textContent = 'Список покупок пуст';
         emptyState.querySelector('p').textContent = 'Нажимайте на звёздочку ☆ на карточках товаров, чтобы составить список перед походом в Lidl';
+      } else if (currentTab === 'radar') {
+        emptyState.querySelector('.empty-icon').textContent = '⏳';
+        if (activeRadarFilter !== 'all') {
+          const tracked = (trackedItems.length ? trackedItems : getTrackedItems()).find(t => t.id === activeRadarFilter);
+          const name = tracked ? tracked.name : activeRadarFilter;
+          emptyState.querySelector('h3').textContent = `Ожидаем скидку на: ${name}`;
+          emptyState.querySelector('p').innerHTML = `Сейчас в магазине нет активных скидок на этот товар.<br>Бот <a href="https://t.me/lidlcouponsbot" target="_blank" style="color:var(--link-color); font-weight:600;">@lidlcouponsbot</a> сразу пришлет оповещение в Telegram, как только товар появится в каталоге!`;
+        } else {
+          emptyState.querySelector('h3').textContent = 'Нет активных скидок по радару';
+          emptyState.querySelector('p').textContent = 'Добавьте интересующие вас товары выше, и бот уведомит семью, когда на них появятся акции.';
+        }
       } else {
         emptyState.querySelector('.empty-icon').textContent = '🔍';
         emptyState.querySelector('h3').textContent = 'Ничего не найдено';
@@ -635,6 +1203,9 @@
       if (currentTab === 'favs') {
         card.className = `card ${item.checked ? 'checked-item' : ''}`;
         card.innerHTML = renderFavCard(item);
+      } else if (currentTab === 'radar') {
+        card.className = 'card';
+        card.innerHTML = renderRadarCard(item);
       } else if (currentTab === 'double') {
         card.className = 'card';
         card.innerHTML = renderDoubleCard(item);
@@ -1276,5 +1847,6 @@
   });
 
   // Init
+  setupRadarAutocomplete();
   loadData();
 })();

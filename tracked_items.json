@@ -1,0 +1,152 @@
+[
+  {
+    "id": "yogurt",
+    "name": "Йогурт",
+    "icon": "🥛",
+    "category": "dairy_cheese",
+    "keywords": [
+      "yogurt",
+      "yoghurt",
+      "γιαουρτι",
+      "γιαούρτι",
+      "skyr",
+      "йогурт"
+    ]
+  },
+  {
+    "id": "salmon",
+    "name": "Лосось / Форель",
+    "icon": "🐟",
+    "category": "meat_fish",
+    "keywords": [
+      "salmon",
+      "trout",
+      "σολομος",
+      "σολομός",
+      "σολομού",
+      "πέστροφα",
+      "лосось",
+      "семга",
+      "форель"
+    ]
+  },
+  {
+    "id": "cheese",
+    "name": "Сыр / Фета / Халуми",
+    "icon": "🧀",
+    "category": "dairy_cheese",
+    "keywords": [
+      "cheese",
+      "feta",
+      "halloumi",
+      "gouda",
+      "edam",
+      "mozzarella",
+      "cheddar",
+      "τυρι",
+      "τυρί",
+      "φέτα",
+      "χαλούμι",
+      "сыр"
+    ]
+  },
+  {
+    "id": "butter",
+    "name": "Сливочное масло",
+    "icon": "🧈",
+    "category": "dairy_cheese",
+    "keywords": [
+      "butter",
+      "βουτυρο",
+      "βούτυρο",
+      "сливочное масло"
+    ]
+  },
+  {
+    "id": "avocado",
+    "name": "Авокадо",
+    "icon": "🥑",
+    "category": "veg_fruit",
+    "keywords": [
+      "avocado",
+      "αβοκαντο",
+      "αβοκάντο",
+      "авокадо"
+    ]
+  },
+  {
+    "id": "coffee",
+    "name": "Кофе",
+    "icon": "☕",
+    "category": "beverages",
+    "keywords": [
+      "coffee",
+      "espresso",
+      "καφες",
+      "καφές",
+      "кофе"
+    ]
+  },
+  {
+    "id": "chicken",
+    "name": "Курица / Птица",
+    "icon": "🍗",
+    "category": "meat_fish",
+    "keywords": [
+      "chicken",
+      "κοτοπουλο",
+      "κοτόπουλο",
+      "курица",
+      "цыпленок"
+    ]
+  },
+  {
+    "id": "olive_oil",
+    "name": "Оливковое масло",
+    "icon": "🫒",
+    "category": "bakery_grocery",
+    "keywords": [
+      "olive oil",
+      "ελαιολαδο",
+      "ελαιόλαδο",
+      "оливковое масло"
+    ]
+  },
+  {
+    "id": "nuts",
+    "name": "Орехи",
+    "icon": "🥜",
+    "category": "sweets_snacks",
+    "keywords": [
+      "nuts",
+      "almond",
+      "walnut",
+      "cashew",
+      "ξηρων καρπων",
+      "орехи"
+    ]
+  },
+  {
+    "id": "chocolate",
+    "name": "Шоколад",
+    "icon": "🍫",
+    "category": "sweets_snacks",
+    "keywords": [
+      "chocolate",
+      "σοκολατα",
+      "σοκολάτα",
+      "шоколад"
+    ]
+  },
+  {
+    "id": "parkside",
+    "name": "Parkside / Инструменты",
+    "icon": "🔧",
+    "category": "non_food",
+    "keywords": [
+      "parkside",
+      "инструмент",
+      "парксайд"
+    ]
+  }
+]

@@ -9,7 +9,7 @@
   <title>Lidl Пафос — Скидки и Купоны семьи</title>
   <!-- Telegram Web App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css?v=2.7">
+  <link rel="stylesheet" href="style.css?v=2.8">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
         <div class="brand">
           <span class="lidl-logo">LIDL</span>
           <span class="badge-plus">+ Семья</span>
-          <span class="version-tag">v2.7.2</span>
+          <span class="version-tag">v2.8.0</span>
         </div>
         <div class="store-tag" id="store-title">Пафос • Tombs of the Kings</div>
       </div>
@@ -84,6 +84,11 @@
           <span class="tab-icon">⭐</span>
           <span class="tab-label">Список</span>
           <span class="tab-badge" id="badge-favs">0</span>
+        </button>
+        <button class="tab-btn" data-tab="radar">
+          <span class="tab-icon">🔔</span>
+          <span class="tab-label">Радар</span>
+          <span class="tab-badge" id="badge-radar">0</span>
         </button>
       </nav>
 
@@ -199,6 +204,61 @@
           <button id="clear-all-favs-btn" class="favs-action-btn text-danger" title="Очистить весь список">🗑 Очистить</button>
         </div>
       </div>
+
+      <!-- Radar Toolbar & Management Panel (shown only in radar tab) -->
+      <div id="radar-panel" class="radar-panel hidden">
+        <div class="radar-header-banner">
+          <div class="radar-header-info">
+            <div class="radar-title-row">
+              <span class="radar-title">🔔 Радар нужных акций</span>
+              <span class="radar-status-tag" id="radar-bot-status">🤖 @lidlcouponsbot</span>
+            </div>
+            <div class="radar-subtitle">
+              Отслеживает акции и купоны на любимые товары семьи с уведомлением в Telegram
+            </div>
+          </div>
+        </div>
+
+        <!-- Radar Autocomplete Search Form -->
+        <div class="radar-input-container">
+          <div class="radar-input-wrapper">
+            <span class="radar-input-icon">🎯</span>
+            <input type="text" id="radar-input" placeholder="Введите товар (напр: йогурт, лосось, сыр, parkside)..." autocomplete="off">
+            <button id="radar-clear-btn" class="clear-btn hidden" title="Очистить">✕</button>
+          </div>
+          <button id="radar-add-btn" class="radar-add-btn">+ Добавить</button>
+          
+          <!-- Autocomplete Dropdown -->
+          <div id="radar-dropdown" class="radar-dropdown hidden"></div>
+        </div>
+
+        <!-- Quick Suggestions (Popular items) -->
+        <div class="radar-quick-section">
+          <span class="radar-quick-title">Быстрый выбор:</span>
+          <div class="radar-quick-scroll" id="radar-quick-scroll">
+            <button class="radar-quick-chip" data-query="йогурт">+ 🥛 Йогурт</button>
+            <button class="radar-quick-chip" data-query="лосось">+ 🐟 Лосось</button>
+            <button class="radar-quick-chip" data-query="сыр">+ 🧀 Сыр</button>
+            <button class="radar-quick-chip" data-query="авокадо">+ 🥑 Авокадо</button>
+            <button class="radar-quick-chip" data-query="кофе">+ ☕ Кофе</button>
+            <button class="radar-quick-chip" data-query="сливочное масло">+ 🧈 Масло</button>
+            <button class="radar-quick-chip" data-query="курица">+ 🍗 Курица</button>
+            <button class="radar-quick-chip" data-query="орехи">+ 🥜 Орехи</button>
+            <button class="radar-quick-chip" data-query="шоколад">+ 🍫 Шоколад</button>
+            <button class="radar-quick-chip" data-query="parkside">+ 🔧 Parkside</button>
+            <button class="radar-quick-chip" data-query="бытовая химия">+ 🧺 W5 / Стирка</button>
+          </div>
+        </div>
+
+        <!-- Tracked Items Chips (Active filters) -->
+        <div class="radar-tracked-section">
+          <div class="radar-tracked-header">
+            <span class="radar-tracked-label">Отслеживается (<span id="radar-tracked-count">0</span>):</span>
+            <button id="radar-reset-btn" class="radar-reset-btn" title="Вернуть стандартный список семьи">Сбросить</button>
+          </div>
+          <div class="radar-chips-list" id="radar-chips-list"></div>
+        </div>
+      </div>
       <div id="loading-spinner" class="spinner-container">
         <div class="spinner"></div>
         <p>Загрузка каталога и скидок...</p>
@@ -220,6 +280,6 @@
     <div id="toast" class="toast hidden"></div>
   </div>
 
-  <script src="app.js?v=2.7"></script>
+  <script src="app.js?v=2.8"></script>
 </body>
 </html>

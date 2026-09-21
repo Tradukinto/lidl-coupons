@@ -1,5 +1,8 @@
 # Secrets and credentials (NEVER COMMIT)
 config.json
+subscribers.json
+notified_deals.json
+bot_state.json
 *.env
 
 # Python artifacts
