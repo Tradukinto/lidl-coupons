@@ -509,18 +509,70 @@ body {
   }
 }
 
-/* Navigation Tabs */
+/* Navigation Tabs (Primary Row) */
+.nav-tabs-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 6px;
+}
+
+.nav-tabs-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  padding: 2px 2px 6px 2px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(128, 128, 128, 0.3) transparent;
+}
+
+.nav-tabs-scroll.grabbing {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.nav-tabs-scroll::-webkit-scrollbar {
+  height: 4px;
+  display: block;
+}
+
+.nav-tabs-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.nav-tabs-scroll::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.25);
+  border-radius: 4px;
+}
+
+.nav-tabs-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 128, 128, 0.5);
+}
+
 .nav-tabs {
   display: flex;
-  overflow-x: auto;
-  gap: 3px;
-  padding-bottom: 8px;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
+  gap: 4px;
+  min-width: max-content;
 }
 
 .nav-tabs::-webkit-scrollbar {
   display: none;
+}
+
+.nav-tabs-wrapper .chips-arrow {
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+}
+
+.nav-tabs-wrapper .chips-arrow-left {
+  left: -2px;
+}
+
+.nav-tabs-wrapper .chips-arrow-right {
+  right: -2px;
 }
 
 .tab-btn {

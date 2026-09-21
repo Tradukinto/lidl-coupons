@@ -9,7 +9,7 @@
   <title>Lidl Пафос — Скидки и Купоны семьи</title>
   <!-- Telegram Web App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link rel="stylesheet" href="style.css?v=2.8.2">
+  <link rel="stylesheet" href="style.css?v=2.8.3">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
         <div class="brand">
           <span class="lidl-logo">LIDL</span>
           <span class="badge-plus">+ Семья</span>
-          <span class="version-tag">v2.8.2</span>
+          <span class="version-tag">v2.8.3</span>
         </div>
         <div class="header-actions">
           <div class="store-tag" id="store-title" title="Филиал Lidl: Tombs of the Kings 104, Пафос">Пафос • Tombs of the Kings</div>
@@ -57,43 +57,49 @@
       </div>
 
       <!-- Navigation Tabs (Primary Row) -->
-      <nav class="nav-tabs">
-        <button class="tab-btn active" data-tab="double" title="Двойные комбо-скидки: магазин + купон семьи">
-          <span class="tab-icon">🔥</span>
-          <span class="tab-label">Комбо</span>
-          <span class="tab-badge" id="badge-double">0</span>
-        </button>
-        <button class="tab-btn" data-tab="coupons" title="Персональные купоны семьи (активируются автоматически)">
-          <span class="tab-icon">🎟</span>
-          <span class="tab-label">Купоны</span>
-          <span class="tab-badge" id="badge-coupons">0</span>
-        </button>
-        <button class="tab-btn" data-tab="super" title="Супер-скидки одного дня (Great Deals)">
-          <span class="tab-icon">⚡</span>
-          <span class="tab-label">Super</span>
-          <span class="tab-badge" id="badge-super">0</span>
-        </button>
-        <button class="tab-btn" data-tab="store" title="Еженедельные акции магазина в Пафосе">
-          <span class="tab-icon">🛒</span>
-          <span class="tab-label">Daily Savers</span>
-          <span class="tab-badge" id="badge-store">0</span>
-        </button>
-        <button class="tab-btn" data-tab="categories" title="Каталог по категориям товаров">
-          <span class="tab-icon">🏷</span>
-          <span class="tab-label">Категории</span>
-          <span class="tab-badge" id="badge-categories">0</span>
-        </button>
-        <button class="tab-btn" data-tab="favs" title="Список покупок для похода в магазин">
-          <span class="tab-icon">⭐</span>
-          <span class="tab-label">Список</span>
-          <span class="tab-badge" id="badge-favs">0</span>
-        </button>
-        <button class="tab-btn" data-tab="radar" title="Отслеживание нужных товаров и уведомления бота">
-          <span class="tab-icon">🔔</span>
-          <span class="tab-label">Радар</span>
-          <span class="tab-badge" id="badge-radar">0</span>
-        </button>
-      </nav>
+      <div class="nav-tabs-wrapper" id="nav-tabs-wrapper">
+        <button class="chips-arrow chips-arrow-left hidden" id="nav-arrow-left" title="Прокрутить вкладки влево" aria-label="Назад">‹</button>
+        <div class="nav-tabs-scroll" id="nav-tabs-scroll">
+          <nav class="nav-tabs" id="nav-tabs">
+            <button class="tab-btn active" data-tab="double" title="Двойные комбо-скидки: магазин + купон семьи">
+              <span class="tab-icon">🔥</span>
+              <span class="tab-label">Комбо</span>
+              <span class="tab-badge" id="badge-double">0</span>
+            </button>
+            <button class="tab-btn" data-tab="coupons" title="Персональные купоны семьи (активируются автоматически)">
+              <span class="tab-icon">🎟</span>
+              <span class="tab-label">Купоны</span>
+              <span class="tab-badge" id="badge-coupons">0</span>
+            </button>
+            <button class="tab-btn" data-tab="super" title="Супер-скидки одного дня (Great Deals)">
+              <span class="tab-icon">⚡</span>
+              <span class="tab-label">Super</span>
+              <span class="tab-badge" id="badge-super">0</span>
+            </button>
+            <button class="tab-btn" data-tab="store" title="Еженедельные акции магазина в Пафосе">
+              <span class="tab-icon">🛒</span>
+              <span class="tab-label">Daily Savers</span>
+              <span class="tab-badge" id="badge-store">0</span>
+            </button>
+            <button class="tab-btn" data-tab="categories" title="Каталог по категориям товаров">
+              <span class="tab-icon">🏷</span>
+              <span class="tab-label">Категории</span>
+              <span class="tab-badge" id="badge-categories">0</span>
+            </button>
+            <button class="tab-btn" data-tab="favs" title="Список покупок для похода в магазин">
+              <span class="tab-icon">⭐</span>
+              <span class="tab-label">Список</span>
+              <span class="tab-badge" id="badge-favs">0</span>
+            </button>
+            <button class="tab-btn" data-tab="radar" title="Отслеживание нужных товаров и уведомления бота">
+              <span class="tab-icon">🔔</span>
+              <span class="tab-label">Радар</span>
+              <span class="tab-badge" id="badge-radar">0</span>
+            </button>
+          </nav>
+        </div>
+        <button class="chips-arrow chips-arrow-right" id="nav-arrow-right" title="Прокрутить вкладки вправо (к Радару)" aria-label="Вперед">›</button>
+      </div>
 
       <!-- Family Filter Chips (Secondary Sub-Row - Shown only when 'Купоны' is active) -->
       <div class="family-chips-wrapper hidden" id="family-chips-container">
@@ -369,6 +375,6 @@
     <div id="toast" class="toast hidden"></div>
   </div>
 
-  <script src="app.js?v=2.8.2"></script>
+  <script src="app.js?v=2.8.3"></script>
 </body>
 </html>

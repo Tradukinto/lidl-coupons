@@ -81,6 +81,30 @@
   const helpModal = document.getElementById('help-modal');
   const modalCloseBtn = document.getElementById('modal-close-btn');
   const modalOkBtn = document.getElementById('modal-ok-btn');
+  const navTabsScroll = document.getElementById('nav-tabs-scroll');
+  const navArrowLeft = document.getElementById('nav-arrow-left');
+  const navArrowRight = document.getElementById('nav-arrow-right');
+
+  // Update navigation arrows visibility for primary tabs
+  function updateNavScrollArrows() {
+    if (!navTabsScroll) return;
+    const maxScroll = navTabsScroll.scrollWidth - navTabsScroll.clientWidth;
+    if (maxScroll <= 4) {
+      navArrowLeft?.classList.add('hidden');
+      navArrowRight?.classList.add('hidden');
+      return;
+    }
+    if (navTabsScroll.scrollLeft > 6) {
+      navArrowLeft?.classList.remove('hidden');
+    } else {
+      navArrowLeft?.classList.add('hidden');
+    }
+    if (navTabsScroll.scrollLeft < maxScroll - 6) {
+      navArrowRight?.classList.remove('hidden');
+    } else {
+      navArrowRight?.classList.add('hidden');
+    }
+  }
 
   // Update navigation arrows visibility for family chips
   function updateFamilyScrollArrows() {
@@ -1010,6 +1034,11 @@
       updateHeader();
       updateSubRowsVisibility();
       renderCurrentList();
+      setTimeout(() => {
+        updateNavScrollArrows();
+        updateFamilyScrollArrows();
+        updateCategoryScrollArrows();
+      }, 100);
 
       if (isUserClick) {
         const baseTime = formatBaseTime(fullData.generated_at, fullData.generated_at_str) || 'актуально';
@@ -1709,6 +1738,8 @@
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentTab = btn.dataset.tab;
+      btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      setTimeout(updateNavScrollArrows, 200);
       updateSubRowsVisibility();
       renderCurrentList();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1890,7 +1921,79 @@
     });
   }
 
+  // Navigation Tabs Horizontal Scroll: Wheel, Drag, and Arrows
+  if (navTabsScroll) {
+    navTabsScroll.addEventListener('scroll', updateNavScrollArrows, { passive: true });
+
+    // Mouse wheel: scroll horizontally on desktop
+    navTabsScroll.addEventListener('wheel', (e) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        navTabsScroll.scrollLeft += e.deltaY;
+        updateNavScrollArrows();
+      }
+    }, { passive: false });
+
+    // Mouse drag-to-scroll on desktop
+    let isDownNav = false;
+    let startXNav = 0;
+    let scrollStartNav = 0;
+    let hasMovedNav = false;
+
+    navTabsScroll.addEventListener('mousedown', (e) => {
+      isDownNav = true;
+      hasMovedNav = false;
+      navTabsScroll.classList.add('grabbing');
+      startXNav = e.pageX - navTabsScroll.offsetLeft;
+      scrollStartNav = navTabsScroll.scrollLeft;
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (isDownNav) {
+        isDownNav = false;
+        navTabsScroll.classList.remove('grabbing');
+      }
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDownNav) return;
+      const x = e.pageX - navTabsScroll.offsetLeft;
+      const walk = (x - startXNav) * 1.5;
+      if (Math.abs(walk) > 4) hasMovedNav = true;
+      navTabsScroll.scrollLeft = scrollStartNav - walk;
+      updateNavScrollArrows();
+    });
+
+    // Prevent tab activation if user was dragging
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (hasMovedNav) {
+          e.stopImmediatePropagation();
+          hasMovedNav = false;
+        }
+      }, true);
+    });
+  }
+
+  // Navigation Arrow buttons
+  if (navArrowLeft && navTabsScroll) {
+    navArrowLeft.addEventListener('click', () => {
+      haptic('light');
+      navTabsScroll.scrollBy({ left: -140, behavior: 'smooth' });
+      setTimeout(updateNavScrollArrows, 200);
+    });
+  }
+
+  if (navArrowRight && navTabsScroll) {
+    navArrowRight.addEventListener('click', () => {
+      haptic('light');
+      navTabsScroll.scrollBy({ left: 140, behavior: 'smooth' });
+      setTimeout(updateNavScrollArrows, 200);
+    });
+  }
+
   window.addEventListener('resize', () => {
+    updateNavScrollArrows();
     updateFamilyScrollArrows();
     updateCategoryScrollArrows();
   });
