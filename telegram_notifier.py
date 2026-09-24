@@ -542,7 +542,7 @@ def run_bot_daemon(bot_token=None, config=None):
         if config:
             bot_token = config.get("telegram", {}).get("bot_token")
     if not bot_token:
-        bot_token = "8891599403:AAHhNhQdmzXZWgm74tQVNx1-nB7eB8Ye54A"
+        bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
 
     set_bot_commands(bot_token)
     ensure_chat_menu_button(bot_token)
@@ -712,7 +712,7 @@ if __name__ == "__main__":
     if os.path.exists("config.json"):
         with open("config.json", encoding="utf-8") as f:
             config = json.load(f)
-    token = config.get("telegram", {}).get("bot_token") or "8891599403:AAHhNhQdmzXZWgm74tQVNx1-nB7eB8Ye54A"
+    token = config.get("telegram", {}).get("bot_token") or os.getenv("TELEGRAM_BOT_TOKEN")
 
     if "--daemon" in sys.argv or "-d" in sys.argv:
         run_bot_daemon(token, config)

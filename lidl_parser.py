@@ -1228,7 +1228,7 @@ def main():
     web_payload = export_web_data(coupons, store_offers, double_deals, super_savers=super_savers, super_saver_doubles=super_saver_doubles, output_path="web/data.json", config=config)
 
     # 6. Отправка уведомлений в Telegram по радару акций
-    tg_token = config.get("telegram", {}).get("bot_token") or os.getenv("TELEGRAM_BOT_TOKEN") or "8891599403:AAHhNhQdmzXZWgm74tQVNx1-nB7eB8Ye54A"
+    tg_token = config.get("telegram", {}).get("bot_token") or os.getenv("TELEGRAM_BOT_TOKEN")
     if tg_token:
         print(f"\n🔔 Проверка радара акций и отправка уведомлений в Telegram...")
         try:
